@@ -716,3 +716,249 @@ table {
 .services__card--loft-furniture {
   background: linear-gradient(180deg, rgba(72, 72, 72, 0.5) 59.33%, rgba(0, 0, 0, 0) 100%), url(../img/service-3.jpg) lightgray 50%/cover no-repeat;
 }
+
+.stages {
+  display: flex;
+  padding-top: clamp(1.5rem, -1.5rem + 4.69vw, 4.125rem);
+  flex-direction: column;
+  align-items: center;
+}
+.stages__wrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(1.5rem, 0.364rem + 5.68vw, 4rem);
+}
+.stages__list {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: clamp(0.5rem, 0.443rem + 0.28vw, 0.625rem);
+  align-self: stretch;
+  flex-wrap: wrap;
+}
+.stages__card {
+  display: flex;
+  padding: clamp(2rem, 0.857rem + 1.79vw, 3rem);
+  align-items: center;
+  position: relative;
+  border-radius: clamp(1.875rem, 1.364rem + 2.56vw, 3rem);
+  background: #484848;
+  box-shadow: 8px 8px 18px 0 rgba(255, 255, 255, 0.25) inset;
+}
+.stages__list > .stages__card:first-child, .stages__list > .stages__card:nth-child(2) {
+  flex: 0 0 calc(50% - 5px);
+  width: calc(50% - 5px);
+}
+.stages__card-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+.stages__card-icon {
+  width: clamp(3.5rem, 2.364rem + 5.68vw, 6rem);
+  height: clamp(3.5rem, 2.364rem + 5.68vw, 6rem);
+  aspect-ratio: 1/1;
+}
+.stages__card-title {
+  color: #fff;
+  font-family: Montserrat;
+  font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.5rem);
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.stages__card-number {
+  position: absolute;
+  right: 0;
+  fill: rgba(255, 255, 255, 0.05);
+  height: 100%;
+}
+.stages__card-number img {
+  height: 100%;
+}
+.stages__card--dark {
+  background: #363636;
+  box-shadow: 8px 8px 18px 0 rgba(255, 255, 255, 0.25) inset;
+}
+.stages__card--dark.stages__card--full {
+  flex: 0 0 calc(58.5% - 5px);
+}
+.stages__card--full:not(.stages__card--dark) {
+  flex: 0 0 100%;
+  width: 100%;
+}
+.stages__card--narrow {
+  flex: 0 0 calc(41.5% - 5px);
+  flex-grow: 1;
+}
+@media (max-width: 64rem) {
+  .stages__card--dark.stages__card--full {
+    flex: 0 0 calc(50% - 5px);
+  }
+  .stages__card {
+    padding: clamp(2.375rem, 2.545rem - 0.85vw, 2rem) 1rem;
+  }
+  .stages__card--narrow {
+    flex: 0 0 calc(50% - 5px);
+    flex-grow: 0;
+  }
+}
+@media (max-width: 58.125rem) {
+  .stages__list > .stages__card:first-child, .stages__list > .stages__card:nth-child(2) {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+  .stages__card--full:not(.stages__card--dark) {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+  .stages__card--dark.stages__card--full {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+  .stages__card--narrow {
+    flex: 0 0 100%;
+    width: 100%;
+    flex-grow: 0;
+  }
+}
+@media (max-width: 48rem) {
+  .stages__card-number {
+    left: 0;
+    right: auto;
+  }
+}
+
+.why-us {
+  padding-top: clamp(2.5rem, 1.136rem + 6.82vw, 5.625rem);
+  padding-bottom: 0;
+  overflow: hidden;
+}
+.why-us__container {
+  max-width: 1650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.why-us__title {
+  align-self: flex-start;
+  margin-bottom: clamp(2rem, 0.909rem + 5.45vw, 4rem);
+}
+.why-us__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 0.429rem + 0.89vw, 1.5rem);
+  width: 100%;
+  height: max-content;
+  background: #484848;
+  border-radius: clamp(1.875rem, 0.682rem + 5.97vw, 3.75rem);
+  padding: clamp(1rem, -2.714rem + 5.8vw, 4.25rem);
+  overflow: visible;
+}
+.why-us__logo {
+  position: absolute;
+  top: clamp(1rem, 0.545rem + 2.27vw, 1.5rem);
+  right: clamp(1rem, 0.545rem + 2.27vw, 1.5rem);
+  z-index: 6;
+  width: clamp(4rem, 2.636rem + 6.82vw, 7rem);
+  height: auto;
+}
+.why-us__logo img {
+  width: 100%;
+  height: auto;
+}
+.why-us__feature {
+  opacity: 80%;
+  display: flex;
+  align-items: center;
+  padding: clamp(1rem, 0.034rem + 4.83vw, 3.125rem) clamp(2rem, 1.205rem + 3.98vw, 3.75rem);
+  border-radius: clamp(1.5rem, 0.909rem + 2.95vw, 3.125rem);
+  box-shadow: inset -2px 2px 12px rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.why-us__feature--first {
+  z-index: 1;
+  width: clamp(26.813rem, 13.313rem + 21.09vw, 38.625rem);
+}
+.why-us__feature--second {
+  z-index: 2;
+  width: clamp(31.813rem, 15.813rem + 25vw, 45.813rem);
+}
+.why-us__feature--third {
+  z-index: 5;
+  width: clamp(36.563rem, 18.205rem + 28.68vw, 52.625rem);
+}
+.why-us__feature-text {
+  font-family: Montserrat;
+  font-weight: 700;
+  font-size: clamp(1.25rem, 0.964rem + 0.45vw, 1.5rem);
+  line-height: 1.4;
+  letter-spacing: 0.03em;
+  color: #fff;
+  text-shadow: -4px 4px 12px rgba(0, 0, 0, 0.25);
+}
+.why-us__image {
+  position: absolute;
+  right: clamp(-9.438rem, -20.223rem + 16.85vw, 0rem);
+  bottom: 0;
+  z-index: 3;
+  width: clamp(43.563rem, 16.991rem + 41.52vw, 66.813rem);
+  height: auto;
+  border-radius: 0 0 clamp(3.125rem, 2.938rem + 0.94vw, 4.063rem) 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.why-us__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+@media (max-width: 76.875rem) {
+  .why-us__logo {
+    display: none;
+  }
+}
+@media (max-width: 62.5rem) {
+  .why-us__card {
+    padding: clamp(0.5rem, 0.273rem + 1.14vw, 1rem);
+    gap: clamp(0.25rem, -0.091rem + 1.7vw, 1rem);
+    overflow: visible;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  .why-us__image {
+    position: relative;
+    width: 95%;
+    margin: clamp(-1rem, -0.432rem - 2.84vw, -2.25rem) -16px -16px -16px;
+    right: auto;
+    bottom: auto;
+    border-radius: 0 0 clamp(1.875rem, 0.682rem + 5.97vw, 3.75rem) 0;
+    order: 4;
+    z-index: 4;
+  }
+  .why-us__feature {
+    width: 100% !important;
+    position: relative;
+    z-index: 3;
+  }
+  .why-us__feature-text {
+    font-size: clamp(0.875rem, 0.705rem + 0.85vw, 1.25rem);
+  }
+  .why-us__feature--first {
+    order: 1;
+  }
+  .why-us__feature--second {
+    order: 2;
+  }
+  .why-us__feature--third {
+    order: 3;
+  }
+}

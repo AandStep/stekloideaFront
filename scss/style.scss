@@ -830,42 +830,313 @@
 }
 
 .stages {
+  display: flex;
+  padding-top: clamp(1.5rem, -1.5rem + 4.69vw, 4.125rem);
+  flex-direction: column;
+  align-items: center;
   &__container {
   }
 
   &__wrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(1.5rem, 0.364rem + 5.68vw, 4rem);
   }
 
   &__title {
   }
 
   &__list {
+    display: flex;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: clamp(0.5rem, 0.443rem + 0.28vw, 0.625rem);
+    align-self: stretch;
+    flex-wrap: wrap;
   }
 
   &__card {
+    display: flex;
+    padding: clamp(2rem, 0.857rem + 1.79vw, 3rem);
+    align-items: center;
+    position: relative;
+    border-radius: clamp(1.875rem, 1.364rem + 2.56vw, 3rem);
+    background: #484848;
+    box-shadow: 8px 8px 18px 0 rgba(255, 255, 255, 0.25) inset;
+  }
+
+  // Первый и второй элементы - по 50%
+  &__list > &__card:first-child,
+  &__list > &__card:nth-child(2) {
+    flex: 0 0 calc(50% - 5px);
+    width: calc(50% - 5px);
   }
 
   &__card-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
   }
 
   &__card-icon {
+    width: clamp(3.5rem, 2.364rem + 5.68vw, 6rem);
+    height: clamp(3.5rem, 2.364rem + 5.68vw, 6rem);
+    aspect-ratio: 1/1;
   }
 
   &__card-title {
+    color: #fff;
+    font-family: Montserrat;
+    font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.5rem);
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
   }
 
   &__card-number {
+    position: absolute;
+    right: 0;
+    fill: rgba(255, 255, 255, 0.05);
+    height: 100%;
+
+    img {
+      height: 100%;
+    }
   }
 
   &__card-shadow {
   }
 
   &__card--dark {
+    background: #363636;
+    box-shadow: 8px 8px 18px 0 rgba(255, 255, 255, 0.25) inset;
+
+    // Четвертый элемент - автоматически уменьшается, 5 заполняет остаток
+    &.stages__card--full {
+      flex: 0 0 calc(58.5% - 5px);
+    }
   }
 
+  // Третий элемент - 100%
   &__card--full {
+    &:not(.stages__card--dark) {
+      flex: 0 0 100%;
+      width: 100%;
+    }
   }
 
+  // Пятый элемент - заполняет оставшееся место
   &__card--narrow {
+    flex: 0 0 calc(41.5% - 5px);
+    flex-grow: 1;
+  }
+
+  // При 1024px - 4 и 5 элементы по 50%
+  @media (max-width: 64rem) {
+    &__card--dark {
+      &.stages__card--full {
+        flex: 0 0 calc(50% - 5px);
+      }
+    }
+    &__card {
+      padding: clamp(2.375rem, 2.545rem + -0.85vw, 2rem) 1rem;
+    }
+
+    &__card--narrow {
+      flex: 0 0 calc(50% - 5px);
+      flex-grow: 0;
+    }
+  }
+
+  // При 930px и меньше - все элементы по 100%
+  @media (max-width: 58.125rem) {
+    &__list > &__card:first-child,
+    &__list > &__card:nth-child(2) {
+      flex: 0 0 100%;
+      width: 100%;
+    }
+
+    &__card--full {
+      &:not(.stages__card--dark) {
+        flex: 0 0 100%;
+        width: 100%;
+      }
+    }
+
+    &__card--dark {
+      &.stages__card--full {
+        flex: 0 0 100%;
+        width: 100%;
+      }
+    }
+
+    &__card--narrow {
+      flex: 0 0 100%;
+      width: 100%;
+      flex-grow: 0;
+    }
+  }
+
+  // При 768px - card-number прижаты слева
+  @media (max-width: 48rem) {
+    &__card-number {
+      left: 0;
+      right: auto;
+    }
+  }
+}
+
+.why-us {
+  padding-top: clamp(2.5rem, 1.136rem + 6.82vw, 5.625rem);
+  padding-bottom: 0;
+  overflow: hidden;
+
+  &__container {
+    max-width: 1650px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  &__title {
+    align-self: flex-start;
+    margin-bottom: clamp(2rem, 0.909rem + 5.45vw, 4rem);
+  }
+
+  &__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 0.429rem + 0.89vw, 1.5rem);
+    width: 100%;
+    height: max-content;
+    background: #484848;
+    border-radius: clamp(1.875rem, 0.682rem + 5.97vw, 3.75rem);
+    padding: clamp(1rem, -2.714rem + 5.8vw, 4.25rem);
+    overflow: visible;
+  }
+
+  &__logo {
+    position: absolute;
+    top: clamp(1rem, 0.545rem + 2.27vw, 1.5rem);
+    right: clamp(1rem, 0.545rem + 2.27vw, 1.5rem);
+    z-index: 6;
+    width: clamp(4rem, 2.636rem + 6.82vw, 7rem);
+    height: auto;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__feature {
+    opacity: 80%;
+    display: flex;
+    align-items: center;
+    padding: clamp(1rem, 0.034rem + 4.83vw, 3.125rem)
+      clamp(2rem, 1.205rem + 3.98vw, 3.75rem);
+    border-radius: clamp(1.5rem, 0.909rem + 2.95vw, 3.125rem);
+    box-shadow: inset -2px 2px 12px rgba(255, 255, 255, 0.4);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+
+  &__feature--first {
+    z-index: 1;
+    width: clamp(26.813rem, 13.313rem + 21.09vw, 38.625rem);
+  }
+
+  &__feature--second {
+    z-index: 2;
+    width: clamp(31.813rem, 15.813rem + 25vw, 45.813rem);
+  }
+
+  &__feature--third {
+    z-index: 5;
+    width: clamp(36.563rem, 18.205rem + 28.68vw, 52.625rem);
+  }
+
+  &__feature-text {
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: clamp(1.25rem, 0.964rem + 0.45vw, 1.5rem);
+    line-height: 1.4;
+    letter-spacing: 0.03em;
+    color: #fff;
+    text-shadow: -4px 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  &__image {
+    position: absolute;
+    right: clamp(-9.438rem, -20.223rem + 16.85vw, 0rem);
+    bottom: 0;
+    z-index: 3;
+    width: clamp(43.563rem, 16.991rem + 41.52vw, 66.813rem);
+    height: auto;
+    border-radius: 0 0 clamp(3.125rem, 2.938rem + 0.94vw, 4.063rem) 0;
+    overflow: hidden;
+    pointer-events: none;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: 76.875rem) {
+    &__logo {
+      display: none;
+    }
+  }
+
+  @media (max-width: 62.5rem) {
+    &__card {
+      padding: clamp(0.5rem, 0.273rem + 1.14vw, 1rem);
+      gap: clamp(0.25rem, -0.091rem + 1.7vw, 1rem);
+      overflow: visible;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    &__image {
+      position: relative;
+      width: 95%;
+      margin: clamp(-1rem, -0.432rem + -2.84vw, -2.25rem) -16px -16px -16px;
+      right: auto;
+      bottom: auto;
+      border-radius: 0 0 clamp(1.875rem, 0.682rem + 5.97vw, 3.75rem) 0;
+      order: 4;
+      z-index: 4;
+    }
+
+    &__feature {
+      width: 100% !important;
+      position: relative;
+      z-index: 3;
+    }
+
+    &__feature-text {
+      font-size: clamp(0.875rem, 0.705rem + 0.85vw, 1.25rem);
+    }
+
+    &__feature--first {
+      order: 1;
+    }
+
+    &__feature--second {
+      order: 2;
+    }
+
+    &__feature--third {
+      order: 3;
+    }
   }
 }
