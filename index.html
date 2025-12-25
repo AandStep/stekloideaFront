@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Steklo Idea</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <section class="hero">
+      <div class="container">
+        <header class="hero__header">
+          <div class="hero__logo">
+            <img src="img/logo.svg" alt="Steklo Idea" />
+          </div>
+
+          <nav class="hero__nav">
+            <ul class="hero__nav-list">
+              <li class="hero__nav-item">
+                <a class="hero__nav-link" href="#catalog">Каталог</a>
+              </li>
+              <li class="hero__nav-item">
+                <a class="hero__nav-link" href="#about">О нас</a>
+              </li>
+              <li class="hero__nav-item">
+                <a class="hero__nav-link" href="#services">Услуги</a>
+              </li>
+              <li class="hero__nav-item">
+                <a class="hero__nav-link" href="#request">Оставить заявку</a>
+              </li>
+              <li class="hero__nav-item">
+                <a class="hero__nav-link" href="#contacts">Контакты</a>
+              </li>
+            </ul>
+          </nav>
+
+          <a class="hero__phone" href="tel:+79082233390">+7 (908) 223-33-90</a>
+
+          <button
+            class="hero__burger"
+            type="button"
+            data-burger-open
+            aria-label="Открыть меню"
+          >
+            <span class="hero__burger-line"></span>
+            <span class="hero__burger-line"></span>
+            <span class="hero__burger-line"></span>
+          </button>
+        </header>
+      </div>
+
+      <nav class="hero__burger-menu" data-burger-menu>
+        <div class="hero__burger-menu-container">
+          <div class="hero__burger-menu-header">
+            <div class="hero__burger-menu-logo">
+              <img src="img/logo.svg" alt="Steklo Idea" />
+            </div>
+            <button
+              class="hero__burger-close"
+              type="button"
+              data-burger-close
+              aria-label="Закрыть меню"
+            >
+              <span
+                class="hero__burger-close-line hero__burger-close-line--first"
+              ></span>
+              <span
+                class="hero__burger-close-line hero__burger-close-line--second"
+              ></span>
+            </button>
+          </div>
+          <ul class="hero__burger-menu-list">
+            <li class="hero__burger-menu-item">
+              <a class="hero__burger-menu-link" href="#catalog">Каталог</a>
+            </li>
+            <li class="hero__burger-menu-item">
+              <a class="hero__burger-menu-link" href="#about">О нас</a>
+            </li>
+            <li class="hero__burger-menu-item">
+              <a class="hero__burger-menu-link" href="#services">Услуги</a>
+            </li>
+            <li class="hero__burger-menu-item">
+              <a class="hero__burger-menu-link" href="#request"
+                >Оставить заявку</a
+              >
+            </li>
+            <li class="hero__burger-menu-item">
+              <a class="hero__burger-menu-link" href="#contacts">Контакты</a>
+            </li>
+          </ul>
+          <a class="hero__burger-menu-phone" href="tel:+79082233390"
+            >+7 (908) 223-33-90</a
+          >
+        </div>
+      </nav>
+
+      <div class="container">
+        <div class="hero__content">
+          <div class="hero__title">
+            <h1 class="hero__title-line hero__title-line--small">
+              Изготовление интерьерных
+            </h1>
+            <h1 class="hero__title-line hero__title-line--large">
+              зеркал и мебели
+            </h1>
+          </div>
+
+          <div class="hero__cta">
+            <button class="hero__cta-button" type="button">
+              Рассчитать стоимость
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="hero__background">
+        <div class="hero__background-image"></div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="about__layout">
+        <div class="about__gallery">
+          <div class="about__gallery-grid">
+            <div class="about__galery-row">
+              <figure class="about__gallery-item about__gallery-item--tall">
+                <img
+                  src="img/about-1.jpg"
+                  alt="Интерьер с зеркалом у кровати"
+                />
+              </figure>
+              <figure class="about__gallery-item about__gallery-item--tall">
+                <img src="img/about-2.jpg" alt="Зеркало в нише с подсветкой" />
+                <!-- <div class="about__badge">
+                  <p class="about__badge-text">
+                    Зеркало по проекту Дарьи Демидовой.
+                  </p>
+                </div> -->
+              </figure>
+            </div>
+            <div class="about__galery-row">
+              <figure class="about__gallery-item">
+                <img src="img/about-3.jpg" alt="Зеркала в интерьере салона" />
+              </figure>
+              <figure class="about__gallery-item">
+                <img
+                  src="img/about-4.jpg"
+                  alt="Зеркала в офисном пространстве"
+                />
+              </figure>
+              <figure class="about__gallery-item">
+                <img
+                  src="img/about-5.jpg"
+                  alt="Зеркала в современном интерьере"
+                />
+              </figure>
+            </div>
+          </div>
+        </div>
+
+        <div class="about__content">
+          <h2 class="about__title title">О нас</h2>
+          <div class="about__text-group">
+            <p class="about__text">
+              <span class="about__text-highlight">STEKLO&IDEA</span>
+              <span>
+                — это ведущий производитель интерьерных зеркал в Красноярске.
+              </span>
+            </p>
+            <p class="about__text">
+              Уже более 7 лет, мы предлагаем нашим клиентам прекрасные решения
+              для дома и офиса.
+            </p>
+            <p class="about__text">
+              Наши зеркала - это не просто предметы декора они являются
+              настоящим произведением искусства, способным преобразить любое
+              пространство, добавить ему стиль и уют.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="about__sphere about__sphere--large"></div>
+      <div class="about__sphere about__sphere--small"></div>
+    </section>
+
+    <section id="services" class="services">
+      <div class="services__container">
+        <header class="services__header">
+          <h2 class="services__title title">Наши услуги</h2>
+          <p class="services__subtitle">
+            Мы с радостью предлагаем три основных вида изделий: интерьерные
+            зеркала, душевые перегородки и мебель в стиле лофт
+          </p>
+        </header>
+
+        <div class="services__list">
+          <article class="services__card services__card--mirrors">
+            <div class="services__card-media">
+              <div class="services__card-overlay">
+                <h3 class="services__card-title">Интерьерные зеркала</h3>
+                <p class="services__card-text">
+                  Мы специализируемся на изготовлении интерьерных зеркал,
+                  которые становятся настоящими украшениями любого пространства.
+                  Каждое зеркало создается с вниманием к деталям и
+                  индивидуальным подходом, чтобы соответствовать вашим
+                  потребностям и стилю.
+                </p>
+              </div>
+              <button class="services__card-button" type="button">
+                Перейти в каталог
+              </button>
+            </div>
+          </article>
+
+          <article class="services__card services__card--showers">
+            <div class="services__card-media">
+              <div class="services__card-overlay">
+                <h3 class="services__card-title">Душевые перегородки</h3>
+                <p class="services__card-text">
+                  Занимаемся установкой душевых перегородок, которые идеально
+                  дополняют любой современный интерьер ванной комнаты. Мы
+                  понимаем, что каждая ванная комната уникальна, поэтому
+                  предлагаем гибкие решения, которые подчеркнут стиль вашего
+                  интерьера, создавая открытую и лёгкую атмосферу.
+                </p>
+              </div>
+              <button class="services__card-button" type="button">
+                Перейти в каталог
+              </button>
+            </div>
+          </article>
+
+          <article class="services__card services__card--loft-furniture">
+            <div class="services__card-media">
+              <div class="services__card-overlay">
+                <h3 class="services__card-title">Мебель лофт</h3>
+                <p class="services__card-text">
+                  Специализируемся на изготовлении мебели в стиле лофт, которая
+                  привносит в любое пространство уникальное сочетание
+                  индустриального шарма и комфорта. Мы используем
+                  высококачественные материалы, такие как натуральное дерево,
+                  металл и стекло.
+                </p>
+              </div>
+              <button class="services__card-button" type="button">
+                Перейти в каталог
+              </button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="stages">
+      <div class="stages__container container">
+        <div class="stages__wrapper">
+          <h2 class="stages__title title">Этапы работы</h2>
+          <div class="stages__list">
+            <article class="stages__card">
+              <div class="stages__card-content">
+                <div class="stages__card-icon">
+                  <img src="img/stage-icon-1.svg" alt="Иконка консультации" />
+                </div>
+                <h3 class="stages__card-title">Консультируем</h3>
+              </div>
+              <div class="stages__card-number">
+                <img src="img/stage-number-1.svg" alt="01" />
+              </div>
+              <div class="stages__card-shadow"></div>
+            </article>
+
+            <article class="stages__card stages__card--dark">
+              <div class="stages__card-content">
+                <div class="stages__card-icon">
+                  <img src="img/stage-icon-2.svg" alt="Иконка подсчета" />
+                </div>
+                <h3 class="stages__card-title">
+                  <span>Предварительный</span>
+                  <span>подсчет</span>
+                </h3>
+              </div>
+              <div class="stages__card-number">
+                <img src="img/stage-number-2.svg" alt="02" />
+              </div>
+              <div class="stages__card-shadow"></div>
+            </article>
+
+            <article class="stages__card stages__card--full">
+              <div class="stages__card-content">
+                <div class="stages__card-icon">
+                  <img src="img/stage-icon-3.svg" alt="Иконка оплаты аванса" />
+                </div>
+                <h3 class="stages__card-title">
+                  <span>Оплачиваем</span>
+                  <span>аванс</span>
+                </h3>
+              </div>
+              <div class="stages__card-number">
+                <img src="img/stage-number-3.svg" alt="03" />
+              </div>
+              <div class="stages__card-shadow"></div>
+            </article>
+
+            <article class="stages__card stages__card--dark stages__card--full">
+              <div class="stages__card-content">
+                <div class="stages__card-icon">
+                  <img
+                    src="img/stage-icon-4.svg"
+                    alt="Иконка доставки и монтажа"
+                  />
+                </div>
+                <h3 class="stages__card-title">
+                  <span>Доставляем и</span>
+                  <span>монтируем</span>
+                </h3>
+              </div>
+              <div class="stages__card-number">
+                <img src="img/stage-number-4.svg" alt="04" />
+              </div>
+              <div class="stages__card-shadow"></div>
+            </article>
+
+            <article class="stages__card stages__card--narrow">
+              <div class="stages__card-content">
+                <div class="stages__card-icon">
+                  <img src="img/stage-icon-5.svg" alt="Иконка оплаты остатка" />
+                </div>
+                <h3 class="stages__card-title">
+                  <span>Оплачиваем</span>
+                  <span>остаток</span>
+                </h3>
+              </div>
+              <div class="stages__card-number">
+                <img src="img/stage-number-5.svg" alt="05" />
+              </div>
+              <div class="stages__card-shadow"></div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const heroBurgerOpenButton = document.querySelector("[data-burger-open]");
+      const heroBurgerCloseButton = document.querySelector(
+        "[data-burger-close]"
+      );
+      const heroBurgerMenu = document.querySelector("[data-burger-menu]");
+      const heroBurgerMenuLinks = document.querySelectorAll(
+        ".hero__burger-menu-link"
+      );
+
+      if (heroBurgerOpenButton && heroBurgerCloseButton && heroBurgerMenu) {
+        heroBurgerOpenButton.addEventListener("click", function () {
+          heroBurgerMenu.classList.add("hero__burger-menu--open");
+        });
+
+        heroBurgerCloseButton.addEventListener("click", function () {
+          heroBurgerMenu.classList.remove("hero__burger-menu--open");
+        });
+
+        heroBurgerMenuLinks.forEach(function (link) {
+          link.addEventListener("click", function () {
+            heroBurgerMenu.classList.remove("hero__burger-menu--open");
+          });
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") {
+            heroBurgerMenu.classList.remove("hero__burger-menu--open");
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
