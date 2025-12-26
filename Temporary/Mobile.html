@@ -10,64 +10,153 @@
     <div class="mobile">
       <div class="frame">
         <div class="div">
-          <div class="text-wrapper">КОНТАКТЫ</div>
-          <div class="frame-2">
-            <div class="text-wrapper-2">Россия</div>
-            <div class="frame-3">
-              <div class="frame-4">
-                <div class="STEKLO-IDEA">STEKLO&amp;IDEA</div>
-                <div class="element">
-                  Красноярск,&nbsp;&nbsp;ул. Кольцевая, 5
-                </div>
-                <div class="text-wrapper-3">+7 (995) 572 12-48</div>
-                <div class="text-wrapper-3">qwerty@gmail.com</div>
+          <div class="header-nav">
+            <img class="logo" src="img/logo.png" />
+            <div class="men-burger-btn">
+              <div class="frame-2">
+                <img class="line" src="img/line-55.svg" />
+                <img class="img" src="img/line-56.svg" />
+                <img class="img" src="img/line-57.svg" />
               </div>
-              <img class="img" src="img/frame-308.svg" />
+            </div>
+          </div>
+          <div class="frame-3">
+            <div class="text-wrapper">ГЛАВНАЯ</div>
+            <div class="ellipse"></div>
+            <div class="text-wrapper">КОНТАКТЫ</div>
+          </div>
+        </div>
+        <div class="div">
+          <div class="text-wrapper-2">КОНТАКТЫ</div>
+          <div class="frame-4">
+            <div class="frame-5">
+              <div class="text-wrapper-3">Адреса</div>
+              <div class="frame-6">
+                <div class="element">
+                  Офис: Красноярск,&nbsp;&nbsp;ул. Кольцевая, 5
+                </div>
+                <div class="element-2">
+                  Цех: Красноярск,&nbsp;&nbsp;ул. Кольцевая, 5
+                </div>
+              </div>
+            </div>
+            <div class="frame-5">
+              <div class="text-wrapper-3">Контакты</div>
+              <div class="frame-6">
+                <div class="text-wrapper-4">+7 (995) 572 12-48</div>
+                <div class="text-wrapper-5">qwerty@gmail.com</div>
+              </div>
+            </div>
+            <div class="frame-5">
+              <div class="text-wrapper-3">Соц-сети</div>
+              <img class="frame-7" src="img/frame-308.svg" />
+            </div>
+            <div class="button-main">
+              <div class="text-wrapper-6">ОСТАВИТЬ ЗАЯВКУ</div>
             </div>
           </div>
         </div>
-        <div class="frame-5">
-          <div class="frame-6">
-            <div class="text-wrapper-4">Разработка и поддержка</div>
-            <div class="frame-7"></div>
-          </div>
-          <div class="copyright-by-STEKLO">
-            Copyright by STEKLO&amp;IDEA @2022-2025
-          </div>
-        </div>
       </div>
-      <img class="vector" src="img/vector.png" />
+      <img class="rectangle" src="img/rectangle-290.png" />
     </div>
   </body>
 </html>
 <style>
   .mobile {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
-    height: 700px;
     align-items: center;
-    justify-content: flex-end;
-    padding: 0px 8px 32px;
+    justify-content: center;
+    gap: 10px;
+    padding: 50px 8px;
     position: relative;
-    background-color: #484848;
+    background-color: #ffffff;
   }
 
   .mobile .frame {
     display: flex;
     flex-direction: column;
-    height: 568px;
-    align-items: center;
-    justify-content: space-between;
+    width: 304px;
+    align-items: flex-start;
+    gap: 36px;
     position: relative;
-    align-self: stretch;
-    width: 100%;
+    flex: 0 0 auto;
   }
 
   .mobile .div {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 48px;
+    gap: 32px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .mobile .header-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .mobile .logo {
+    position: relative;
+    width: 73px;
+    height: 63px;
+    aspect-ratio: 1.16;
+  }
+
+  .mobile .men-burger-btn {
+    display: inline-flex;
+    height: 63px;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 16px;
+    position: relative;
+    flex: 0 0 auto;
+    background-color: #ffffff;
+    border-radius: 100px;
+    overflow: hidden;
+    box-shadow: inset 4px 4px 18px #48484814, inset -2px -2px 12px #4848480d;
+  }
+
+  .mobile .frame-2 {
+    display: flex;
+    flex-direction: column;
+    width: 31px;
+    align-items: flex-start;
+    gap: 8px;
+    position: relative;
+  }
+
+  .mobile .line {
+    margin-top: -1px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    height: 1px;
+    object-fit: cover;
+  }
+
+  .mobile .img {
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    height: 1px;
+    object-fit: cover;
+  }
+
+  .mobile .frame-3 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 16px;
     position: relative;
     align-self: stretch;
     width: 100%;
@@ -75,162 +164,165 @@
   }
 
   .mobile .text-wrapper {
+    width: fit-content;
     margin-top: -1px;
-    font-family: "FoglihtenNo06-Regular", Helvetica;
-    font-weight: 400;
-    color: #ffffff;
-    font-size: 24px;
+    font-family: "Montserrat-Medium", Helvetica;
+    font-weight: 500;
+    color: #484848cc;
+    font-size: 12px;
     line-height: normal;
     position: relative;
-    align-self: stretch;
     letter-spacing: 0;
   }
 
-  .mobile .frame-2 {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 30px;
+  .mobile .ellipse {
     position: relative;
-    align-self: stretch;
-    width: 100%;
-    flex: 0 0 auto;
+    width: 8px;
+    height: 8px;
+    background-color: #484848cc;
+    border-radius: 4px;
   }
 
   .mobile .text-wrapper-2 {
+    align-self: stretch;
     margin-top: -1px;
-    font-family: "Montserrat-Bold", Helvetica;
-    font-weight: 700;
-    color: #ffffff;
-    font-size: 16px;
+    font-family: "FoglihtenNo06-Regular", Helvetica;
+    font-weight: 400;
+    color: #484848;
+    font-size: 32px;
     line-height: normal;
     position: relative;
-    align-self: stretch;
     letter-spacing: 0;
-  }
-
-  .mobile .frame-3 {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 50px;
-    position: relative;
-    align-self: stretch;
-    width: 100%;
-    flex: 0 0 auto;
   }
 
   .mobile .frame-4 {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 36px;
     position: relative;
     align-self: stretch;
     width: 100%;
     flex: 0 0 auto;
   }
 
-  .mobile .STEKLO-IDEA {
+  .mobile .frame-5 {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
     position: relative;
-    align-self: stretch;
-    margin-top: -1px;
-    font-family: "Montserrat-Medium", Helvetica;
-    font-weight: 500;
-    color: #ffffff99;
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 35.3px;
-  }
-
-  .mobile .element {
-    font-family: "Montserrat-Medium", Helvetica;
-    font-weight: 500;
-    color: #ffffff99;
-    font-size: 16px;
-    line-height: 35.3px;
-    position: relative;
-    align-self: stretch;
-    letter-spacing: 0;
+    flex: 0 0 auto;
   }
 
   .mobile .text-wrapper-3 {
-    position: relative;
     align-self: stretch;
-    font-family: "Montserrat-Medium", Helvetica;
-    font-weight: 500;
-    color: #ffffff;
-    font-size: 20px;
+    margin-top: -1px;
+    font-family: "Montserrat-Bold", Helvetica;
+    font-weight: 700;
+    color: #484848;
+    font-size: 16px;
+    line-height: normal;
+    position: relative;
     letter-spacing: 0;
-    line-height: 44.1px;
   }
 
-  .mobile .img {
-    position: relative;
-    align-self: stretch;
-    width: 100%;
-    height: 30px;
-  }
-
-  .mobile .frame-5 {
-    display: flex;
+  .mobile .frame-6 {
+    display: inline-flex;
     flex-direction: column;
-    width: 253px;
-    align-items: center;
+    align-items: flex-start;
     gap: 16px;
     position: relative;
     flex: 0 0 auto;
   }
 
-  .mobile .frame-6 {
-    display: flex;
-    flex-direction: column;
-    width: 134px;
-    height: 48px;
-    align-items: center;
-    gap: 7px;
+  .mobile .element {
+    align-self: stretch;
+    margin-top: -1px;
+    font-family: "Montserrat-Medium", Helvetica;
+    font-weight: 500;
+    color: #484848cc;
+    font-size: 16px;
+    line-height: 35.3px;
     position: relative;
-    aspect-ratio: 2.79;
+    letter-spacing: 0;
+  }
+
+  .mobile .element-2 {
+    align-self: stretch;
+    font-family: "Montserrat-Medium", Helvetica;
+    font-weight: 500;
+    color: #484848cc;
+    font-size: 16px;
+    line-height: 35.3px;
+    position: relative;
+    letter-spacing: 0;
   }
 
   .mobile .text-wrapper-4 {
-    margin-top: -0.7px;
-    font-family: "Montserrat-Bold", Helvetica;
-    font-weight: 700;
-    color: #ffffff4c;
-    font-size: 8.4px;
-    text-align: center;
-    line-height: normal;
     position: relative;
-    align-self: stretch;
+    width: fit-content;
+    margin-top: -1px;
+    font-family: "Montserrat-Medium", Helvetica;
+    font-weight: 500;
+    color: #484848cc;
+    font-size: 16px;
     letter-spacing: 0;
+    line-height: 35.3px;
+    white-space: nowrap;
+  }
+
+  .mobile .text-wrapper-5 {
+    position: relative;
+    width: fit-content;
+    font-family: "Montserrat-Medium", Helvetica;
+    font-weight: 500;
+    color: #484848cc;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 35.3px;
+    white-space: nowrap;
   }
 
   .mobile .frame-7 {
     position: relative;
-    align-self: stretch;
-    width: 100%;
-    height: 31.5px;
-    margin-bottom: -0.5px;
+    flex: 0 0 auto;
   }
 
-  .mobile .copyright-by-STEKLO {
+  .mobile .button-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 26px 20px;
     position: relative;
     align-self: stretch;
-    font-family: "Montserrat-Bold", Helvetica;
-    font-weight: 700;
-    color: #ffffff4c;
-    font-size: 12px;
-    letter-spacing: 0;
-    line-height: normal;
+    width: 100%;
+    flex: 0 0 auto;
+    background-color: #ffffff0d;
+    border-radius: 100px;
+    border: 0.5px solid;
+    border-color: #ffffff66;
+    box-shadow: inset 8px 8px 18px #48484814, inset -4px -4px 12px #48484814;
   }
 
-  .mobile .vector {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .mobile .text-wrapper-6 {
+    position: relative;
+    width: fit-content;
+    margin-top: -0.5px;
+    font-family: "Montserrat-Medium", Helvetica;
+    font-weight: 500;
+    color: #484848;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 19.6px;
+    white-space: nowrap;
+  }
+
+  .mobile .rectangle {
+    position: relative;
     width: 320px;
-    height: 276px;
-    aspect-ratio: 1.16;
+    height: 250px;
+    object-fit: cover;
   }
 </style>
