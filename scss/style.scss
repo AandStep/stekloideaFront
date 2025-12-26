@@ -1,5 +1,55 @@
 @use "reset";
 
+/* =========================================
+   VARIABLES & MIXINS
+   ========================================= */
+:root {
+  // --- Colors (User Defined) ---
+  --color-bg-main: #fff;
+  --color-bg-secondary: #414141; // Hero background
+  --color-bg-dark: #363636; // Darker cards
+
+  // --- Colors (Preserved from original design) ---
+  --color-bg-card: #484848; // Cards background
+  --color-text-white: #ffffff;
+  --color-text-white-80: rgba(255, 255, 255, 0.8);
+  --color-text-dark: #484848;
+
+  // --- Fonts ---
+  --font-main: "Montserrat", sans-serif;
+  --font-accent: "FoglihtenNo06", serif;
+}
+
+// Миксин для эффектов кнопок (НЕ меняет размеры, только визуал)
+@mixin interactive-button {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  // Эффект стекла и тени (как в вашем дизайне, но унифицировано)
+  background: rgba(255, 255, 255, 0.05); // Прозрачность
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  box-shadow: -4px -4px 12px 0 rgba(255, 255, 255, 0.1) inset,
+    8px 8px 18px 0 rgba(255, 255, 255, 0.18) inset;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 4px 4px 25px rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* =========================================
+   FONTS
+   ========================================= */
 @font-face {
   font-family: "Montserrat";
   src: url("../fonts/Montserrat-Regular.woff2") format("woff2");
@@ -32,9 +82,94 @@
   font-display: swap;
 }
 
+/* =========================================
+   BASE STYLES
+   ========================================= */
+
+/* --- Custom Notifications (Toast) --- */
+.notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+  pointer-events: none;
+
+  @media (max-width: 48rem) {
+    right: 50%;
+    transform: translateX(50%);
+    width: 90%;
+  }
+}
+
+.notification {
+  pointer-events: auto;
+  min-width: 300px;
+  padding: 1rem 1.5rem;
+  border-radius: 1.25rem;
+  background: rgba(72, 72, 72, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-text-white);
+  font-family: var(--font-main);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+  &--visible {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  &--success {
+    border-left: 4px solid #4caf50;
+    background: radial-gradient(
+      circle at left,
+      rgba(76, 175, 80, 0.15) 0%,
+      rgba(72, 72, 72, 0.9) 70%
+    );
+  }
+
+  &--error {
+    border-left: 4px solid #ff5252;
+    background: radial-gradient(
+      circle at left,
+      rgba(255, 82, 82, 0.15) 0%,
+      rgba(72, 72, 72, 0.9) 70%
+    );
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__text {
+    flex-grow: 1;
+  }
+}
+
 .title {
-  color: #484848;
-  font-family: FoglihtenNo06;
+  color: var(--color-text-dark);
+  font-family: var(--font-accent);
   font-size: clamp(2rem, 1.091rem + 4.55vw, 4rem);
   font-style: normal;
   font-weight: 500;
@@ -49,8 +184,11 @@
   padding: 0 8px;
 }
 
+/* =========================================
+   HERO SECTION
+   ========================================= */
 .hero {
-  background: #414141;
+  background: var(--color-bg-secondary); // Было #414141
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100svh;
@@ -59,11 +197,13 @@
   padding-top: 3.125rem;
   padding: 50px 0 0 0;
   position: relative;
+
   & > .container:nth-of-type(2) {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
+
   &__header {
     width: 100%;
     display: grid;
@@ -98,8 +238,8 @@
   }
 
   &__nav-item {
-    color: rgba(255, 255, 255, 0.8);
-    font-family: Montserrat;
+    color: var(--color-text-white-80);
+    font-family: var(--font-main);
     font-size: 1rem;
     font-style: normal;
     font-weight: 500;
@@ -108,17 +248,48 @@
   }
 
   &__nav-link {
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    transition: color 0.3s ease;
+
+    // --- Hover Effect (Added) ---
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 1px;
+      bottom: -4px;
+      left: 0;
+      background-color: #fff;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    }
+
+    &:hover {
+      color: #fff;
+      &::after {
+        width: 100%;
+      }
+    }
   }
 
   &__phone {
     justify-self: end;
-    color: rgba(255, 255, 255, 0.8);
-    font-family: Montserrat;
+    color: var(--color-text-white-80);
+    font-family: var(--font-main);
     font-size: 1.5rem;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     text-transform: uppercase;
+
+    // Hover effect for phone
+    transition: color 0.3s;
+    &:hover {
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
   }
 
   &__content {
@@ -133,8 +304,8 @@
   }
 
   &__title-line--small {
-    color: rgba(255, 255, 255, 0.8);
-    font-family: FoglihtenNo06;
+    color: var(--color-text-white-80);
+    font-family: var(--font-accent);
     font-size: clamp(3.375rem, 1.804rem + 2.46vw, 4.75rem);
     font-style: normal;
     font-weight: 500;
@@ -142,8 +313,8 @@
   }
 
   &__title-line--large {
-    color: #fff;
-    font-family: FoglihtenNo06;
+    color: var(--color-text-white);
+    font-family: var(--font-accent);
     font-size: clamp(5.625rem, 2.911rem + 4.24vw, 8rem);
     font-style: normal;
     font-weight: 500;
@@ -160,11 +331,14 @@
     justify-content: center;
     align-items: center;
     border-radius: 6.25rem;
+
+    // Используем миксин для интерактивности, но фон переопределяем как в макете
+    @include interactive-button;
     background: rgba(217, 217, 217, 0.05);
-    box-shadow: -4px -4px 12px 0 rgba(255, 255, 255, 0.1) inset,
-      8px 8px 18px 0 rgba(255, 255, 255, 0.18) inset;
+
+    // Стили шрифта
     color: #fff;
-    font-family: Montserrat;
+    font-family: var(--font-main);
     font-size: 1.5rem;
     font-style: normal;
     font-weight: 500;
@@ -186,13 +360,16 @@
     position: relative;
     width: 100%;
     height: 100%;
-    background: linear-gradient(270deg, rgba(65, 65, 65, 0) 0%, #414141 100%),
-      url("../img/hero-background.jpg") center bottom / cover no-repeat;
+    background: linear-gradient(
+        270deg,
+        rgba(65, 65, 65, 0) 0%,
+        var(--color-bg-secondary) 100%
+      ),
+      url("../img/hero-background.webp") center bottom / cover no-repeat;
   }
 }
 
-// Menu burger
-
+/* --- Burger Menu Styles --- */
 .hero__burger-menu {
   position: fixed;
   inset-block: 0;
@@ -200,7 +377,7 @@
   inset-inline-start: auto;
   width: 20rem;
   max-width: 100%;
-  background: #414141;
+  background: var(--color-bg-secondary);
   transform: translateX(100%);
   transition: transform 0.3s ease-in-out;
   z-index: 10;
@@ -210,6 +387,7 @@
   transform: translateX(0);
 }
 
+// Media Query for Burger (Restored Exactly)
 @media (max-width: 81.875rem) {
   .hero {
     &__header {
@@ -256,7 +434,7 @@
     &__burger-menu {
       width: 320px;
       height: 100svh;
-      background: #414141;
+      background: var(--color-bg-secondary);
     }
 
     &__burger-menu-container {
@@ -332,8 +510,8 @@
     }
 
     &__burger-menu-item {
-      color: rgba(255, 255, 255, 0.8);
-      font-family: Montserrat;
+      color: var(--color-text-white-80);
+      font-family: var(--font-main);
       font-size: 16px;
       font-style: normal;
       font-weight: 700;
@@ -345,8 +523,8 @@
     }
 
     &__burger-menu-phone {
-      color: rgba(255, 255, 255, 0.8);
-      font-family: Montserrat;
+      color: var(--color-text-white-80);
+      font-family: var(--font-main);
       font-size: 24px;
       font-style: normal;
       font-weight: 400;
@@ -354,6 +532,7 @@
       text-transform: uppercase;
       align-self: center;
       margin-block-start: auto;
+      text-decoration: none;
     }
   }
 }
@@ -438,10 +617,10 @@
     &__background-image {
       background: linear-gradient(
           180deg,
-          #414141 -5%,
+          var(--color-bg-secondary) -5%,
           rgba(65, 65, 65, 0) 99.05%
         ),
-        url("../img/hero-background.jpg") center bottom / cover no-repeat;
+        url("../img/hero-background.webp") center bottom / cover no-repeat;
     }
 
     &__burger-menu {
@@ -460,6 +639,9 @@
   }
 }
 
+/* =========================================
+   ABOUT SECTION
+   ========================================= */
 .about {
   overflow-x: clip;
   overflow-y: visible;
@@ -560,8 +742,8 @@
   }
 
   &__text {
-    color: #484848;
-    font-family: Montserrat;
+    color: var(--color-text-dark);
+    font-family: var(--font-main);
     font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.5rem);
     font-style: normal;
     font-weight: 500;
@@ -653,6 +835,9 @@
   }
 }
 
+/* =========================================
+   SERVICES SECTION
+   ========================================= */
 .services {
   display: flex;
   padding: clamp(1.5rem, -0.375rem + 9.38vw, 5.625rem) 0 24px 0;
@@ -680,8 +865,8 @@
 
   &__subtitle {
     max-width: clamp(31.063rem, 25.888rem + 9vw, 36.688rem);
-    color: #484848;
-    font-family: Montserrat;
+    color: var(--color-text-dark);
+    font-family: var(--font-main);
     font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.5rem);
     font-style: normal;
     font-weight: 500;
@@ -737,7 +922,7 @@
         rgba(72, 72, 72, 0.5) 59.33%,
         rgba(0, 0, 0, 0) 100%
       ),
-      url(../img/service-1.jpg) lightgray 50% / cover no-repeat;
+      url(../img/service-1.webp) lightgray 50% / cover no-repeat;
   }
 
   &__card-media {
@@ -765,7 +950,7 @@
 
   &__card-title {
     color: #fff;
-    font-family: Montserrat;
+    font-family: var(--font-main);
     font-size: clamp(1.125rem, 0.841rem + 1.42vw, 1.75rem);
     font-style: normal;
     font-weight: 700;
@@ -774,7 +959,7 @@
 
   &__card-text {
     color: #fff;
-    font-family: Montserrat;
+    font-family: var(--font-main);
     font-size: clamp(0.75rem, 0.636rem + 0.57vw, 1rem);
     font-style: normal;
     font-weight: 500;
@@ -796,13 +981,15 @@
     justify-content: center;
     align-items: center;
     border-radius: 100px;
+
+    // Mixin for interactive effects
+    @include interactive-button;
+    // Overlay specific styles to maintain layout
     border: 0.5px solid rgba(255, 255, 255, 0.4);
     background: rgba(255, 255, 255, 0.05);
-    box-shadow: -4px -4px 12px 0 rgba(255, 255, 255, 0.1) inset,
-      8px 8px 18px 0 rgba(255, 255, 255, 0.18) inset;
-    backdrop-filter: blur(9px);
+
     color: #fff;
-    font-family: Montserrat;
+    font-family: var(--font-main);
     font-size: clamp(0.75rem, 0.636rem + 0.57vw, 1rem);
     font-style: normal;
     font-weight: 500;
@@ -816,7 +1003,7 @@
         rgba(72, 72, 72, 0.5) 59.33%,
         rgba(0, 0, 0, 0) 100%
       ),
-      url(../img/service-2.jpg) lightgray 50% / cover no-repeat;
+      url(../img/service-2.webp) lightgray 50% / cover no-repeat;
   }
 
   &__card--loft-furniture {
@@ -825,10 +1012,13 @@
         rgba(72, 72, 72, 0.5) 59.33%,
         rgba(0, 0, 0, 0) 100%
       ),
-      url(../img/service-3.jpg) lightgray 50% / cover no-repeat;
+      url(../img/service-3.webp) lightgray 50% / cover no-repeat;
   }
 }
 
+/* =========================================
+   STAGES SECTION
+   ========================================= */
 .stages {
   display: flex;
   padding-top: clamp(1.5rem, -1.5rem + 4.69vw, 4.125rem);
@@ -863,7 +1053,7 @@
     align-items: center;
     position: relative;
     border-radius: clamp(1.875rem, 1.364rem + 2.56vw, 3rem);
-    background: #484848;
+    background: var(--color-bg-card); // #484848 preserved
     box-shadow: 8px 8px 18px 0 rgba(255, 255, 255, 0.25) inset;
   }
 
@@ -889,7 +1079,7 @@
 
   &__card-title {
     color: #fff;
-    font-family: Montserrat;
+    font-family: var(--font-main);
     font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.5rem);
     font-style: normal;
     font-weight: 700;
@@ -912,7 +1102,7 @@
   }
 
   &__card--dark {
-    background: #363636;
+    background: var(--color-bg-dark); // #363636
     box-shadow: 8px 8px 18px 0 rgba(255, 255, 255, 0.25) inset;
 
     // Четвертый элемент - автоматически уменьшается, 5 заполняет остаток
@@ -990,6 +1180,9 @@
   }
 }
 
+/* =========================================
+   WHY US SECTION
+   ========================================= */
 .why-us {
   padding-top: clamp(2.5rem, 1.136rem + 6.82vw, 5.625rem);
   padding-bottom: 0;
@@ -1015,7 +1208,7 @@
     gap: clamp(1rem, 0.429rem + 0.89vw, 1.5rem);
     width: 100%;
     height: max-content;
-    background: #484848;
+    background: var(--color-bg-card); // #484848
     border-radius: clamp(1.875rem, 0.682rem + 5.97vw, 3.75rem);
     padding: clamp(1rem, -2.714rem + 5.8vw, 4.25rem);
     overflow: visible;
@@ -1063,7 +1256,7 @@
   }
 
   &__feature-text {
-    font-family: Montserrat;
+    font-family: var(--font-main);
     font-weight: 700;
     font-size: clamp(1.25rem, 0.964rem + 0.45vw, 1.5rem);
     line-height: 1.4;
@@ -1138,5 +1331,1043 @@
     &__feature--third {
       order: 3;
     }
+  }
+}
+
+/* --- PROJECTS SECTION --- */
+.projects {
+  background: var(--color-bg-main);
+  padding-top: 5.625rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 0.364rem + 5.68vw, 4rem);
+
+  &__grid-wrapper {
+    display: grid;
+    // Оставляем minmax(0, 1fr), чтобы починить баг на 320px (сжатие картинок)
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.625rem;
+    position: relative;
+    overflow: hidden;
+    align-items: start;
+    width: 100%;
+    // Плавность при изменении высоты скриптом
+    transition: height 0.3s ease-out;
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    width: 100%;
+    min-width: 0; // Важно для адаптива
+    flex-shrink: 0;
+  }
+
+  &__item {
+    margin: 0;
+    width: 100%;
+    display: block;
+  }
+
+  &__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 1.25rem;
+    object-fit: cover;
+  }
+
+  &__button {
+    // 1. СНАЧАЛА подключаем общие стили (там position: relative)
+    @include interactive-button;
+
+    // 2. ПОТОМ переопределяем то, что нам нужно (это победит миксин)
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+
+    // Явно задаем скругление и размеры, чтобы перебить любые настройки миксина
+    border-radius: 6.25rem; // Убрал !important, теперь сработает и так
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    background: rgba(72, 72, 72, 0.8);
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.65),
+      8px 8px 18px 0 rgba(255, 255, 255, 0.25) inset;
+
+    display: flex;
+    width: clamp(19rem, 11.159rem + 39.2vw, 36.25rem);
+    padding: clamp(1.563rem, 0.767rem + 3.98vw, 3.313rem) 0;
+    justify-content: center;
+    align-items: center;
+
+    color: #fff;
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.409rem + 1.7vw, 1.5rem);
+    font-weight: 500;
+    line-height: 140%;
+    text-transform: uppercase;
+
+    // Эффект наведения с учетом центрирования
+    &:hover {
+      transform: translate(-50%, calc(-50% - 3px));
+    }
+
+    &:active {
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &__gradient-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    // Высота градиента
+    height: clamp(20rem, 40vh, 32.5rem);
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      #ffffff 90%
+    );
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  // --- АДАПТИВНОСТЬ ---
+  @media (max-width: 64rem) {
+    &__grid-wrapper {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    &__column:nth-child(4) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    &__grid-wrapper {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    &__column:nth-child(3),
+    &__column:nth-child(4) {
+      display: none;
+    }
+  }
+}
+
+/* =========================================
+   CALCULATION SECTION (Fixed structure, Preserved sizes)
+   ========================================= */
+.calculation {
+  padding: 0;
+  position: relative;
+  // margin не было в исходнике, если нужно - добавьте: margin: clamp(...) 0;
+
+  &__wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(2rem, 1.5rem + 2.5vw, 4rem);
+
+    // Ваши оригинальные clamp-значения для отступов
+    padding: clamp(4.063rem, 0.848rem + 5.02vw, 6.875rem)
+      clamp(1rem, -6.429rem + 11.61vw, 7.5rem) clamp(3rem, 4.69vw, 5.625rem)
+      clamp(1rem, -6.429rem + 11.61vw, 7.5rem);
+
+    border-radius: clamp(2.5rem, 5vw, 5rem);
+
+    // Фон: градиент + картинка
+    background: linear-gradient(
+        180deg,
+        rgba(72, 72, 72, 0.9) 0%,
+        rgba(72, 72, 72, 0.4) 100%
+      ),
+      url("../img/calculation-bg.webp") center / cover no-repeat;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+
+  &__header {
+    gap: clamp(1rem, 0.773rem + 1.14vw, 1.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__title {
+    color: var(--color-text-white);
+    font-family: var(--font-accent);
+    font-size: clamp(1.5rem, 0.364rem + 5.68vw, 4rem);
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+
+  &__subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-family: var(--font-main);
+    font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.5rem);
+    font-weight: 500;
+    line-height: 140%;
+  }
+
+  &__form {
+    width: 100%;
+    max-width: 74.375rem;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.5rem, 1.273rem + 1.14vw, 2rem);
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.25rem, 0.08rem + 0.85vw, 0.625rem);
+  }
+
+  &__row {
+    display: flex;
+    gap: clamp(0.25rem, 0.08rem + 0.85vw, 0.625rem);
+    width: 100%;
+
+    @media (max-width: 48rem) {
+      flex-direction: column;
+    }
+  }
+
+  &__field-group {
+    width: 100%;
+  }
+
+  &__input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6.25rem;
+
+    // Ваши оригинальные паддинги
+    padding: clamp(1rem, 0.744rem + 1.28vw, 1.563rem)
+      clamp(1rem, 0.318rem + 3.41vw, 2.5rem);
+
+    color: var(--color-text-white);
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.523rem + 1.14vw, 1.25rem);
+    font-weight: 500;
+    line-height: 140%;
+
+    box-shadow: inset 4px 4px 18px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    outline: none;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    &:focus {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--color-text-white);
+      box-shadow: inset 4px 4px 18px rgba(255, 255, 255, 0.2),
+        0 0 15px rgba(255, 255, 255, 0.2);
+    }
+
+    &.error {
+      border-color: #ff6b6b;
+      box-shadow: inset 4px 4px 18px rgba(255, 107, 107, 0.15);
+    }
+
+    &--textarea {
+      min-height: 10rem;
+      border-radius: 2.5rem;
+      resize: vertical;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  &__button {
+    // Подключаем миксин для крутых эффектов (hover, active)
+    @include interactive-button;
+
+    width: 100%;
+    padding: clamp(1.563rem, 1.42rem + 0.71vw, 1.875rem);
+    border-radius: 6.25rem;
+
+    background: rgba(255, 255, 255, 0.02);
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    box-shadow: inset 4px 4px 18px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+
+    // Шрифт кнопки из вашего макета
+    color: #fff;
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.636rem + 0.57vw, 1rem);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  &__agreement {
+    color: var(--color-text-white);
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.7rem + 0.5vw, 1.25rem);
+    font-weight: 500;
+    line-height: 140%;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.8);
+
+    @media (max-width: 48rem) {
+      text-align: center;
+    }
+  }
+
+  &__link {
+    color: var(--color-text-white);
+    text-decoration: underline;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.8;
+      text-decoration: none;
+    }
+  }
+
+  // Медиа-запрос из вашего файла
+  @media (max-width: 64rem) {
+    &__wrapper {
+      padding: clamp(3.438rem, 3.153rem + 1.42vw, 4.063rem)
+        clamp(0.5rem, 0.273rem + 1.14vw, 1rem)
+        clamp(1.5rem, 0.818rem + 3.41vw, 3rem)
+        clamp(0.5rem, 0.273rem + 1.14vw, 1rem);
+    }
+  }
+}
+
+/* =========================================
+   REVIEWS SECTION
+   ========================================= */
+.reviews {
+  padding-top: clamp(3rem, 1.136rem + 6.82vw, 5.625rem);
+  // ВЕРНУЛ ОТСТУП СНИЗУ
+  padding-bottom: clamp(3rem, 1.136rem + 6.82vw, 5.625rem);
+  background-color: var(--color-bg-main);
+  overflow: hidden;
+
+  // --- ЗАГОЛОВОК ---
+  &__title {
+    color: var(--color-text-dark);
+    margin: 0;
+    width: 100%;
+  }
+
+  // --- СЛАЙДЕР ---
+  &__slider {
+    position: relative;
+    width: 100%;
+
+    // DESKTOP: Высота фиксирована (по макету)
+    height: 854px;
+
+    // TABLET: Чтобы блок не пропадал (0px), задаем минимальную высоту.
+    // 540px (карточка) + ~100px (заголовок/стрелки)
+    @media (max-width: 64rem) {
+      height: auto;
+      min-height: 700px;
+    }
+
+    // MOBILE
+    @media (max-width: 48rem) {
+      min-height: 500px;
+    }
+  }
+
+  // --- СЛАЙД ---
+  &__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+
+    display: grid;
+    // Стандартная сетка Desktop: Текст | Картинка
+    grid-template-columns: minmax(0, 710px) minmax(0, 590px);
+    gap: clamp(1rem, -3.5rem + 7vw, 8.125rem);
+
+    &--active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      z-index: 2;
+    }
+  }
+
+  // --- ЛЕВАЯ КОЛОНКА ---
+  &__col-left {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    // Убрал space-between, теперь управляем отступами внутри элементов
+  }
+
+  // --- НАВИГАЦИЯ ---
+  &__nav {
+    display: flex;
+    gap: 10px;
+
+    // ЛОГИКА ОТСТУПОВ (как ты просил):
+    // margin-top: auto толкает навигацию вниз от заголовка
+    margin-top: auto;
+    // Отступ до карточки
+    margin-bottom: 24px;
+  }
+
+  &__btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.3s ease;
+
+    svg circle {
+      transition: stroke 0.3s ease;
+    }
+    &:hover {
+      transform: scale(1.05);
+      svg circle {
+        stroke: var(--color-text-dark);
+      }
+    }
+  }
+
+  // --- КАРТОЧКА ---
+  &__card {
+    display: flex;
+    flex-direction: column;
+    border-radius: clamp(0.875rem, 0.5rem + 1.8vw, 1.75rem);
+    border: 1px solid var(--color-text-dark);
+    background: var(--color-bg-main);
+    padding: clamp(1rem, 0.5rem + 2.5vw, 1.625rem);
+
+    height: 540px; // Фикс высота Desktop
+    width: 100%;
+    // margin-top: auto ВЫРЕЗАНО
+  }
+
+  &__content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__text {
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: clamp(0.875rem, 0.6rem + 0.9vw, 1.5rem);
+    line-height: 1.4;
+    color: var(--color-text-dark);
+    margin: 0;
+  }
+
+  // --- КАРТИНКА ---
+  &__image-wrapper {
+    width: 100%;
+    height: 100%; // Растягивается на 854px
+    border-radius: clamp(0.875rem, 0.5rem + 1.8vw, 1.75rem);
+    overflow: hidden;
+    align-self: start;
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  // --- МОБИЛЬНАЯ ГАЛЕРЕЯ ---
+  &__mobile-gallery {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 14px;
+    margin-bottom: 16px;
+  }
+
+  &__gallery-label {
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(72, 72, 72, 0.5);
+  }
+
+  &__thumbnails {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__thumb-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: zoom-in;
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  // --- ФУТЕР ОТЗЫВА ---
+  &__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+  }
+
+  &__author-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__author {
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: clamp(0.875rem, 0.8rem + 0.2vw, 1rem);
+    color: var(--color-text-dark);
+    font-style: normal;
+  }
+
+  &__location {
+    font-family: var(--font-main);
+    font-size: clamp(0.875rem, 0.8rem + 0.2vw, 1rem);
+    color: rgba(72, 72, 72, 0.7);
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    text-decoration: none;
+    max-width: 223px;
+    width: 100%;
+
+    span {
+      font-family: var(--font-main);
+      font-size: clamp(0.75rem, 0.7rem + 0.2vw, 1rem);
+      color: rgba(72, 72, 72, 0.7);
+      white-space: nowrap;
+      transition: color 0.3s;
+    }
+    &:hover span {
+      color: var(--color-text-dark);
+    }
+    img {
+      width: 13px;
+      height: 13px;
+    }
+  }
+
+  /* =========================================
+       ADAPTIVE STYLES (TABLET & MOBILE)
+       ========================================= */
+
+  // TABLET (max 1024px)
+  @media (max-width: 64rem) {
+    &__slide {
+      gap: 16px;
+      // СТРОГАЯ СЕТКА 50/50
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch; // Одинаковая высота
+    }
+
+    &__col-left {
+      max-width: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    &__image-wrapper {
+      align-self: stretch;
+      height: auto;
+      min-height: 540px;
+    }
+
+    // Заголовок остается сверху
+    &__title {
+      // margin-bottom больше не нужен, так как nav имеет margin-top: auto
+    }
+
+    &__card {
+      height: auto;
+      min-height: 540px;
+      flex-grow: 1;
+    }
+  }
+
+  // MOBILE (max 768px)
+  @media (max-width: 48rem) {
+    &__slide {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      left: 0;
+    }
+
+    &__image-wrapper {
+      display: none;
+    }
+    &__mobile-gallery {
+      display: flex;
+    }
+
+    &__card {
+      min-height: 400px;
+    }
+
+    &__nav {
+      margin-top: 16px; // На мобильном отступ фиксированный
+      margin-bottom: 16px;
+    }
+
+    &__footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    &__link {
+      max-width: 100%;
+    }
+  }
+}
+
+/* =========================================
+     MODAL (Восстановлено)
+     ========================================= */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  &--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(5px);
+  }
+
+  &__content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    z-index: 10;
+  }
+
+  &__image {
+    max-width: 100%;
+    max-height: 90vh;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  &__close {
+    position: absolute;
+    top: -80px;
+    right: -20px;
+    display: flex;
+    width: 60px;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    box-shadow: 4px 4px 18px 0 rgba(255, 255, 255, 0.15) inset;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 20;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+
+    @media (max-width: 48rem) {
+      top: -70px;
+      right: 0;
+    }
+  }
+
+  &__close-line {
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    &--first {
+      transform: rotate(45deg);
+    }
+    &--second {
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+/* =========================================
+   FOOTER SECTION
+   ========================================= */
+.footer {
+  position: relative;
+  background-color: var(--color-bg-card); // #484848
+  overflow: hidden;
+
+  // Прижимаем содержимое к низу
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  // Высота: Desktop 100svh, но не менее 768px.
+  // Mobile/Tablet: min 700px.
+  height: 100svh;
+  min-height: 768px;
+
+  padding-bottom: clamp(1.5rem, 1rem + 1vw, 2rem);
+
+  @media (max-width: 48rem) {
+    height: auto;
+    min-height: 700px;
+    padding-top: 50px;
+  }
+
+  // --- Background Logo ---
+  &__bg-logo {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+
+    height: 90%;
+    width: auto;
+
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 0;
+
+    @media (max-width: 64rem) {
+      height: 70%;
+    }
+
+    @media (max-width: 48rem) {
+      top: 0;
+      right: -10%;
+      transform: none;
+      height: 50%;
+    }
+  }
+
+  // --- Container ---
+  &__container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+
+    // Высота контейнера: Desktop ~724px -> Mobile 568px
+    height: clamp(41.375rem, 30rem + 18vw, 45.25rem);
+
+    @media (max-width: 48rem) {
+      height: auto;
+      min-height: 35.5rem;
+      gap: 40px;
+    }
+  }
+
+  // --- Top Content ---
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 1rem + 4vw, 4.5rem);
+    width: 100%;
+  }
+
+  &__title {
+    color: var(--color-text-white);
+    font-family: var(--font-accent);
+    font-size: clamp(1.5rem, 0.5rem + 4.5vw, 4rem);
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+
+  // --- Grid Wrapper ---
+  &__grid {
+    display: flex;
+    // Блок обнимает контент
+    width: fit-content;
+
+    // Адаптивный gap:
+    // 13.5rem = 216px (на больших экранах)
+    // Уменьшается при сужении экрана до ~3rem перед переломом
+    gap: clamp(3rem, -5rem + 15vw, 13.5rem);
+
+    @media (max-width: 48rem) {
+      width: 100%; // На мобильном растягиваем обратно
+      flex-direction: column;
+      // Вертикальный отступ 72px
+      gap: 4.5rem;
+    }
+  }
+
+  // --- Columns ---
+  &__col {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.875rem, 1.5rem + 1vw, 3.125rem);
+
+    &--contacts {
+      flex: 0 0 auto;
+    }
+
+    &--links {
+      // Ссылки занимают оставшееся место, но зависят от контента
+      flex: 0 1 auto;
+    }
+  }
+
+  &__subtitle {
+    color: var(--color-text-white);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  // --- Contact Info ---
+  &__contact-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+
+    address {
+      margin-bottom: 12px;
+    }
+  }
+
+  &__company-name,
+  &__address {
+    color: rgba(255, 255, 255, 0.6);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 1.4;
+  }
+
+  &__contact-link {
+    color: var(--color-text-white);
+    font-family: var(--font-main);
+    font-size: clamp(1rem, 0.9rem + 0.3vw, 1.25rem);
+    font-weight: 500;
+    line-height: 1.6;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  // --- Social Icons ---
+  &__socials {
+    display: flex;
+    align-items: center;
+    // Отступ увеличен до 40px
+    gap: 2.5rem;
+  }
+
+  &__social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+
+    img {
+      height: 100%;
+      width: auto;
+      display: block;
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+      opacity: 0.8;
+    }
+  }
+
+  // --- Links Navigation ---
+  &__nav-grid {
+    display: flex;
+    gap: clamp(1.5rem, 1rem + 3vw, 4rem);
+
+    // Логика перестроения (примерно на планшете/узком десктопе),
+    // когда 3 колонки становятся тесными
+    @media (max-width: 64rem) {
+      display: grid;
+      // Две равнозначные колонки, растянутые на ширину родителя
+      grid-template-columns: 1fr 1fr;
+      // Вертикальные и горизонтальные отступы
+      gap: 3rem 2rem;
+    }
+
+    @media (max-width: 30rem) {
+      // На совсем мелких телефонах в 1 колонку
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  &__nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    // Убираем min-width, чтобы Grid управлял шириной
+  }
+
+  &__nav-link {
+    color: rgba(255, 255, 255, 0.9);
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.636rem + 0.57vw, 1rem);
+    font-weight: 500;
+    text-decoration: none;
+    text-transform: uppercase;
+    position: relative;
+    white-space: nowrap;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 1px;
+      bottom: -4px;
+      left: 0;
+      background-color: #fff;
+      transition: width 0.3s ease;
+    }
+
+    &:hover {
+      color: #fff;
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+
+  // --- Bottom Footer Area ---
+  &__bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+
+    @media (max-width: 48rem) {
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      text-align: center;
+    }
+  }
+
+  &__dev-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+
+    @media (max-width: 48rem) {
+      align-items: center;
+    }
+  }
+
+  &__dev-logo {
+    display: block;
+    width: auto;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+
+    img {
+      height: 32px;
+      width: auto;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__copyright {
+    @media (max-width: 48rem) {
+      max-width: 80%;
+    }
+  }
+
+  &__copyright-text {
+    color: rgba(255, 255, 255, 0.3);
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.6rem + 0.5vw, 1rem);
+    font-weight: 700;
   }
 }
