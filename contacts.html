@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Контакты - Steklo Idea</title>
     <link rel="stylesheet" href="css/style.css" />
-    <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+    <script
+      src="https://api-maps.yandex.ru/2.1/?apikey=&lang=ru_RU"
+      type="text/javascript"
+    ></script>
   </head>
   <body>
     <header class="hero__header header--light container">
@@ -285,6 +288,7 @@
 
     <script src="js/main.js"></script>
     <script>
+      // Логика Бургера (оставляем без изменений)
       const heroBurgerOpenButton = document.querySelector("[data-burger-open]");
       const heroBurgerCloseButton = document.querySelector(
         "[data-burger-close]"
@@ -299,16 +303,38 @@
         );
       }
 
-      DG.then(function () {
-        var map = DG.map("map", {
+      // --- Инициализация Яндекс Карт ---
+      ymaps.ready(init);
+
+      function init() {
+        // Создание карты.
+        var myMap = new ymaps.Map("map", {
+          // Координаты центра карты.
           center: [56.0089, 92.8885],
           zoom: 16,
-          scrollWheelZoom: false,
+          // Элементы управления (убрал лишнее, оставил зум и фуллскрин)
+          controls: ["zoomControl", "fullscreenControl"],
         });
-        DG.marker([56.0089, 92.8885])
-          .addTo(map)
-          .bindPopup("Офис и Цех STEKLO&IDEA");
-      });
+
+        // Отключаем скролл зума (чтобы страница не дергалась при прокрутке)
+        myMap.behaviors.disable("scrollZoom");
+
+        // Создаем метку
+        var myPlacemark = new ymaps.Placemark(
+          [56.0089, 92.8885],
+          {
+            balloonContent: "<strong>STEKLO&IDEA</strong><br>Офис и Цех",
+            iconCaption: "STEKLO&IDEA", // Подпись рядом с точкой
+          },
+          {
+            // Стили метки
+            preset: "islands#blackDotIcon", // Черная точка (под ваш стиль)
+            // Или можно 'islands#blackStretchyIcon' для метки с текстом внутри
+          }
+        );
+
+        myMap.geoObjects.add(myPlacemark);
+      }
     </script>
   </body>
 </html>

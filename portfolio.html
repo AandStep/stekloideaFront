@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Зеркало в салоне красоты | Портфолио</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="header--light">
+      <div class="container hero__header">
+        <div class="hero__logo">
+          <a href="index.html">
+            <img src="img/logo.svg" alt="StekloIdea" />
+          </a>
+        </div>
+        <nav class="hero__nav">
+          <ul class="hero__nav-list">
+            <li class="hero__nav-item">
+              <a class="hero__nav-link" href="index.html#catalog">Каталог</a>
+            </li>
+            <li class="hero__nav-item">
+              <a class="hero__nav-link" href="index.html#about">О нас</a>
+            </li>
+            <li class="hero__nav-item">
+              <a class="hero__nav-link" href="index.html#services">Услуги</a>
+            </li>
+            <li class="hero__nav-item">
+              <a class="hero__nav-link" href="contacts.html">Контакты</a>
+            </li>
+          </ul>
+        </nav>
+        <a class="hero__phone" href="tel:+79082233390">+7 (908) 223-33-90</a>
+        <button
+          class="hero__burger"
+          type="button"
+          data-burger-open
+          aria-label="Открыть меню"
+        >
+          <span class="hero__burger-line"></span>
+          <span class="hero__burger-line"></span>
+          <span class="hero__burger-line"></span>
+        </button>
+      </div>
+    </header>
+
+    <nav class="hero__burger-menu" data-burger-menu>
+      <div class="hero__burger-menu-container">
+        <div class="hero__burger-menu-header">
+          <div class="hero__burger-menu-logo">
+            <img src="img/logo.svg" alt="Steklo Idea" />
+          </div>
+          <button
+            class="hero__burger-close"
+            type="button"
+            data-burger-close
+            aria-label="Закрыть меню"
+          >
+            <span
+              class="hero__burger-close-line hero__burger-close-line--first"
+            ></span>
+            <span
+              class="hero__burger-close-line hero__burger-close-line--second"
+            ></span>
+          </button>
+        </div>
+        <ul class="hero__burger-menu-list">
+          <li class="hero__burger-menu-item">
+            <a class="hero__burger-menu-link" href="index.html">Главная</a>
+          </li>
+          <li class="hero__burger-menu-item">
+            <a class="hero__burger-menu-link" href="index.html#catalog"
+              >Каталог</a
+            >
+          </li>
+          <li class="hero__burger-menu-item">
+            <a class="hero__burger-menu-link" href="contacts.html">Контакты</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="product-view product-view--portfolio">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="index.html" class="breadcrumbs__link">Главная</a>
+          <span class="breadcrumbs__separator"></span>
+          <a href="#" class="breadcrumbs__link">Каталог</a>
+          <span class="breadcrumbs__separator"></span>
+          <span class="breadcrumbs__current">Название зеркала</span>
+        </nav>
+      </div>
+
+      <div class="portfolio-layout-wrapper">
+        <div class="product-view__layout">
+          <div class="product-view__visual" id="portfolioVisual">
+            <div class="product-view__mobile-controls">
+              <button
+                class="product-view__back-btn"
+                onclick="history.back()"
+                type="button"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="8"
+                  height="15"
+                  viewBox="0 0 8 15"
+                  fill="none"
+                >
+                  <path
+                    d="M0.280148 8.22017C-0.0933826 7.82243 -0.0933826 7.17757 0.280148 6.77983L6.36718 0.298304C6.74071 -0.0994347 7.34632 -0.0994347 7.71985 0.298304C8.09338 0.696043 8.09338 1.3409 7.71985 1.73864L2.30916 7.5L7.71985 13.2614C8.09338 13.6591 8.09338 14.304 7.71985 14.7017C7.34632 15.0994 6.74071 15.0994 6.36718 14.7017L0.280148 8.22017Z"
+                    fill="#484848"
+                  />
+                </svg>
+              </button>
+              <div class="product-view__counter">
+                <span id="currentSlide">1</span
+                ><span class="product-view__counter-total" id="totalSlides"
+                  >/4</span
+                >
+              </div>
+            </div>
+
+            <button
+              class="product-view__arrow product-view__arrow--prev"
+              id="prevBtn"
+              type="button"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <button
+              class="product-view__arrow product-view__arrow--next"
+              id="nextBtn"
+              type="button"
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+
+            <div class="product-view__gallery-wrapper" id="galleryWrapper">
+              <figure class="product-view__item">
+                <img src="img/g1.png" alt="Проект 1" />
+              </figure>
+              <figure class="product-view__item">
+                <img src="img/g2.png" alt="Проект 2" />
+              </figure>
+              <figure class="product-view__item">
+                <img src="img/g3.png" alt="Проект 3" />
+              </figure>
+              <figure class="product-view__item">
+                <img src="img/g4.png" alt="Проект 4" />
+              </figure>
+            </div>
+          </div>
+
+          <div class="product-view__info">
+            <div class="product-view__text-group">
+              <p class="product-view__address">
+                г. Город, Адрес ул. Пушкина, д. Колотушкина
+              </p>
+              <h1 class="product-view__title">ЗЕРКАЛО В САЛОНЕ КРАСОТЫ</h1>
+              <p class="product-view__description">
+                Уже более 7 лет, мы предлагаем нашим клиентам прекрасные решения
+                для дома и офиса.
+              </p>
+            </div>
+
+            <div class="product-view__actions">
+              <button
+                class="product-view__btn product-view__btn--light"
+                type="button"
+              >
+                РАССЧИТАТЬ ПОХОЖИЙ ПРОЕКТ
+              </button>
+              <button
+                class="product-view__btn product-view__btn--dark"
+                type="button"
+              >
+                ЗАДАТЬ ВОПРОС ПО ИЗДЕЛИЮ
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="portfolio-grid">
+            <div class="portfolio-grid__left">
+              <div class="portfolio-card">
+                <h3 class="portfolio-card__title">Задача клиента</h3>
+                <p class="portfolio-card__text">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  vestibulum, neque ullamcorper consequat accumsan, urna erat
+                  placerat turpis, nec pretium justo augue sit amet massa.
+                </p>
+              </div>
+              <div class="portfolio-card">
+                <h3 class="portfolio-card__title">Наша реализация</h3>
+                <p class="portfolio-card__text">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  vestibulum, neque ullamcorper consequat accumsan, urna erat
+                  placerat turpis, nec pretium justo augue sit amet massa.
+                </p>
+              </div>
+            </div>
+
+            <div class="portfolio-grid__right">
+              <div class="portfolio-specs">
+                <div class="product-view__chars">
+                  <div class="product-view__char-row">
+                    <span class="product-view__char-key">Тип зеркала:</span>
+                    <span class="product-view__char-val">стеклянное</span>
+                  </div>
+                  <div class="product-view__char-row">
+                    <span class="product-view__char-key">Форма:</span>
+                    <span class="product-view__char-val">геометрическая</span>
+                  </div>
+                  <div class="product-view__char-row">
+                    <span class="product-view__char-key">Материалы:</span>
+                    <span class="product-view__char-val">твердые</span>
+                  </div>
+                  <div class="product-view__char-row">
+                    <span class="product-view__char-key">Размер:</span>
+                    <span class="product-view__char-val">100х100</span>
+                  </div>
+                  <div class="product-view__char-row">
+                    <span class="product-view__char-key">Подсветка:</span>
+                    <span class="product-view__char-val">светит</span>
+                  </div>
+                </div>
+
+                <div class="portfolio-specs__price-row">
+                  <span class="product-view__price-label">Цена:</span>
+                  <span class="product-view__price-value">180.000 р.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="portfolio-review-wrapper">
+            <h2 class="product-view__title portfolio-review-title">
+              ОТЗЫВ КЛИЕНТА
+            </h2>
+            <div class="reviews__card portfolio-review-card">
+              <div class="reviews__content">
+                <blockquote class="reviews__text">
+                  “Все быстро и классно, оформили соц-сети без лишних объяснений
+                  поддержали фирменный стиль компании, спасибо за оперативность”
+                </blockquote>
+                <div class="reviews__footer">
+                  <div class="reviews__author-block">
+                    <cite class="reviews__author">Дмитрий Смородов</cite>
+                    <span class="reviews__location">Адрес установки</span>
+                  </div>
+                  <a href="#" target="_blank" class="reviews__link">
+                    <span>Больше отзывов в 2ГИС</span>
+                    <img class="arrow" src="img/arrow-36.svg" alt="arrow" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-view__sphere product-view__sphere--large"></div>
+            <div class="product-view__sphere product-view__sphere--small"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer id="contacts" class="footer">
+      <img
+        src="img/logo.svg"
+        alt=""
+        aria-hidden="true"
+        class="footer__bg-logo"
+      />
+      <div class="container footer__container">
+        <div class="footer__content">
+          <h2 class="footer__title">КОНТАКТЫ</h2>
+          <div class="footer__grid">
+            <div class="footer__col footer__col--contacts">
+              <h3 class="footer__subtitle">Россия</h3>
+              <div class="footer__contact-block">
+                <span class="footer__company-name">STEKLO&IDEA</span>
+                <address class="footer__address">
+                  Красноярск, ул. Кольцевая, 5
+                </address>
+                <a href="tel:+79955721248" class="footer__contact-link"
+                  >+7 (995) 572 12-48</a
+                >
+                <a href="mailto:qwerty@gmail.com" class="footer__contact-link"
+                  >qwerty@gmail.com</a
+                >
+              </div>
+              <div class="footer__socials">
+                <a href="#" class="footer__social-link" aria-label="VK">
+                  <img src="img/social-vk.svg" alt="VK" />
+                </a>
+                <a href="#" class="footer__social-link" aria-label="Telegram">
+                  <img src="img/social-telegram.svg" alt="Telegram" />
+                </a>
+                <a href="#" class="footer__social-link" aria-label="Instagram">
+                  <img src="img/social-inst.svg" alt="Instagram" />
+                </a>
+                <a href="#" class="footer__social-link" aria-label="WhatsApp">
+                  <img src="img/social-whatsapp.svg" alt="WhatsApp" />
+                </a>
+              </div>
+            </div>
+
+            <div class="footer__col footer__col--links">
+              <h3 class="footer__subtitle">Ссылки</h3>
+              <nav class="footer__nav-grid">
+                <ul class="footer__nav-list">
+                  <li>
+                    <a href="#catalog" class="footer__nav-link">Каталог</a>
+                  </li>
+                  <li><a href="#about" class="footer__nav-link">О НАС</a></li>
+                  <li>
+                    <a href="#services" class="footer__nav-link">НАШИ УСЛУГИ</a>
+                  </li>
+                </ul>
+                <ul class="footer__nav-list">
+                  <li>
+                    <a href="#projects" class="footer__nav-link"
+                      >НАШИ ПРОЕКТЫ</a
+                    >
+                  </li>
+                  <li>
+                    <a href="#stages" class="footer__nav-link">Этапы работы</a>
+                  </li>
+                  <li>
+                    <a href="#why-us" class="footer__nav-link">Почему мы?</a>
+                  </li>
+                </ul>
+                <ul class="footer__nav-list">
+                  <li>
+                    <a href="#reviews" class="footer__nav-link">Отзывы</a>
+                  </li>
+                  <li>
+                    <a href="#request" class="footer__nav-link"
+                      >Расчёт стоимости</a
+                    >
+                  </li>
+                  <li>
+                    <a href="contacts.html" class="footer__nav-link"
+                      >КОНТАКТЫ</a
+                    >
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <div class="footer__dev-block">
+            <span class="footer__copyright-text">Разработка и поддержка</span>
+            <a href="#" class="footer__dev-logo">
+              <img src="img/dev-logo.svg" alt="Result" />
+            </a>
+          </div>
+          <div class="footer__copyright">
+            <span class="footer__copyright-text"
+              >Copyright by STEKLO&IDEA @2022-2025</span
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // 1. BURGER MENU
+      const burgerOpen = document.querySelector("[data-burger-open]");
+      const burgerMenu = document.querySelector("[data-burger-menu]");
+      const burgerClose = document.querySelector("[data-burger-close]");
+      if (burgerOpen && burgerMenu) {
+        burgerOpen.addEventListener("click", () =>
+          burgerMenu.classList.add("hero__burger-menu--open")
+        );
+        burgerClose.addEventListener("click", () =>
+          burgerMenu.classList.remove("hero__burger-menu--open")
+        );
+      }
+
+      // 2. PORTFOLIO SLIDER (Universal)
+      document.addEventListener("DOMContentLoaded", function () {
+        const wrapper = document.getElementById("galleryWrapper");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const currentSlideEl = document.getElementById("currentSlide");
+        const totalSlidesEl = document.getElementById("totalSlides");
+        const slides = wrapper.querySelectorAll(".product-view__item");
+
+        if (totalSlidesEl) totalSlidesEl.textContent = `/${slides.length}`;
+        let currentIndex = 0;
+
+        function updateSlider() {
+          const offset = currentIndex * -100;
+          wrapper.style.transform = `translateX(${offset}%)`;
+          if (currentSlideEl) currentSlideEl.textContent = currentIndex + 1;
+        }
+
+        function handleNext() {
+          if (currentIndex < slides.length - 1) currentIndex++;
+          else currentIndex = 0;
+          updateSlider();
+        }
+
+        function handlePrev() {
+          if (currentIndex > 0) currentIndex--;
+          else currentIndex = slides.length - 1;
+          updateSlider();
+        }
+
+        if (nextBtn) nextBtn.addEventListener("click", handleNext);
+        if (prevBtn) prevBtn.addEventListener("click", handlePrev);
+
+        // Touch events
+        let touchStartX = 0;
+        const visualArea = document.getElementById("portfolioVisual");
+        if (visualArea) {
+          visualArea.addEventListener(
+            "touchstart",
+            (e) => (touchStartX = e.changedTouches[0].screenX),
+            { passive: true }
+          );
+          visualArea.addEventListener(
+            "touchend",
+            (e) => {
+              const diff = touchStartX - e.changedTouches[0].screenX;
+              if (diff > 50) handleNext();
+              if (diff < -50) handlePrev();
+            },
+            { passive: true }
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
