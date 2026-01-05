@@ -3026,9 +3026,6 @@ table {
 /* =========================================
    CATALOG PAGE STYLES
    ========================================= */
-/* =========================================
-   CATALOG PAGE STYLES (REFACTORED WITH GAP)
-   ========================================= */
 .catalog {
   background-color: var(--color-bg-main);
   padding-bottom: clamp(3rem, 5vw, 6rem);
@@ -3366,7 +3363,7 @@ table {
 
 .pagination-container {
   display: flex;
-  padding: 16px 30px;
+  padding: 24px 50px;
   justify-content: center;
   align-items: center;
   gap: 40px;
@@ -3394,6 +3391,46 @@ table {
   display: flex;
   align-items: center;
   padding: 0;
+}
+
+/* =========================================
+   PORTFOLIO PAGE STYLES (ADDITION)
+   ========================================= */
+.catalog__subtitle {
+  color: var(--color-text-dark);
+  font-family: var(--font-main);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; /* 33.6px */
+  max-width: 718px;
+  margin: 0;
+}
+@media (max-width: 48rem) {
+  .catalog__subtitle {
+    font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.25rem);
+  }
+}
+.catalog__grid--three-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 64rem) {
+  .catalog__grid--three-cols {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 48rem) {
+  .catalog__grid--three-cols {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 10px;
+  }
+}
+
+.catalog--portfolio .catalog__header-group {
+  gap: 16px;
+  margin-bottom: clamp(2rem, 1rem + 3vw, 3rem);
 }
 
 /* =========================================

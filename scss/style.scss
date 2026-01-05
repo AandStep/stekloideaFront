@@ -3590,10 +3590,6 @@
    CATALOG PAGE STYLES
    ========================================= */
 
-/* =========================================
-   CATALOG PAGE STYLES (REFACTORED WITH GAP)
-   ========================================= */
-
 .catalog {
   background-color: var(--color-bg-main);
   padding-bottom: clamp(3rem, 5vw, 6rem);
@@ -3975,7 +3971,7 @@
 
 .pagination-container {
   display: flex;
-  padding: 16px 30px;
+  padding: 24px 50px;
   justify-content: center;
   align-items: center;
   gap: 40px;
@@ -4005,6 +4001,58 @@
   display: flex;
   align-items: center;
   padding: 0;
+}
+
+/* =========================================
+   PORTFOLIO PAGE STYLES (ADDITION)
+   ========================================= */
+
+.catalog {
+  // Подзаголовок (специально для Портфолио)
+  &__subtitle {
+    color: var(--color-text-dark); // #484848
+    font-family: var(--font-main); // Montserrat
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 33.6px */
+    max-width: 718px;
+    margin: 0;
+
+    // Адаптив для мобильных устройств
+    @media (max-width: 48rem) {
+      font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.25rem);
+    }
+  }
+
+  // Сетка из 3 колонок (модификатор)
+  &__grid--three-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+
+    // Планшет (остается 3 колонки, как в макете каталога на планшете)
+    @media (max-width: 64rem) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    // Мобильный (перестроение в 2 колонки)
+    @media (max-width: 48rem) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px 10px;
+    }
+  }
+}
+
+// Модификатор для самого контейнера каталога, если нужны специфичные отступы
+.catalog--portfolio {
+  // На всякий случай, если нужно будет убрать лишние отступы,
+  // которые раньше компенсировали фильтры
+  .catalog__header-group {
+    gap: 16px;
+    // Можно немного уменьшить отступ до сетки, так как фильтров нет
+    margin-bottom: clamp(2rem, 1rem + 3vw, 3rem);
+  }
 }
 
 /* =========================================
