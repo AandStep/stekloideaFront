@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Каталог - Steklo Idea</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="hero__header container header--light">
+      <div class="hero__logo">
+        <img src="img/logo.svg" alt="StekloIdea" />
+      </div>
+
+      <nav class="hero__nav">
+        <ul class="hero__nav-list">
+          <li class="hero__nav-item">
+            <a class="hero__nav-link" href="catalog.html">Каталог</a>
+          </li>
+          <li class="hero__nav-item">
+            <a class="hero__nav-link" href="index.html#about">О нас</a>
+          </li>
+          <li class="hero__nav-item">
+            <a class="hero__nav-link" href="index.html#services">Услуги</a>
+          </li>
+          <li class="hero__nav-item">
+            <a class="hero__nav-link" href="index.html#request"
+              >Оставить заявку</a
+            >
+          </li>
+          <li class="hero__nav-item">
+            <a class="hero__nav-link" href="contacts.html">Контакты</a>
+          </li>
+        </ul>
+      </nav>
+
+      <a class="hero__phone" href="tel:+79082233390">+7 (908) 223-33-90</a>
+
+      <button
+        class="hero__burger"
+        type="button"
+        data-burger-open
+        aria-label="Открыть меню"
+      >
+        <span class="hero__burger-line"></span>
+        <span class="hero__burger-line"></span>
+        <span class="hero__burger-line"></span>
+      </button>
+    </header>
+
+    <nav class="hero__burger-menu" data-burger-menu>
+      <div class="hero__burger-menu-container">
+        <div class="hero__burger-menu-header">
+          <div class="hero__burger-menu-logo">
+            <img src="img/logo.svg" alt="Steklo Idea" />
+          </div>
+          <button
+            class="hero__burger-close"
+            type="button"
+            data-burger-close
+            aria-label="Закрыть меню"
+          >
+            <span
+              class="hero__burger-close-line hero__burger-close-line--first"
+            ></span>
+            <span
+              class="hero__burger-close-line hero__burger-close-line--second"
+            ></span>
+          </button>
+        </div>
+        <ul class="hero__burger-menu-list">
+          <li class="hero__burger-menu-item">
+            <a class="hero__burger-menu-link" href="catalog.html">Каталог</a>
+          </li>
+          <li class="hero__burger-menu-item">
+            <a class="hero__burger-menu-link" href="index.html#about">О нас</a>
+          </li>
+          <li class="hero__burger-menu-item">
+            <a class="hero__burger-menu-link" href="index.html#services"
+              >Услуги</a
+            >
+          </li>
+          <li class="hero__burger-menu-item">
+            <a class="hero__burger-menu-link" href="index.html#request"
+              >Оставить заявку</a
+            >
+          </li>
+          <li class="hero__burger-menu-item">
+            <a class="hero__burger-menu-link" href="contacts.html">Контакты</a>
+          </li>
+        </ul>
+        <a class="hero__burger-menu-phone" href="tel:+79082233390"
+          >+7 (908) 223-33-90</a
+        >
+      </div>
+    </nav>
+
+    <main>
+      <section class="catalog">
+        <div class="container">
+          <nav class="breadcrumbs">
+            <a href="index.html" class="breadcrumbs__link">Главная</a>
+            <span class="breadcrumbs__separator"></span>
+            <span class="breadcrumbs__current">Каталог</span>
+          </nav>
+
+          <div class="catalog__header-group">
+            <h1 class="catalog__title title">Каталог</h1>
+
+            <div class="catalog__categories">
+              <a href="#" class="category-card category-card--active">
+                <span class="category-card__text">Интерьерные зеркала</span>
+                <img
+                  src="img/service-1.webp"
+                  alt="Интерьерные зеркала"
+                  class="category-card__image"
+                />
+                <div class="category-card__gradient"></div>
+              </a>
+
+              <a href="#" class="category-card">
+                <span class="category-card__text">Душевые перегородки</span>
+                <img
+                  src="img/service-2.webp"
+                  alt="Душевые перегородки"
+                  class="category-card__image"
+                />
+                <div class="category-card__gradient"></div>
+              </a>
+
+              <a href="#" class="category-card">
+                <span class="category-card__text">Мебель лофт</span>
+                <img
+                  src="img/service-3.webp"
+                  alt="Мебель лофт"
+                  class="category-card__image"
+                />
+                <div class="category-card__gradient"></div>
+              </a>
+            </div>
+          </div>
+
+          <div class="catalog__body-group">
+            <div class="catalog__controls">
+              <button class="filter-btn js-open-filters" type="button">
+                Фильтры
+              </button>
+              <div class="sort-wrapper">
+                <button class="filter-btn js-toggle-sort" type="button">
+                  <span>Сортировка</span>
+                  <span class="filter-btn__extra">: сначала новые</span>
+                </button>
+
+                <div class="sort-dropdown">
+                  <button class="sort-option sort-option--active" type="button">
+                    Сначала новые
+                  </button>
+                  <button class="sort-option" type="button">
+                    Сначала старые
+                  </button>
+                  <button class="sort-option" type="button">
+                    По популярности
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="catalog__grid">
+              <article class="product-card">
+                <div class="product-card__image-wrapper">
+                  <img
+                    src="img/project-2.webp"
+                    alt="Зеркало с подсветкой"
+                    class="product-card__image"
+                  />
+
+                  <div class="product-card__overlay">
+                    <div class="product-card__content-group">
+                      <h3 class="product-card__title">Зеркало с подсветкой</h3>
+                      <a href="product.html" class="product-card__button">
+                        <span>ПОДРОБНЕЕ</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="product-card__mobile-content">
+                  <h3 class="product-card__title">Зеркало с подсветкой</h3>
+                  <a
+                    href="product.html"
+                    class="product-card__button product-card__button--mobile"
+                  >
+                    <span>ПОДРОБНЕЕ</span>
+                  </a>
+                </div>
+              </article>
+
+              <article class="product-card">
+                <div class="product-card__image-wrapper">
+                  <img
+                    src="img/project-1.webp"
+                    alt="Зеркало в металл. рамке"
+                    class="product-card__image"
+                  />
+                  <div class="product-card__overlay">
+                    <div class="product-card__content-group">
+                      <h3 class="product-card__title">
+                        Зеркало в металл. рамке
+                      </h3>
+                      <a href="product.html" class="product-card__button">
+                        <span>ПОДРОБНЕЕ</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="product-card__mobile-content">
+                  <h3 class="product-card__title">Зеркало в металл. рамке</h3>
+                  <a
+                    href="product.html"
+                    class="product-card__button product-card__button--mobile"
+                  >
+                    <span>ПОДРОБНЕЕ</span>
+                  </a>
+                </div>
+              </article>
+
+              <article class="product-card">
+                <div class="product-card__image-wrapper">
+                  <img
+                    src="img/project-5.webp"
+                    alt="Дизайнерское зеркало"
+                    class="product-card__image"
+                  />
+                  <div class="product-card__overlay">
+                    <div class="product-card__content-group">
+                      <h3 class="product-card__title">Дизайнерское зеркало</h3>
+                      <a href="product.html" class="product-card__button">
+                        <span>ПОДРОБНЕЕ</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="product-card__mobile-content">
+                  <h3 class="product-card__title">Дизайнерское зеркало</h3>
+                  <a
+                    href="product.html"
+                    class="product-card__button product-card__button--mobile"
+                  >
+                    <span>ПОДРОБНЕЕ</span>
+                  </a>
+                </div>
+              </article>
+
+              <article class="product-card">
+                <div class="product-card__image-wrapper">
+                  <img
+                    src="img/project-6.webp"
+                    alt="Зеркало с подсветкой"
+                    class="product-card__image"
+                  />
+                  <div class="product-card__overlay">
+                    <div class="product-card__content-group">
+                      <h3 class="product-card__title">Зеркало с подсветкой</h3>
+                      <a href="product.html" class="product-card__button">
+                        <span>ПОДРОБНЕЕ</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="product-card__mobile-content">
+                  <h3 class="product-card__title">Зеркало с подсветкой</h3>
+                  <a
+                    href="product.html"
+                    class="product-card__button product-card__button--mobile"
+                  >
+                    <span>ПОДРОБНЕЕ</span>
+                  </a>
+                </div>
+              </article>
+
+              <article class="product-card">
+                <div class="product-card__image-wrapper">
+                  <img
+                    src="img/project-7.webp"
+                    alt="Зеркало с подсветкой"
+                    class="product-card__image"
+                  />
+                  <div class="product-card__overlay">
+                    <div class="product-card__content-group">
+                      <h3 class="product-card__title">Зеркало с подсветкой</h3>
+                      <a href="product.html" class="product-card__button">
+                        <span>ПОДРОБНЕЕ</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="product-card__mobile-content">
+                  <h3 class="product-card__title">Зеркало с подсветкой</h3>
+                  <a
+                    href="product.html"
+                    class="product-card__button product-card__button--mobile"
+                  >
+                    <span>ПОДРОБНЕЕ</span>
+                  </a>
+                </div>
+              </article>
+
+              <article class="product-card">
+                <div class="product-card__image-wrapper">
+                  <img
+                    src="img/project-8.webp"
+                    alt="Дизайнерское зеркало"
+                    class="product-card__image"
+                  />
+                  <div class="product-card__overlay">
+                    <div class="product-card__content-group">
+                      <h3 class="product-card__title">Дизайнерское зеркало</h3>
+                      <a href="product.html" class="product-card__button">
+                        <span>ПОДРОБНЕЕ</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="product-card__mobile-content">
+                  <h3 class="product-card__title">Дизайнерское зеркало</h3>
+                  <a
+                    href="product.html"
+                    class="product-card__button product-card__button--mobile"
+                  >
+                    <span>ПОДРОБНЕЕ</span>
+                  </a>
+                </div>
+              </article>
+            </div>
+
+            <div class="catalog__pagination">
+              <div class="pagination-container">
+                <button
+                  type="button"
+                  class="pagination-arrow"
+                  aria-label="Назад"
+                >
+                  <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
+                    <path
+                      d="M7 13L1 7L7 1"
+                      stroke="#484848"
+                      stroke-opacity="0.4"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+                <a href="#" class="pagination-link pagination-link--active"
+                  >1</a
+                >
+                <a href="#" class="pagination-link">2</a>
+                <a href="#" class="pagination-link">3</a>
+                <button
+                  type="button"
+                  class="pagination-arrow"
+                  aria-label="Вперед"
+                >
+                  <svg width="8" height="14" viewBox="0 0 8 14" fill="none">
+                    <path
+                      d="M1 13L7 7L1 1"
+                      stroke="#484848"
+                      stroke-opacity="0.4"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div class="filters-modal" id="filtersModal" aria-hidden="true">
+      <div class="filters-modal__overlay" data-close-filters></div>
+
+      <aside class="filters-sidebar">
+        <header class="filters-sidebar__header">
+          <h2 class="filters-sidebar__title">Фильтры</h2>
+          <button
+            class="filters-sidebar__close"
+            type="button"
+            data-close-filters
+            aria-label="Закрыть фильтры"
+          >
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 14 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13 1L1 13M1 1L13 13"
+                stroke="#484848"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </header>
+
+        <div class="filters-sidebar__content">
+          <div class="filter-group filter-group--open">
+            <button class="filter-group__header" type="button">
+              <span class="filter-group__arrow">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 22 22"
+                  fill="none"
+                >
+                  <path
+                    d="M7.33398 15.744V6.25651C7.33398 5.99679 7.42565 5.77893 7.60898 5.60293C7.79232 5.42693 8.00621 5.33924 8.25065 5.33985C8.32704 5.33985 8.4074 5.35115 8.49173 5.37376C8.57607 5.39637 8.65612 5.4309 8.7319 5.47735L16.2027 10.2211C16.3402 10.3128 16.4435 10.4273 16.5126 10.5648C16.5816 10.7023 16.6158 10.8475 16.6152 11.0003C16.6146 11.153 16.5804 11.2982 16.5126 11.4357C16.4447 11.5732 16.3415 11.6878 16.2027 11.7794L8.7319 16.5232C8.65551 16.569 8.57546 16.6035 8.49173 16.6268C8.40801 16.65 8.32765 16.6613 8.25065 16.6607C8.00621 16.6607 7.79232 16.5727 7.60898 16.3967C7.42565 16.2207 7.33398 16.0031 7.33398 15.744Z"
+                    fill="#484848"
+                    fill-opacity="0.7"
+                  />
+                </svg>
+              </span>
+              <span class="filter-group__title">Тип изделия</span>
+            </button>
+            <div class="filter-group__body">
+              <label class="custom-checkbox">
+                <input type="checkbox" name="type" value="mirror" checked />
+                <div class="custom-checkbox__icon">
+                  <svg
+                    class="icon-unchecked"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M5 21C4.45 21 3.97933 20.8043 3.588 20.413C3.19667 20.0217 3.00067 19.5507 3 19V5C3 4.45 3.196 3.97933 3.588 3.588C3.98 3.19667 4.45067 3.00067 5 3H19C19.55 3 20.021 3.196 20.413 3.588C20.805 3.98 21.0007 4.45067 21 5V19C21 19.55 20.8043 20.021 20.413 20.413C20.0217 20.805 19.5507 21.0007 19 21H5ZM5 19H19V5H5V19Z"
+                      fill="#484848"
+                      fill-opacity="0.8"
+                    />
+                  </svg>
+                  <svg
+                    class="icon-checked"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      d="M10.6 13.4L8.45 11.25C8.26667 11.0667 8.03333 10.975 7.75 10.975C7.46667 10.975 7.23333 11.0667 7.05 11.25C6.86667 11.4333 6.775 11.6667 6.775 11.95C6.775 12.2333 6.86667 12.4667 7.05 12.65L9.9 15.5C10.1 15.7 10.3333 15.8 10.6 15.8C10.8667 15.8 11.1 15.7 11.3 15.5L16.95 9.85C17.1333 9.66667 17.225 9.43333 17.225 9.15C17.225 8.86667 17.1333 8.63333 16.95 8.45C16.7667 8.26667 16.5333 8.175 16.25 8.175C15.9667 8.175 15.7333 8.26667 15.55 8.45L10.6 13.4ZM5 21C4.45 21 3.97933 20.8043 3.588 20.413C3.19667 20.0217 3.00067 19.5507 3 19V5C3 4.45 3.196 3.97933 3.588 3.588C3.98 3.19667 4.45067 3.00067 5 3H19C19.55 3 20.021 3.196 20.413 3.588C20.805 3.98 21.0007 4.45067 21 5V19C21 19.55 20.8043 20.021 20.413 20.413C20.0217 20.805 19.5507 21.0007 19 21H5ZM5 19H19V5H5V19Z"
+                      fill="#484848"
+                    />
+                  </svg>
+                </div>
+                <span class="custom-checkbox__text">Зеркала</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="filters-sidebar__footer">
+          <button
+            class="filters-sidebar__btn filters-sidebar__btn--apply js-apply-filters"
+            type="button"
+          >
+            ПРИМЕНИТЬ
+          </button>
+          <button
+            class="filters-sidebar__btn filters-sidebar__btn--reset js-reset-filters"
+            type="button"
+          >
+            СБРОСИТЬ
+          </button>
+        </div>
+      </aside>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const categoryCards = document.querySelectorAll(".category-card");
+
+        categoryCards.forEach((card) => {
+          // Гарантируем, что при загрузке нет активных классов (по требованию)
+          card.classList.remove("category-card--active");
+
+          card.addEventListener("click", (e) => {
+            e.preventDefault(); // Отменяем стандартное поведение ссылки
+
+            // Если кликнули по уже активной - можно ничего не делать или оставить как есть
+            if (card.classList.contains("category-card--active")) return;
+
+            // Снимаем активный класс со всех карточек
+            categoryCards.forEach((c) =>
+              c.classList.remove("category-card--active")
+            );
+
+            // Добавляем активный класс текущей
+            card.classList.add("category-card--active");
+          });
+        });
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const filterModal = document.getElementById("filtersModal");
+        const openFilterBtns = document.querySelectorAll(".js-open-filters");
+        const closeFilterElements = document.querySelectorAll(
+          "[data-close-filters]"
+        );
+
+        // --- Функции управления модальным окном ---
+        function openFilters() {
+          filterModal.classList.add("filters-modal--open");
+          document.body.style.overflow = "hidden";
+        }
+
+        function closeFilters() {
+          filterModal.classList.remove("filters-modal--open");
+          document.body.style.overflow = "";
+        }
+
+        // Открытие
+        openFilterBtns.forEach((btn) =>
+          btn.addEventListener("click", openFilters)
+        );
+
+        // Закрытие (крестик и фон)
+        closeFilterElements.forEach((el) =>
+          el.addEventListener("click", closeFilters)
+        );
+
+        // --- ЛОГИКА КНОПОК ФИЛЬТРАЦИИ ---
+        const applyBtn = document.querySelector(".js-apply-filters");
+        const resetBtn = document.querySelector(".js-reset-filters");
+
+        // Кнопка ПРИМЕНИТЬ
+        // Закрывает фильтры, сохраняя состояние чекбоксов (они и так сохраняются в HTML)
+        if (applyBtn) {
+          applyBtn.addEventListener("click", () => {
+            closeFilters();
+          });
+        }
+
+        // Кнопка СБРОСИТЬ
+        // Находит все чекбоксы внутри сайдбара и снимает галочки
+        if (resetBtn) {
+          resetBtn.addEventListener("click", () => {
+            const checkboxes = document.querySelectorAll(
+              '.filters-sidebar input[type="checkbox"]'
+            );
+            checkboxes.forEach((box) => {
+              box.checked = false;
+            });
+          });
+        }
+
+        // --- Логика аккордеонов ---
+        const filterGroupHeaders = document.querySelectorAll(
+          ".filter-group__header"
+        );
+        filterGroupHeaders.forEach((header) => {
+          header.addEventListener("click", () => {
+            header.parentElement.classList.toggle("filter-group--open");
+          });
+        });
+
+        // --- ЛОГИКА СОРТИРОВКИ ---
+        const sortToggleBtn = document.querySelector(".js-toggle-sort");
+        const sortDropdown = document.querySelector(".sort-dropdown");
+        const sortOptions = document.querySelectorAll(".sort-option");
+        const sortBtnTextExtra =
+          sortToggleBtn.querySelector(".filter-btn__extra"); // Спам с текстом ": сначала..."
+
+        if (sortToggleBtn && sortDropdown) {
+          // 1. Открытие/Закрытие по клику
+          sortToggleBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); // Чтобы клик не ушел на document
+            sortDropdown.classList.toggle("sort-dropdown--open");
+          });
+
+          // 2. Закрытие при клике вне элемента
+          document.addEventListener("click", (e) => {
+            if (
+              !sortDropdown.contains(e.target) &&
+              !sortToggleBtn.contains(e.target)
+            ) {
+              sortDropdown.classList.remove("sort-dropdown--open");
+            }
+          });
+
+          // 3. Выбор опции
+          sortOptions.forEach((option) => {
+            option.addEventListener("click", () => {
+              // Убираем активный класс у всех
+              sortOptions.forEach((btn) =>
+                btn.classList.remove("sort-option--active")
+              );
+              // Ставим текущему
+              option.classList.add("sort-option--active");
+
+              // Обновляем текст на кнопке (опционально)
+              // Берем текст опции, приводим к нижнему регистру (кроме первой буквы если надо)
+              const text = option.textContent.toLowerCase();
+              if (sortBtnTextExtra) {
+                sortBtnTextExtra.textContent = `: ${text}`;
+              }
+
+              // Закрываем меню
+              sortDropdown.classList.remove("sort-dropdown--open");
+            });
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
