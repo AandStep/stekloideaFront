@@ -3089,7 +3089,7 @@
     font-size: clamp(1.5rem, 1rem + 1vw, 2.25rem);
   }
 
-  &__section {
+  &__characteristics {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -4355,5 +4355,102 @@
   // Активный пункт (опционально, можно выделить жирным)
   &--active {
     font-weight: 700;
+  }
+}
+
+/* =========================================
+   CALCULATION MODAL (PRODUCT PAGE)
+   ========================================= */
+.modal-calc {
+  position: fixed;
+  inset: 0;
+  z-index: 100; // Поверх всего
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  &--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8); // Затемнение
+    backdrop-filter: blur(5px);
+  }
+
+  &__container {
+    position: relative;
+    width: 100%;
+    max-width: 74.375rem; // Ширина как у формы на главной
+    z-index: 10;
+    max-height: 95vh;
+    overflow-y: auto; // На случай низких экранов
+
+    // Скрываем скроллбар
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  // Переопределение стилей обертки формы
+  &__wrapper.calculation__wrapper {
+    // 1. Изменяем отступы по ТЗ (50px)
+    padding-top: 50px;
+    padding-bottom: 50px;
+
+    // Сбрасываем лишние margin/width, если они наследуются
+    margin: 0;
+    width: 100%;
+  }
+
+  // Кнопка закрытия (стиль заимствован у .modal__close)
+  &__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 20;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+  }
+
+  &__close-line {
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+
+    &--first {
+      transform: rotate(45deg);
+    }
+    &--second {
+      transform: rotate(-45deg);
+    }
   }
 }

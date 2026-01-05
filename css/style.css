@@ -2605,7 +2605,7 @@ table {
   color: var(--color-text-dark);
   font-size: clamp(1.5rem, 1rem + 1vw, 2.25rem);
 }
-.product-view__section {
+.product-view__characteristics {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -3681,4 +3681,85 @@ table {
 }
 .sort-option--active {
   font-weight: 700;
+}
+
+/* =========================================
+   CALCULATION MODAL (PRODUCT PAGE)
+   ========================================= */
+.modal-calc {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.modal-calc--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.modal-calc__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+}
+.modal-calc__container {
+  position: relative;
+  width: 100%;
+  max-width: 74.375rem;
+  z-index: 10;
+  max-height: 95vh;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.modal-calc__container::-webkit-scrollbar {
+  display: none;
+}
+.modal-calc__wrapper.calculation__wrapper {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin: 0;
+  width: 100%;
+}
+.modal-calc__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 0.5px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 20;
+}
+.modal-calc__close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+.modal-calc__close-line {
+  position: absolute;
+  width: 18px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+.modal-calc__close-line--first {
+  transform: rotate(45deg);
+}
+.modal-calc__close-line--second {
+  transform: rotate(-45deg);
 }

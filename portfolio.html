@@ -81,206 +81,213 @@
     </nav>
 
     <main class="product-view product-view--portfolio">
-      <div class="container">
-        <nav class="breadcrumbs" aria-label="Breadcrumb">
-          <a href="index.html" class="breadcrumbs__link">Главная</a>
-          <span class="breadcrumbs__separator"></span>
-          <a href="#" class="breadcrumbs__link">Каталог</a>
-          <span class="breadcrumbs__separator"></span>
-          <span class="breadcrumbs__current">Название зеркала</span>
-        </nav>
-      </div>
+      <section class="product-view__section product-view__section--portfolio">
+        <div class="container">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="index.html" class="breadcrumbs__link">Главная</a>
+            <span class="breadcrumbs__separator"></span>
+            <a href="#" class="breadcrumbs__link">Каталог</a>
+            <span class="breadcrumbs__separator"></span>
+            <span class="breadcrumbs__current">Название зеркала</span>
+          </nav>
+        </div>
 
-      <div class="portfolio-layout-wrapper">
-        <div class="product-view__layout">
-          <div class="product-view__visual" id="portfolioVisual">
-            <div class="product-view__mobile-controls">
+        <div class="portfolio-layout-wrapper">
+          <div class="product-view__layout">
+            <div class="product-view__visual" id="portfolioVisual">
+              <div class="product-view__mobile-controls">
+                <button
+                  class="product-view__back-btn"
+                  onclick="history.back()"
+                  type="button"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="8"
+                    height="15"
+                    viewBox="0 0 8 15"
+                    fill="none"
+                  >
+                    <path
+                      d="M0.280148 8.22017C-0.0933826 7.82243 -0.0933826 7.17757 0.280148 6.77983L6.36718 0.298304C6.74071 -0.0994347 7.34632 -0.0994347 7.71985 0.298304C8.09338 0.696043 8.09338 1.3409 7.71985 1.73864L2.30916 7.5L7.71985 13.2614C8.09338 13.6591 8.09338 14.304 7.71985 14.7017C7.34632 15.0994 6.74071 15.0994 6.36718 14.7017L0.280148 8.22017Z"
+                      fill="#484848"
+                    />
+                  </svg>
+                </button>
+                <div class="product-view__counter">
+                  <span id="currentSlide">1</span
+                  ><span class="product-view__counter-total" id="totalSlides"
+                    >/4</span
+                  >
+                </div>
+              </div>
+
               <button
-                class="product-view__back-btn"
-                onclick="history.back()"
+                class="product-view__arrow product-view__arrow--prev"
+                id="prevBtn"
                 type="button"
               >
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="8"
-                  height="15"
-                  viewBox="0 0 8 15"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
                   fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
                 >
-                  <path
-                    d="M0.280148 8.22017C-0.0933826 7.82243 -0.0933826 7.17757 0.280148 6.77983L6.36718 0.298304C6.74071 -0.0994347 7.34632 -0.0994347 7.71985 0.298304C8.09338 0.696043 8.09338 1.3409 7.71985 1.73864L2.30916 7.5L7.71985 13.2614C8.09338 13.6591 8.09338 14.304 7.71985 14.7017C7.34632 15.0994 6.74071 15.0994 6.36718 14.7017L0.280148 8.22017Z"
-                    fill="#484848"
-                  />
+                  <path d="M15 18l-6-6 6-6" />
                 </svg>
               </button>
-              <div class="product-view__counter">
-                <span id="currentSlide">1</span
-                ><span class="product-view__counter-total" id="totalSlides"
-                  >/4</span
+              <button
+                class="product-view__arrow product-view__arrow--next"
+                id="nextBtn"
+                type="button"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
                 >
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+
+              <div class="product-view__gallery-wrapper" id="galleryWrapper">
+                <figure class="product-view__item">
+                  <img src="img/g1.png" alt="Проект 1" />
+                </figure>
+                <figure class="product-view__item">
+                  <img src="img/g2.png" alt="Проект 2" />
+                </figure>
+                <figure class="product-view__item">
+                  <img src="img/g3.png" alt="Проект 3" />
+                </figure>
+                <figure class="product-view__item">
+                  <img src="img/g4.png" alt="Проект 4" />
+                </figure>
               </div>
             </div>
 
-            <button
-              class="product-view__arrow product-view__arrow--prev"
-              id="prevBtn"
-              type="button"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-            </button>
-            <button
-              class="product-view__arrow product-view__arrow--next"
-              id="nextBtn"
-              type="button"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </button>
+            <div class="product-view__info">
+              <div class="product-view__text-group">
+                <p class="product-view__address">
+                  г. Город, Адрес ул. Пушкина, д. Колотушкина
+                </p>
+                <h1 class="product-view__title">ЗЕРКАЛО В САЛОНЕ КРАСОТЫ</h1>
+                <p class="product-view__description">
+                  Уже более 7 лет, мы предлагаем нашим клиентам прекрасные
+                  решения для дома и офиса.
+                </p>
+              </div>
 
-            <div class="product-view__gallery-wrapper" id="galleryWrapper">
-              <figure class="product-view__item">
-                <img src="img/g1.png" alt="Проект 1" />
-              </figure>
-              <figure class="product-view__item">
-                <img src="img/g2.png" alt="Проект 2" />
-              </figure>
-              <figure class="product-view__item">
-                <img src="img/g3.png" alt="Проект 3" />
-              </figure>
-              <figure class="product-view__item">
-                <img src="img/g4.png" alt="Проект 4" />
-              </figure>
+              <div class="product-view__actions">
+                <button
+                  class="product-view__btn product-view__btn--light"
+                  type="button"
+                >
+                  РАССЧИТАТЬ ПОХОЖИЙ ПРОЕКТ
+                </button>
+                <button
+                  class="product-view__btn product-view__btn--dark"
+                  type="button"
+                >
+                  ЗАДАТЬ ВОПРОС ПО ИЗДЕЛИЮ
+                </button>
+              </div>
             </div>
           </div>
 
-          <div class="product-view__info">
-            <div class="product-view__text-group">
-              <p class="product-view__address">
-                г. Город, Адрес ул. Пушкина, д. Колотушкина
-              </p>
-              <h1 class="product-view__title">ЗЕРКАЛО В САЛОНЕ КРАСОТЫ</h1>
-              <p class="product-view__description">
-                Уже более 7 лет, мы предлагаем нашим клиентам прекрасные решения
-                для дома и офиса.
-              </p>
+          <div class="container">
+            <div class="portfolio-grid">
+              <div class="portfolio-grid__left">
+                <div class="portfolio-card">
+                  <h3 class="portfolio-card__title">Задача клиента</h3>
+                  <p class="portfolio-card__text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                    vestibulum, neque ullamcorper consequat accumsan, urna erat
+                    placerat turpis, nec pretium justo augue sit amet massa.
+                  </p>
+                </div>
+                <div class="portfolio-card">
+                  <h3 class="portfolio-card__title">Наша реализация</h3>
+                  <p class="portfolio-card__text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                    vestibulum, neque ullamcorper consequat accumsan, urna erat
+                    placerat turpis, nec pretium justo augue sit amet massa.
+                  </p>
+                </div>
+              </div>
+
+              <div class="portfolio-grid__right">
+                <div class="portfolio-specs">
+                  <div class="product-view__chars">
+                    <div class="product-view__char-row">
+                      <span class="product-view__char-key">Тип зеркала:</span>
+                      <span class="product-view__char-val">стеклянное</span>
+                    </div>
+                    <div class="product-view__char-row">
+                      <span class="product-view__char-key">Форма:</span>
+                      <span class="product-view__char-val">геометрическая</span>
+                    </div>
+                    <div class="product-view__char-row">
+                      <span class="product-view__char-key">Материалы:</span>
+                      <span class="product-view__char-val">твердые</span>
+                    </div>
+                    <div class="product-view__char-row">
+                      <span class="product-view__char-key">Размер:</span>
+                      <span class="product-view__char-val">100х100</span>
+                    </div>
+                    <div class="product-view__char-row">
+                      <span class="product-view__char-key">Подсветка:</span>
+                      <span class="product-view__char-val">светит</span>
+                    </div>
+                  </div>
+
+                  <div class="portfolio-specs__price-row">
+                    <span class="product-view__price-label">Цена:</span>
+                    <span class="product-view__price-value">180.000 р.</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="product-view__actions">
-              <button
-                class="product-view__btn product-view__btn--light"
-                type="button"
-              >
-                РАССЧИТАТЬ ПОХОЖИЙ ПРОЕКТ
-              </button>
-              <button
-                class="product-view__btn product-view__btn--dark"
-                type="button"
-              >
-                ЗАДАТЬ ВОПРОС ПО ИЗДЕЛИЮ
-              </button>
+            <div class="portfolio-review-wrapper">
+              <h2 class="product-view__title portfolio-review-title">
+                ОТЗЫВ КЛИЕНТА
+              </h2>
+              <div class="reviews__card portfolio-review-card">
+                <div class="reviews__content">
+                  <blockquote class="reviews__text">
+                    “Все быстро и классно, оформили соц-сети без лишних
+                    объяснений поддержали фирменный стиль компании, спасибо за
+                    оперативность”
+                  </blockquote>
+                  <div class="reviews__footer">
+                    <div class="reviews__author-block">
+                      <cite class="reviews__author">Дмитрий Смородов</cite>
+                      <span class="reviews__location">Адрес установки</span>
+                    </div>
+                    <a href="#" target="_blank" class="reviews__link">
+                      <span>Больше отзывов в 2ГИС</span>
+                      <img class="arrow" src="img/arrow-36.svg" alt="arrow" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="product-view__sphere product-view__sphere--large"
+              ></div>
+              <div
+                class="product-view__sphere product-view__sphere--small"
+              ></div>
             </div>
           </div>
         </div>
-
-        <div class="container">
-          <div class="portfolio-grid">
-            <div class="portfolio-grid__left">
-              <div class="portfolio-card">
-                <h3 class="portfolio-card__title">Задача клиента</h3>
-                <p class="portfolio-card__text">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  vestibulum, neque ullamcorper consequat accumsan, urna erat
-                  placerat turpis, nec pretium justo augue sit amet massa.
-                </p>
-              </div>
-              <div class="portfolio-card">
-                <h3 class="portfolio-card__title">Наша реализация</h3>
-                <p class="portfolio-card__text">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  vestibulum, neque ullamcorper consequat accumsan, urna erat
-                  placerat turpis, nec pretium justo augue sit amet massa.
-                </p>
-              </div>
-            </div>
-
-            <div class="portfolio-grid__right">
-              <div class="portfolio-specs">
-                <div class="product-view__chars">
-                  <div class="product-view__char-row">
-                    <span class="product-view__char-key">Тип зеркала:</span>
-                    <span class="product-view__char-val">стеклянное</span>
-                  </div>
-                  <div class="product-view__char-row">
-                    <span class="product-view__char-key">Форма:</span>
-                    <span class="product-view__char-val">геометрическая</span>
-                  </div>
-                  <div class="product-view__char-row">
-                    <span class="product-view__char-key">Материалы:</span>
-                    <span class="product-view__char-val">твердые</span>
-                  </div>
-                  <div class="product-view__char-row">
-                    <span class="product-view__char-key">Размер:</span>
-                    <span class="product-view__char-val">100х100</span>
-                  </div>
-                  <div class="product-view__char-row">
-                    <span class="product-view__char-key">Подсветка:</span>
-                    <span class="product-view__char-val">светит</span>
-                  </div>
-                </div>
-
-                <div class="portfolio-specs__price-row">
-                  <span class="product-view__price-label">Цена:</span>
-                  <span class="product-view__price-value">180.000 р.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="portfolio-review-wrapper">
-            <h2 class="product-view__title portfolio-review-title">
-              ОТЗЫВ КЛИЕНТА
-            </h2>
-            <div class="reviews__card portfolio-review-card">
-              <div class="reviews__content">
-                <blockquote class="reviews__text">
-                  “Все быстро и классно, оформили соц-сети без лишних объяснений
-                  поддержали фирменный стиль компании, спасибо за оперативность”
-                </blockquote>
-                <div class="reviews__footer">
-                  <div class="reviews__author-block">
-                    <cite class="reviews__author">Дмитрий Смородов</cite>
-                    <span class="reviews__location">Адрес установки</span>
-                  </div>
-                  <a href="#" target="_blank" class="reviews__link">
-                    <span>Больше отзывов в 2ГИС</span>
-                    <img class="arrow" src="img/arrow-36.svg" alt="arrow" />
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="product-view__sphere product-view__sphere--large"></div>
-            <div class="product-view__sphere product-view__sphere--small"></div>
-          </div>
-        </div>
-      </div>
+      </section>
     </main>
 
     <footer id="contacts" class="footer">
