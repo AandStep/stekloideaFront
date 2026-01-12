@@ -101,22 +101,58 @@ table {
   font-style: normal;
   font-display: swap;
 }
-/*! Убираем нативные скроллбары, так как Locomotive рисует свои */
+/* --- БЕЗОПАСНЫЙ СТИЛЬ ДЛЯ LOCOMOTIVE SCROLL --- */
+/* 1. По умолчанию (если JS не работает): */
 html,
 body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow: hidden; /* Важно: скрываем стандартный скролл */
+  overflow-y: auto; /* Разрешаем скролл */
+  height: auto;
 }
 
-/* Стили для скроллбара от Locomotive (опционально можно покрасить) */
-.c-scrollbar_thumb {
+/* 2. Стили применяются ТОЛЬКО если библиотека успешно загрузилась */
+/* Locomotive сам добавляет класс 'has-scroll-smooth' на тег html при старте */
+html.has-scroll-smooth {
+  overflow: hidden; /* Блокируем нативный скролл только теперь */
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+html.has-scroll-smooth body {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+/* Контейнер тоже трансформируется только при наличии класса */
+html.has-scroll-smooth [data-scroll-container] {
+  min-height: 100vh;
+  /* Locomotive сам добавит transform, нам тут стили особо не нужны */
+}
+
+/* Скроллбар библиотеки */
+.c-scrollbar {
   background-color: #484848 !important; /* Цвет ползунка под ваш дизайн */
   width: 6px !important;
   border-radius: 4px;
+  z-index: 9999; /* Чтобы был поверх всего */
 }
 
+/* Мобильные фиксы (на всякий случай дублируем) */
+@media (max-width: 1024px) {
+  html.has-scroll-smooth {
+    overflow-y: auto !important;
+    position: static !important;
+  }
+  html.has-scroll-smooth body {
+    overflow-y: auto !important;
+  }
+  html.has-scroll-smooth [data-scroll-container] {
+    transform: none !important;
+  }
+}
 /* =========================================
    BASE STYLES
    ========================================= */
