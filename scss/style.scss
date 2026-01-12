@@ -1,0 +1,4521 @@
+@use "reset";
+
+/* =========================================
+   VARIABLES & MIXINS
+   ========================================= */
+:root {
+  // --- Colors (User Defined) ---
+  --color-bg-main: #fff;
+  --color-bg-secondary: #414141; // Hero background
+  --color-bg-dark: #363636; // Darker cards
+
+  // --- Colors (Preserved from original design) ---
+  --color-bg-card: #484848; // Cards background
+  --color-text-white: #ffffff;
+  --color-text-white-80: rgba(255, 255, 255, 0.8);
+  --color-text-dark: #484848;
+
+  // --- Fonts ---
+  --font-main: "Montserrat", sans-serif;
+  --font-accent: "FoglihtenNo06", serif;
+}
+
+// Миксин для эффектов кнопок (НЕ меняет размеры, только визуал)
+@mixin interactive-button {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  // Эффект стекла и тени (как в вашем дизайне, но унифицировано)
+  background: rgba(255, 255, 255, 0.05); // Прозрачность
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  box-shadow: -4px -4px 12px 0 rgba(255, 255, 255, 0.1) inset,
+    8px 8px 18px 0 rgba(255, 255, 255, 0.18) inset;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 4px 4px 25px rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* =========================================
+   FONTS
+   ========================================= */
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "FoglihtenNo06";
+  src: url("../fonts/foglihtenno06.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*! Убираем нативные скроллбары, так как Locomotive рисует свои */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow: hidden; /* Важно: скрываем стандартный скролл */
+}
+
+/* Стили для скроллбара от Locomotive (опционально можно покрасить) */
+.c-scrollbar_thumb {
+  background-color: #484848 !important; /* Цвет ползунка под ваш дизайн */
+  width: 6px !important;
+  border-radius: 4px;
+}
+
+/* =========================================
+   BASE STYLES
+   ========================================= */
+
+/* --- Custom Notifications (Toast) --- */
+.notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+  pointer-events: none;
+
+  @media (max-width: 48rem) {
+    right: 50%;
+    transform: translateX(50%);
+    width: 90%;
+  }
+}
+
+.notification {
+  pointer-events: auto;
+  min-width: 300px;
+  padding: 1rem 1.5rem;
+  border-radius: 1.25rem;
+  background: rgba(72, 72, 72, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-text-white);
+  font-family: var(--font-main);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+  &--visible {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  &--success {
+    border-left: 4px solid #4caf50;
+    background: radial-gradient(
+      circle at left,
+      rgba(76, 175, 80, 0.15) 0%,
+      rgba(72, 72, 72, 0.9) 70%
+    );
+  }
+
+  &--error {
+    border-left: 4px solid #ff5252;
+    background: radial-gradient(
+      circle at left,
+      rgba(255, 82, 82, 0.15) 0%,
+      rgba(72, 72, 72, 0.9) 70%
+    );
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__text {
+    flex-grow: 1;
+  }
+}
+
+.title {
+  color: var(--color-text-dark);
+  font-family: var(--font-accent);
+  font-size: clamp(2rem, 1.091rem + 4.55vw, 4rem);
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 90.375rem;
+  width: 100%;
+  padding: 0 8px;
+}
+
+/* =========================================
+   HERO SECTION
+   ========================================= */
+.hero {
+  background: var(--color-bg-secondary); // Было #414141
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100svh;
+  min-height: 700px;
+  overflow: hidden;
+  padding-top: 3.125rem;
+  padding: 50px 0 0 0;
+  position: relative;
+
+  & > .container:nth-of-type(2) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__header {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__logo {
+    justify-self: start;
+    img {
+      width: 6.75rem;
+      height: 5.625rem;
+    }
+  }
+
+  &__nav {
+    justify-self: center;
+  }
+
+  &__nav-list {
+    display: inline-flex;
+    padding: 1.875rem 6.25rem;
+    align-items: center;
+    gap: 2.5rem;
+    border-radius: 6.25rem;
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.01);
+    box-shadow: 4px 4px 18px 0 rgba(255, 255, 255, 0.15) inset;
+    backdrop-filter: blur(8px);
+  }
+
+  &__nav-item {
+    color: var(--color-text-white-80);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+
+  &__nav-link {
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    transition: color 0.3s ease;
+
+    // --- Hover Effect (Added) ---
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 1px;
+      bottom: -4px;
+      left: 0;
+      background-color: #fff;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    }
+
+    &:hover {
+      color: #fff;
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+
+  &__phone {
+    justify-self: end;
+    color: var(--color-text-white-80);
+    font-family: var(--font-main);
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+
+    // Hover effect for phone
+    transition: color 0.3s;
+    &:hover {
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__title {
+  }
+
+  &__title-line {
+  }
+
+  &__title-line--small {
+    color: var(--color-text-white-80);
+    font-family: var(--font-accent);
+    font-size: clamp(3.375rem, 1.804rem + 2.46vw, 4.75rem);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 110%; /* 5.225rem */
+  }
+
+  &__title-line--large {
+    color: var(--color-text-white);
+    font-family: var(--font-accent);
+    font-size: clamp(5.625rem, 2.911rem + 4.24vw, 8rem);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 110%; /* 8.8rem */
+  }
+
+  &__cta {
+  }
+
+  &__cta-button {
+    display: flex;
+    width: 36.25rem;
+    padding: 3.3125rem 0;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6.25rem;
+
+    // Используем миксин для интерактивности, но фон переопределяем как в макете
+    @include interactive-button;
+    background: rgba(217, 217, 217, 0.05);
+
+    // Стили шрифта
+    color: #fff;
+    font-family: var(--font-main);
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 2.1rem */
+    text-transform: uppercase;
+  }
+
+  &__background {
+    height: 100%;
+    width: 50%;
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 0;
+    inset-inline-start: auto;
+    overflow: hidden;
+  }
+
+  &__background-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        270deg,
+        rgba(65, 65, 65, 0) 0%,
+        var(--color-bg-secondary) 100%
+      ),
+      url("../img/hero-background.webp") center bottom / cover no-repeat;
+  }
+}
+
+/* --- Burger Menu Styles --- */
+.hero__burger-menu {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-end: 0;
+  inset-inline-start: auto;
+  width: 20rem;
+  max-width: 100%;
+  background: var(--color-bg-secondary);
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 10;
+}
+
+.hero__burger-menu--open {
+  transform: translateX(0);
+}
+
+// Media Query for Burger (Restored Exactly)
+@media (max-width: 81.875rem) {
+  .hero {
+    &__header {
+      grid-template-columns: auto 1fr;
+      column-gap: 1.5rem;
+    }
+
+    &__nav {
+      display: none;
+    }
+
+    &__phone {
+      display: none;
+    }
+
+    &__burger {
+      display: inline-flex;
+      justify-self: end;
+    }
+
+    &__burger {
+      display: flex;
+      width: 90px;
+      height: 90px;
+      padding: 24px 0;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      border-radius: 100px;
+      border: 0.5px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.01);
+      box-shadow: 4px 4px 18px 0 rgba(255, 255, 255, 0.15) inset;
+      backdrop-filter: blur(8px);
+    }
+    &__burger-line {
+      width: 45px;
+      height: 2px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      background: #fff;
+    }
+    &__burger-menu {
+      width: 320px;
+      height: 100svh;
+      background: var(--color-bg-secondary);
+    }
+
+    &__burger-menu-container {
+      padding: 50px 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      height: 100%;
+    }
+
+    &__burger-menu-header {
+    }
+
+    &__burger-menu-logo {
+      display: none;
+    }
+
+    &__burger-close {
+      justify-self: end;
+      display: flex;
+      width: 90px;
+      height: 93px;
+      padding: 24px 0;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border-radius: 100px;
+      border: 0.5px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.01);
+      box-shadow: 4px 4px 18px 0 rgba(255, 255, 255, 0.15) inset;
+      backdrop-filter: blur(8px);
+      position: relative;
+    }
+
+    &__burger-close-line {
+    }
+
+    &__burger-close-line--first {
+      width: 2.8125rem;
+      height: 0.125rem;
+      position: absolute;
+      inset-block-start: 50%;
+      inset-inline-start: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      border-radius: 0.625rem;
+      background: #fff;
+    }
+
+    &__burger-close-line--second {
+      width: 2.8125rem;
+      height: 0.125rem;
+      position: absolute;
+      inset-block-start: 50%;
+      inset-inline-start: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      border-radius: 0.625rem;
+      background: #fff;
+    }
+
+    &__burger-menu-list {
+      display: flex;
+      width: 100%;
+      padding: 30px 0;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 55px;
+      border-radius: 28px;
+      border: 0.5px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.01);
+      box-shadow: 4px 4px 18px 0 rgba(255, 255, 255, 0.15) inset;
+      backdrop-filter: blur(8px);
+    }
+
+    &__burger-menu-item {
+      color: var(--color-text-white-80);
+      font-family: var(--font-main);
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      text-transform: uppercase;
+    }
+
+    &__burger-menu-link {
+    }
+
+    &__burger-menu-phone {
+      color: var(--color-text-white-80);
+      font-family: var(--font-main);
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      text-transform: uppercase;
+      align-self: center;
+      margin-block-start: auto;
+      text-decoration: none;
+    }
+  }
+}
+
+@media (max-width: 64rem) {
+  .hero {
+    &__title-line--small {
+      font-size: clamp(1.188rem, 0.193rem + 4.97vw, 3.375rem);
+    }
+
+    &__title-line--large {
+      font-size: clamp(2.063rem, 0.443rem + 8.1vw, 5.625rem);
+    }
+
+    &__cta-button {
+      font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.5rem);
+      padding-block: clamp(1.625rem, 0.858rem + 3.84vw, 3.313rem);
+    }
+  }
+}
+
+@media (max-width: 48rem) {
+  .hero {
+    &__content {
+      padding: 0 0 6.875rem 0;
+    }
+
+    &__logo {
+      img {
+        width: 4.5625rem;
+        height: 3.9375rem;
+      }
+    }
+
+    &__burger {
+      width: 3.9375rem;
+      height: 3.9375rem;
+    }
+
+    &__burger-line {
+      width: 1.9375rem;
+      height: 0.0625rem;
+    }
+
+    &__burger-menu-container {
+      padding-inline: 0.5rem;
+    }
+
+    &__burger-menu-logo img {
+      width: 4.5625rem;
+      height: 3.9375rem;
+    }
+
+    &__burger-close {
+      width: 3.9375rem;
+      height: 3.9375rem;
+      padding: 0;
+    }
+
+    &__burger-close-line--first {
+      width: 1.4375rem;
+      height: 0.0625rem;
+    }
+
+    &__burger-close-line--second {
+      width: 1.4375rem;
+      height: 0.0625rem;
+    }
+
+    &__cta-button {
+      width: 100%;
+    }
+
+    &__background {
+      width: 100%;
+      height: 50%;
+      inset-inline: 0;
+      inset-block-end: 0;
+      inset-block-start: auto;
+    }
+
+    &__background-image {
+      background: linear-gradient(
+          180deg,
+          var(--color-bg-secondary) -5%,
+          rgba(65, 65, 65, 0) 99.05%
+        ),
+        url("../img/hero-background.webp") center bottom / cover no-repeat;
+    }
+
+    &__burger-menu {
+      width: 100%;
+    }
+
+    &__burger-menu-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__burger-menu-logo {
+      display: block;
+    }
+  }
+}
+
+/* =========================================
+   AUXILIARY PAGES (Error Pages & Light Header)
+   ========================================= */
+
+// --- Light Header Modification ---
+.header--light {
+  background-color: var(--color-bg-main);
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  // Сетка как на главной
+  &.container {
+    display: grid;
+  }
+
+  // --- Навигация ---
+  .hero__nav-list {
+    background: #fff;
+    border-color: rgba(72, 72, 72, 0.2);
+    box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+      4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
+  }
+
+  .hero__nav-item {
+    color: var(--color-text-dark);
+  }
+
+  // ССЫЛКИ: Исправляем исчезновение при наведении
+  .hero__nav-link {
+    &::after {
+      background-color: var(--color-text-dark);
+    }
+
+    &:hover {
+      color: var(--color-text-dark); // Было белым, ставим темный
+    }
+  }
+
+  // ТЕЛЕФОН: Исправляем исчезновение при наведении
+  .hero__phone {
+    color: var(--color-text-dark);
+    &:hover {
+      color: var(--color-text-dark); // Принудительно оставляем темным
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.2); // Тень меняем на темную
+    }
+  }
+
+  // Логотип (инверсия для темного лого)
+  .hero__logo img {
+    filter: invert(1) brightness(0.3);
+  }
+
+  // Бургер
+  .hero__burger {
+    border-color: rgba(72, 72, 72, 0.2);
+    background: rgba(72, 72, 72, 0.05);
+
+    &-line {
+      background: var(--color-text-dark);
+    }
+  }
+}
+
+// --- Error Page Content ---
+.error-page {
+  position: relative;
+  width: 100%;
+  min-height: clamp(30rem, 60vh, 50rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-main);
+  overflow: hidden;
+  padding: clamp(2rem, 5vw, 4rem) 0;
+
+  &__container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 50rem;
+    gap: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    padding: 0 20px; // Безопасный отступ для мобилок
+  }
+
+  &__code {
+    font-family: var(--font-accent); // FoglihtenNo06
+    font-size: clamp(8rem, 4rem + 15vw, 18rem);
+
+    // --- Исправленный line-height ---
+    line-height: 1;
+
+    color: var(--color-text-dark);
+    margin: 0;
+
+    background: linear-gradient(180deg, #484848 0%, #aaaaaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  &__title {
+    font-family: var(--font-main);
+    font-size: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+    font-weight: 700;
+    color: var(--color-text-dark);
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  &__description {
+    font-family: var(--font-main);
+    font-size: clamp(0.875rem, 0.75rem + 0.5vw, 1.125rem);
+    font-weight: 500;
+    color: rgba(72, 72, 72, 0.8);
+    max-width: 30rem;
+    line-height: 1.5;
+  }
+
+  &__button {
+    margin-top: clamp(1rem, 2vw, 2rem);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(1.25rem, 1rem + 1vw, 1.5rem)
+      clamp(2.5rem, 2rem + 2vw, 3.5rem);
+    border-radius: 6.25rem;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    background: var(--color-bg-card);
+    color: #fff;
+    font-family: var(--font-main);
+    font-size: clamp(0.875rem, 0.75rem + 0.5vw, 1rem);
+    font-weight: 500;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+
+    &:hover {
+      background: var(--color-bg-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  &__sphere {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #fff 0%, #dfdfdf 100%);
+    box-shadow: 7px -7px 12px 0 rgba(255, 255, 255, 0.8) inset,
+      -5px 4px 24px 0 rgba(72, 72, 72, 0.1) inset;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  &__sphere--1 {
+    width: clamp(10rem, 20vw, 20rem);
+    height: clamp(10rem, 20vw, 20rem);
+    top: -5%;
+    left: -5%;
+    opacity: 0.6;
+  }
+
+  &__sphere--2 {
+    width: clamp(6rem, 12vw, 12rem);
+    height: clamp(6rem, 12vw, 12rem);
+    bottom: 10%;
+    right: -2%;
+    opacity: 0.8;
+  }
+}
+
+/* =========================================
+   ABOUT SECTION
+   ========================================= */
+.about {
+  overflow-x: clip;
+  overflow-y: visible;
+  position: relative;
+  min-height: clamp(37.813rem, 33.239rem + 22.87vw, 47.875rem);
+  &__layout {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(3.625rem, -1.875rem + 8.59vw, 8.438rem);
+    align-self: stretch;
+  }
+
+  &__gallery {
+    max-width: clamp(24.25rem, -35.179rem + 92.86vw, 60rem);
+  }
+
+  &__gallery-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  &__galery-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+  }
+
+  &__galery-row:nth-of-type(1) {
+    .about__gallery-item:first-child img {
+      border-radius: 0 0 clamp(1.875rem, 1.161rem + 1.12vw, 2.5rem) 0;
+    }
+  }
+
+  &__galery-row:nth-of-type(2) {
+    .about__gallery-item:first-child img {
+      border-radius: 0 clamp(1.875rem, 1.161rem + 1.12vw, 2.5rem)
+        clamp(1.875rem, 1.161rem + 1.12vw, 2.5rem) 0;
+    }
+  }
+
+  &__gallery-item {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
+
+    img {
+      aspect-ratio: 1 / 1;
+      border-radius: clamp(1.875rem, 1.161rem + 1.12vw, 2.5rem);
+      object-fit: cover;
+    }
+  }
+
+  &__gallery-item--tall {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+
+    overflow: hidden;
+
+    img {
+      aspect-ratio: unset;
+      border-radius: 0 0 clamp(1.875rem, 1.161rem + 1.12vw, 2.5rem)
+        clamp(1.875rem, 1.161rem + 1.12vw, 2.5rem);
+    }
+  }
+
+  &__badge {
+  }
+
+  &__badge-text {
+  }
+
+  &__content {
+    display: flex;
+    padding-top: clamp(3rem, 4.69vw, 5.625rem);
+    max-width: clamp(35.25rem, 33.393rem + 2.9vw, 36.875rem);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(2rem, 1.091rem + 4.55vw, 4rem);
+  }
+
+  &__text-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(1rem, 0.545rem + 2.27vw, 2rem);
+    align-self: stretch;
+    padding: 0 16px 0 0;
+  }
+
+  &__text {
+    color: var(--color-text-dark);
+    font-family: var(--font-main);
+    font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.5rem);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 33.6px */
+  }
+
+  &__text-highlight {
+    font-weight: 700;
+  }
+
+  &__sphere {
+    border-radius: 468px;
+    background: linear-gradient(180deg, #fff 0%, #dfdfdf 100%);
+    box-shadow: 7px -7px 12px 0 rgba(255, 255, 255, 0.25) inset,
+      -5px 4px 24px 0 rgba(72, 72, 72, 0.1) inset;
+  }
+
+  &__sphere--large {
+    width: clamp(15.938rem, 0.723rem + 23.77vw, 29.25rem);
+    height: clamp(15.938rem, 0.723rem + 23.77vw, 29.25rem);
+    position: absolute;
+    right: clamp(1.5rem, -1.929rem + 5.36vw, 4.5rem);
+    bottom: clamp(-8.438rem, -9.58rem + 1.79vw, -7.438rem);
+  }
+
+  &__sphere--small {
+    width: clamp(10rem, 0.714rem + 14.51vw, 18.125rem);
+    height: clamp(10rem, 0.714rem + 14.51vw, 18.125rem);
+    position: absolute;
+    right: clamp(18.125rem, -1.161rem + 30.13vw, 35rem);
+    bottom: clamp(-15.063rem, 10.643rem + 3.68vw, -13rem);
+  }
+}
+
+@media (max-width: 91.25rem) {
+  .about__galery-row:nth-of-type(2) {
+    .about__gallery-item:first-child {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 81.875rem) {
+  .about__galery-row:nth-of-type(1) {
+    .about__gallery-item:first-child {
+      display: none;
+    }
+  }
+
+  .about__gallery {
+    max-width: clamp(24.25rem, 8.138rem + 25.17vw, 28.75rem);
+  }
+}
+
+@media (max-width: 57.5rem) {
+  .about {
+    &__sphere--large {
+      width: clamp(13.438rem, 12.301rem + 5.68vw, 15.938rem);
+      height: clamp(13.438rem, 12.301rem + 5.68vw, 15.938rem);
+      position: absolute;
+      right: clamp(-1.938rem, -3.5rem + 7.81vw, 1.5rem);
+      bottom: clamp(0rem, 3.835rem + -19.18vw, -8.438rem);
+    }
+
+    &__sphere--small {
+      width: clamp(8.25rem, 7.455rem + 3.98vw, 10rem);
+      height: clamp(8.25rem, 7.455rem + 3.98vw, 10rem);
+      position: absolute;
+      left: -7px;
+      bottom: clamp(6.125rem, 14.818rem + -43.47vw, -13rem);
+    }
+    &__layout {
+      flex-direction: column;
+      gap: 0;
+      padding: 0 8px;
+      align-items: stretch;
+    }
+
+    &__gallery {
+      display: none;
+    }
+
+    &__content {
+      width: 100%;
+      max-width: none;
+      padding-top: clamp(1.5rem, 0.857rem + 1.79vw, 2.25rem);
+      gap: clamp(2rem, 1.429rem + 1.43vw, 2.625rem);
+    }
+  }
+}
+
+/* =========================================
+   SERVICES SECTION
+   ========================================= */
+.services {
+  display: flex;
+  padding: clamp(1.5rem, -0.375rem + 9.38vw, 5.625rem) 0 24px 0;
+  flex-direction: column;
+  align-items: center;
+  &__container {
+    display: flex;
+    max-width: 1462px;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 64px;
+    padding-inline: 8px;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  &__title {
+  }
+
+  &__subtitle {
+    max-width: clamp(31.063rem, 25.888rem + 9vw, 36.688rem);
+    color: var(--color-text-dark);
+    font-family: var(--font-main);
+    font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.5rem);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 33.6px */
+  }
+
+  &__list {
+    overflow-x: auto;
+    display: flex;
+    height: clamp(22.125rem, 14.398rem + 38.64vw, 39.125rem);
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 16px;
+    margin-inline: -8px;
+    padding-inline: 8px;
+    width: calc(100% + 16px);
+
+    &::-webkit-scrollbar {
+      height: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: rgba(72, 72, 72, 0.5);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgba(72, 72, 72, 0.7);
+    }
+  }
+
+  &__card {
+    min-width: clamp(16.625rem, 10.83rem + 28.98vw, 29.375rem);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+    overflow: hidden;
+
+    border-radius: clamp(1.875rem, 1.591rem + 1.42vw, 2.5rem);
+  }
+
+  &__card--mirrors {
+    background: linear-gradient(
+        180deg,
+        rgba(72, 72, 72, 0.5) 59.33%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      url(../img/service-1.webp) lightgray 50% / cover no-repeat;
+  }
+
+  &__card-media {
+    display: flex;
+    padding: clamp(1rem, 0.602rem + 1.99vw, 1.875rem);
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+  }
+
+  &__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__card-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(0.5rem, 0.045rem + 2.27vw, 1.5rem);
+  }
+
+  &__card-title {
+    color: #fff;
+    font-family: var(--font-main);
+    font-size: clamp(1.125rem, 0.841rem + 1.42vw, 1.75rem);
+    font-style: normal;
+    font-weight: 700;
+    line-height: 140%; /* 39.2px */
+  }
+
+  &__card-text {
+    color: #fff;
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.636rem + 0.57vw, 1rem);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 22.4px */
+    opacity: 0%;
+    transform: translateY(-10px);
+    transition: all 0.5s ease-in-out;
+  }
+
+  &__card:hover &__card-text {
+    opacity: 100%;
+    transform: translateY(0px);
+  }
+
+  &__card-button {
+    display: flex;
+    width: 100%;
+    padding: clamp(1.563rem, 1.42rem + 0.71vw, 1.875rem) 20px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+
+    // Mixin for interactive effects
+    @include interactive-button;
+    // Overlay specific styles to maintain layout
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+
+    color: #fff;
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.636rem + 0.57vw, 1rem);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 22.4px */
+    text-transform: uppercase;
+  }
+
+  &__card--showers {
+    background: linear-gradient(
+        180deg,
+        rgba(72, 72, 72, 0.5) 59.33%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      url(../img/service-2.webp) lightgray 50% / cover no-repeat;
+  }
+
+  &__card--loft-furniture {
+    background: linear-gradient(
+        180deg,
+        rgba(72, 72, 72, 0.5) 59.33%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      url(../img/service-3.webp) lightgray 50% / cover no-repeat;
+  }
+}
+
+/* =========================================
+   STAGES SECTION
+   ========================================= */
+.stages {
+  display: flex;
+  padding-top: clamp(1.5rem, -1.5rem + 4.69vw, 4.125rem);
+  flex-direction: column;
+  align-items: center;
+  &__container {
+  }
+
+  &__wrapper {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(1.5rem, 0.364rem + 5.68vw, 4rem);
+  }
+
+  &__title {
+  }
+
+  &__list {
+    display: flex;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: clamp(0.5rem, 0.443rem + 0.28vw, 0.625rem);
+    align-self: stretch;
+    flex-wrap: wrap;
+  }
+
+  &__card {
+    display: flex;
+    padding: clamp(2rem, 0.857rem + 1.79vw, 3rem);
+    align-items: center;
+    position: relative;
+    border-radius: clamp(1.875rem, 1.364rem + 2.56vw, 3rem);
+    background: var(--color-bg-card); // #484848 preserved
+    box-shadow: 8px 8px 18px 0 rgba(255, 255, 255, 0.25) inset;
+  }
+
+  // Первый и второй элементы - по 50%
+  &__list > &__card:first-child,
+  &__list > &__card:nth-child(2) {
+    flex: 0 0 calc(50% - 5px);
+    width: calc(50% - 5px);
+  }
+
+  &__card-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+  }
+
+  &__card-icon {
+    width: clamp(3.5rem, 2.364rem + 5.68vw, 6rem);
+    height: clamp(3.5rem, 2.364rem + 5.68vw, 6rem);
+    aspect-ratio: 1/1;
+  }
+
+  &__card-title {
+    color: #fff;
+    font-family: var(--font-main);
+    font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.5rem);
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+
+  &__card-number {
+    position: absolute;
+    right: 0;
+    fill: rgba(255, 255, 255, 0.05);
+    height: 100%;
+
+    img {
+      height: 100%;
+    }
+  }
+
+  &__card-shadow {
+  }
+
+  &__card--dark {
+    background: var(--color-bg-dark); // #363636
+    box-shadow: 8px 8px 18px 0 rgba(255, 255, 255, 0.25) inset;
+
+    // Четвертый элемент - автоматически уменьшается, 5 заполняет остаток
+    &.stages__card--full {
+      flex: 0 0 calc(58.5% - 5px);
+    }
+  }
+
+  // Третий элемент - 100%
+  &__card--full {
+    &:not(.stages__card--dark) {
+      flex: 0 0 100%;
+      width: 100%;
+    }
+  }
+
+  // Пятый элемент - заполняет оставшееся место
+  &__card--narrow {
+    flex: 0 0 calc(41.5% - 5px);
+    flex-grow: 1;
+  }
+
+  // При 1024px - 4 и 5 элементы по 50%
+  @media (max-width: 64rem) {
+    &__card--dark {
+      &.stages__card--full {
+        flex: 0 0 calc(50% - 5px);
+      }
+    }
+    &__card {
+      padding: clamp(2.375rem, 2.545rem + -0.85vw, 2rem) 1rem;
+    }
+
+    &__card--narrow {
+      flex: 0 0 calc(50% - 5px);
+      flex-grow: 0;
+    }
+  }
+
+  // При 930px и меньше - все элементы по 100%
+  @media (max-width: 58.125rem) {
+    &__list > &__card:first-child,
+    &__list > &__card:nth-child(2) {
+      flex: 0 0 100%;
+      width: 100%;
+    }
+
+    &__card--full {
+      &:not(.stages__card--dark) {
+        flex: 0 0 100%;
+        width: 100%;
+      }
+    }
+
+    &__card--dark {
+      &.stages__card--full {
+        flex: 0 0 100%;
+        width: 100%;
+      }
+    }
+
+    &__card--narrow {
+      flex: 0 0 100%;
+      width: 100%;
+      flex-grow: 0;
+    }
+  }
+
+  // При 768px - card-number прижаты слева
+  @media (max-width: 48rem) {
+    &__card-number {
+      left: 0;
+      right: auto;
+    }
+  }
+}
+
+/* =========================================
+   WHY US SECTION
+   ========================================= */
+.why-us {
+  padding-top: clamp(2.5rem, 1.136rem + 6.82vw, 5.625rem);
+  padding-bottom: 0;
+  overflow: hidden;
+
+  &__container {
+    max-width: 1650px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  &__title {
+    align-self: flex-start;
+    margin-bottom: clamp(2rem, 0.909rem + 5.45vw, 4rem);
+  }
+
+  &__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 0.429rem + 0.89vw, 1.5rem);
+    width: 100%;
+    height: max-content;
+    background: var(--color-bg-card); // #484848
+    border-radius: clamp(1.875rem, 0.682rem + 5.97vw, 3.75rem);
+    padding: clamp(1rem, -2.714rem + 5.8vw, 4.25rem);
+    overflow: visible;
+  }
+
+  &__logo {
+    position: absolute;
+    top: clamp(1rem, 0.545rem + 2.27vw, 1.5rem);
+    right: clamp(1rem, 0.545rem + 2.27vw, 1.5rem);
+    z-index: 6;
+    width: clamp(4rem, 2.636rem + 6.82vw, 7rem);
+    height: auto;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__feature {
+    opacity: 80%;
+    display: flex;
+    align-items: center;
+    padding: clamp(1rem, 0.034rem + 4.83vw, 3.125rem)
+      clamp(2rem, 1.205rem + 3.98vw, 3.75rem);
+    border-radius: clamp(1.5rem, 0.909rem + 2.95vw, 3.125rem);
+    box-shadow: inset -2px 2px 12px rgba(255, 255, 255, 0.4);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+
+  &__feature--first {
+    z-index: 1;
+    width: clamp(26.813rem, 13.313rem + 21.09vw, 38.625rem);
+  }
+
+  &__feature--second {
+    z-index: 2;
+    width: clamp(31.813rem, 15.813rem + 25vw, 45.813rem);
+  }
+
+  &__feature--third {
+    z-index: 5;
+    width: clamp(36.563rem, 18.205rem + 28.68vw, 52.625rem);
+  }
+
+  &__feature-text {
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: clamp(1.25rem, 0.964rem + 0.45vw, 1.5rem);
+    line-height: 1.4;
+    letter-spacing: 0.03em;
+    color: #fff;
+    text-shadow: -4px 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  &__image {
+    position: absolute;
+    right: clamp(-9.438rem, -20.223rem + 16.85vw, 0rem);
+    bottom: 0;
+    z-index: 3;
+    width: clamp(43.563rem, 16.991rem + 41.52vw, 66.813rem);
+    height: auto;
+    border-radius: 0 0 clamp(3.125rem, 2.938rem + 0.94vw, 4.063rem) 0;
+    overflow: hidden;
+    pointer-events: none;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: 76.875rem) {
+    &__logo {
+      display: none;
+    }
+  }
+
+  @media (max-width: 62.5rem) {
+    &__card {
+      padding: clamp(0.5rem, 0.273rem + 1.14vw, 1rem);
+      gap: clamp(0.25rem, -0.091rem + 1.7vw, 1rem);
+      overflow: visible;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    &__image {
+      position: relative;
+      width: 95%;
+      margin: clamp(-1rem, -0.432rem + -2.84vw, -2.25rem) -16px -16px -16px;
+      right: auto;
+      bottom: auto;
+      border-radius: 0 0 clamp(1.875rem, 0.682rem + 5.97vw, 3.75rem) 0;
+      order: 4;
+      z-index: 4;
+    }
+
+    &__feature {
+      width: 100% !important;
+      position: relative;
+      z-index: 3;
+    }
+
+    &__feature-text {
+      font-size: clamp(0.875rem, 0.705rem + 0.85vw, 1.25rem);
+    }
+
+    &__feature--first {
+      order: 1;
+    }
+
+    &__feature--second {
+      order: 2;
+    }
+
+    &__feature--third {
+      order: 3;
+    }
+  }
+}
+
+/* --- PROJECTS SECTION --- */
+.projects {
+  background: var(--color-bg-main);
+  padding-top: 5.625rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 0.364rem + 5.68vw, 4rem);
+
+  &__grid-wrapper {
+    display: grid;
+    // Оставляем minmax(0, 1fr), чтобы починить баг на 320px (сжатие картинок)
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.625rem;
+    position: relative;
+    overflow: hidden;
+    align-items: start;
+    width: 100%;
+    // Плавность при изменении высоты скриптом
+    transition: height 0.3s ease-out;
+  }
+
+  &__column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    width: 100%;
+    min-width: 0; // Важно для адаптива
+    flex-shrink: 0;
+  }
+
+  &__item {
+    margin: 0;
+    width: 100%;
+    display: block;
+  }
+
+  &__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 1.25rem;
+    object-fit: cover;
+  }
+
+  &__button {
+    // 1. СНАЧАЛА подключаем общие стили (там position: relative)
+    @include interactive-button;
+
+    // 2. ПОТОМ переопределяем то, что нам нужно (это победит миксин)
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+
+    // Явно задаем скругление и размеры, чтобы перебить любые настройки миксина
+    border-radius: 6.25rem; // Убрал !important, теперь сработает и так
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    background: rgba(72, 72, 72, 0.8);
+    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.65),
+      8px 8px 18px 0 rgba(255, 255, 255, 0.25) inset;
+
+    display: flex;
+    width: clamp(19rem, 11.159rem + 39.2vw, 36.25rem);
+    padding: clamp(1.563rem, 0.767rem + 3.98vw, 3.313rem) 0;
+    justify-content: center;
+    align-items: center;
+
+    color: #fff;
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.409rem + 1.7vw, 1.5rem);
+    font-weight: 500;
+    line-height: 140%;
+    text-transform: uppercase;
+
+    // Эффект наведения с учетом центрирования
+    &:hover {
+      transform: translate(-50%, calc(-50% - 3px));
+    }
+
+    &:active {
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &__gradient-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    // Высота градиента
+    height: clamp(20rem, 40vh, 32.5rem);
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      #ffffff 90%
+    );
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  // --- АДАПТИВНОСТЬ ---
+  @media (max-width: 64rem) {
+    &__grid-wrapper {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    &__column:nth-child(4) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    &__grid-wrapper {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    &__column:nth-child(3),
+    &__column:nth-child(4) {
+      display: none;
+    }
+  }
+}
+
+/* =========================================
+   CALCULATION SECTION (Fixed structure, Preserved sizes)
+   ========================================= */
+.calculation {
+  padding: 0;
+  position: relative;
+  // margin не было в исходнике, если нужно - добавьте: margin: clamp(...) 0;
+
+  &__wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(2rem, 1.5rem + 2.5vw, 4rem);
+
+    // Ваши оригинальные clamp-значения для отступов
+    padding: clamp(4.063rem, 0.848rem + 5.02vw, 6.875rem)
+      clamp(1rem, -6.429rem + 11.61vw, 7.5rem) clamp(3rem, 4.69vw, 5.625rem)
+      clamp(1rem, -6.429rem + 11.61vw, 7.5rem);
+
+    border-radius: clamp(2.5rem, 5vw, 5rem);
+
+    // Фон: градиент + картинка
+    background: linear-gradient(
+        180deg,
+        rgba(72, 72, 72, 0.9) 0%,
+        rgba(72, 72, 72, 0.4) 100%
+      ),
+      url("../img/calculation-bg.webp") center / cover no-repeat;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+
+  &__header {
+    gap: clamp(1rem, 0.773rem + 1.14vw, 1.5rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__title {
+    color: var(--color-text-white);
+    font-family: var(--font-accent);
+    font-size: clamp(1.5rem, 0.364rem + 5.68vw, 4rem);
+    font-weight: 500;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+
+  &__subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-family: var(--font-main);
+    font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.5rem);
+    font-weight: 500;
+    line-height: 140%;
+  }
+
+  &__form {
+    width: 100%;
+    max-width: 74.375rem;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.5rem, 1.273rem + 1.14vw, 2rem);
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.25rem, 0.08rem + 0.85vw, 0.625rem);
+  }
+
+  &__row {
+    display: flex;
+    gap: clamp(0.25rem, 0.08rem + 0.85vw, 0.625rem);
+    width: 100%;
+
+    @media (max-width: 48rem) {
+      flex-direction: column;
+    }
+  }
+
+  &__field-group {
+    width: 100%;
+  }
+
+  &__input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6.25rem;
+
+    // Ваши оригинальные паддинги
+    padding: clamp(1rem, 0.744rem + 1.28vw, 1.563rem)
+      clamp(1rem, 0.318rem + 3.41vw, 2.5rem);
+
+    color: var(--color-text-white);
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.523rem + 1.14vw, 1.25rem);
+    font-weight: 500;
+    line-height: 140%;
+
+    box-shadow: inset 4px 4px 18px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    outline: none;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    &:focus {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--color-text-white);
+      box-shadow: inset 4px 4px 18px rgba(255, 255, 255, 0.2),
+        0 0 15px rgba(255, 255, 255, 0.2);
+    }
+
+    &.error {
+      border-color: #ff6b6b;
+      box-shadow: inset 4px 4px 18px rgba(255, 107, 107, 0.15);
+    }
+
+    &--textarea {
+      min-height: 10rem;
+      border-radius: 2.5rem;
+      resize: vertical;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  &__button {
+    // Подключаем миксин для крутых эффектов (hover, active)
+    @include interactive-button;
+
+    width: 100%;
+    padding: clamp(1.563rem, 1.42rem + 0.71vw, 1.875rem);
+    border-radius: 6.25rem;
+
+    background: rgba(255, 255, 255, 0.02);
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    box-shadow: inset 4px 4px 18px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+
+    // Шрифт кнопки из вашего макета
+    color: #fff;
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.636rem + 0.57vw, 1rem);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  &__agreement {
+    color: var(--color-text-white);
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.7rem + 0.5vw, 1.25rem);
+    font-weight: 500;
+    line-height: 140%;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.8);
+
+    @media (max-width: 48rem) {
+      text-align: center;
+    }
+  }
+
+  &__link {
+    color: var(--color-text-white);
+    text-decoration: underline;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.8;
+      text-decoration: none;
+    }
+  }
+
+  // Медиа-запрос из вашего файла
+  @media (max-width: 64rem) {
+    &__wrapper {
+      padding: clamp(3.438rem, 3.153rem + 1.42vw, 4.063rem)
+        clamp(0.5rem, 0.273rem + 1.14vw, 1rem)
+        clamp(1.5rem, 0.818rem + 3.41vw, 3rem)
+        clamp(0.5rem, 0.273rem + 1.14vw, 1rem);
+    }
+  }
+}
+
+/* =========================================
+   REVIEWS SECTION
+   ========================================= */
+.reviews {
+  padding-top: clamp(3rem, 1.136rem + 6.82vw, 5.625rem);
+  // ВЕРНУЛ ОТСТУП СНИЗУ
+  padding-bottom: clamp(3rem, 1.136rem + 6.82vw, 5.625rem);
+  background-color: var(--color-bg-main);
+  overflow: hidden;
+
+  // --- ЗАГОЛОВОК ---
+  &__title {
+    color: var(--color-text-dark);
+    margin: 0;
+    width: 100%;
+  }
+
+  // --- СЛАЙДЕР ---
+  &__slider {
+    position: relative;
+    width: 100%;
+
+    // DESKTOP: Высота фиксирована (по макету)
+    height: 854px;
+
+    // TABLET: Чтобы блок не пропадал (0px), задаем минимальную высоту.
+    // 540px (карточка) + ~100px (заголовок/стрелки)
+    @media (max-width: 64rem) {
+      height: auto;
+      min-height: 700px;
+    }
+
+    // MOBILE
+    @media (max-width: 48rem) {
+      min-height: 500px;
+    }
+  }
+
+  // --- СЛАЙД ---
+  &__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+
+    display: grid;
+    // Стандартная сетка Desktop: Текст | Картинка
+    grid-template-columns: minmax(0, 710px) minmax(0, 590px);
+    gap: clamp(1rem, -3.5rem + 7vw, 8.125rem);
+
+    &--active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      z-index: 2;
+    }
+  }
+
+  // --- ЛЕВАЯ КОЛОНКА ---
+  &__col-left {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    // Убрал space-between, теперь управляем отступами внутри элементов
+  }
+
+  // --- НАВИГАЦИЯ ---
+  &__nav {
+    display: flex;
+    gap: 10px;
+
+    // ЛОГИКА ОТСТУПОВ (как ты просил):
+    // margin-top: auto толкает навигацию вниз от заголовка
+    margin-top: auto;
+    // Отступ до карточки
+    margin-bottom: 24px;
+  }
+
+  &__btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.3s ease;
+
+    svg circle {
+      transition: stroke 0.3s ease;
+    }
+    &:hover {
+      transform: scale(1.05);
+      svg circle {
+        stroke: var(--color-text-dark);
+      }
+    }
+  }
+
+  // --- КАРТОЧКА ---
+  &__card {
+    display: flex;
+    flex-direction: column;
+    border-radius: clamp(0.875rem, 0.5rem + 1.8vw, 1.75rem);
+    border: 1px solid var(--color-text-dark);
+    background: var(--color-bg-main);
+    padding: clamp(1rem, 0.5rem + 2.5vw, 1.625rem);
+
+    height: 540px; // Фикс высота Desktop
+    width: 100%;
+    // margin-top: auto ВЫРЕЗАНО
+  }
+
+  &__content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__text {
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: clamp(0.875rem, 0.6rem + 0.9vw, 1.5rem);
+    line-height: 1.4;
+    color: var(--color-text-dark);
+    margin: 0;
+  }
+
+  // --- КАРТИНКА ---
+  &__image-wrapper {
+    width: 100%;
+    height: 100%; // Растягивается на 854px
+    border-radius: clamp(0.875rem, 0.5rem + 1.8vw, 1.75rem);
+    overflow: hidden;
+    align-self: start;
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  // --- МОБИЛЬНАЯ ГАЛЕРЕЯ ---
+  &__mobile-gallery {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 14px;
+    margin-bottom: 16px;
+  }
+
+  &__gallery-label {
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(72, 72, 72, 0.5);
+  }
+
+  &__thumbnails {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__thumb-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: zoom-in;
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  // --- ФУТЕР ОТЗЫВА ---
+  &__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+  }
+
+  &__author-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__author {
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: clamp(0.875rem, 0.8rem + 0.2vw, 1rem);
+    color: var(--color-text-dark);
+    font-style: normal;
+  }
+
+  &__location {
+    font-family: var(--font-main);
+    font-size: clamp(0.875rem, 0.8rem + 0.2vw, 1rem);
+    color: rgba(72, 72, 72, 0.7);
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    text-decoration: none;
+    max-width: 223px;
+    width: 100%;
+
+    span {
+      font-family: var(--font-main);
+      font-size: clamp(0.75rem, 0.7rem + 0.2vw, 1rem);
+      color: rgba(72, 72, 72, 0.7);
+      white-space: nowrap;
+      transition: color 0.3s;
+    }
+    &:hover span {
+      color: var(--color-text-dark);
+    }
+    img {
+      width: 13px;
+      height: 13px;
+    }
+  }
+
+  /* =========================================
+       ADAPTIVE STYLES (TABLET & MOBILE)
+       ========================================= */
+
+  // TABLET (max 1024px)
+  @media (max-width: 64rem) {
+    &__slide {
+      gap: 16px;
+      // СТРОГАЯ СЕТКА 50/50
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch; // Одинаковая высота
+    }
+
+    &__col-left {
+      max-width: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    &__image-wrapper {
+      align-self: stretch;
+      height: auto;
+      min-height: 540px;
+    }
+
+    // Заголовок остается сверху
+    &__title {
+      // margin-bottom больше не нужен, так как nav имеет margin-top: auto
+    }
+
+    &__card {
+      min-height: 540px;
+      flex-grow: 1;
+    }
+  }
+
+  // MOBILE (max 768px)
+  @media (max-width: 48rem) {
+    &__slide {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      left: 0;
+    }
+
+    &__image-wrapper {
+      display: none;
+    }
+    &__mobile-gallery {
+      display: flex;
+    }
+
+    &__card {
+      min-height: 400px;
+    }
+
+    &__nav {
+      margin-top: 16px; // На мобильном отступ фиксированный
+      margin-bottom: 16px;
+    }
+
+    &__footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    &__link {
+      max-width: 100%;
+    }
+  }
+}
+
+/* =========================================
+     MODAL (Восстановлено)
+     ========================================= */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  &--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(5px);
+  }
+
+  &__content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    z-index: 10;
+  }
+
+  &__image {
+    max-width: 100%;
+    max-height: 90vh;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  &__close {
+    position: absolute;
+    top: -80px;
+    right: -20px;
+    display: flex;
+    width: 60px;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    box-shadow: 4px 4px 18px 0 rgba(255, 255, 255, 0.15) inset;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 20;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+
+    @media (max-width: 48rem) {
+      top: -70px;
+      right: 0;
+    }
+  }
+
+  &__close-line {
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    &--first {
+      transform: rotate(45deg);
+    }
+    &--second {
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+/* =========================================
+   FOOTER SECTION
+   ========================================= */
+.footer {
+  padding: 90px 0 0 0;
+  position: relative;
+  background-color: var(--color-bg-card); // #484848
+  overflow: hidden;
+
+  // Прижимаем содержимое к низу
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  // Высота: Desktop 100svh, но не менее 768px.
+  // Mobile/Tablet: min 700px.
+  height: 100svh;
+  min-height: 768px;
+
+  padding-bottom: clamp(1.5rem, 1rem + 1vw, 2rem);
+
+  @media (max-width: 48rem) {
+    height: auto;
+    min-height: 700px;
+    padding-top: 50px;
+  }
+
+  // --- Background Logo ---
+  &__bg-logo {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+
+    height: 90%;
+    width: auto;
+
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 0;
+
+    @media (max-width: 64rem) {
+      height: 70%;
+    }
+
+    @media (max-width: 48rem) {
+      top: 0;
+      right: -10%;
+      transform: none;
+      height: 50%;
+    }
+  }
+
+  // --- Container ---
+  &__container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+
+    // Высота контейнера: Desktop ~724px -> Mobile 568px
+    height: clamp(41.375rem, 30rem + 18vw, 45.25rem);
+
+    @media (max-width: 48rem) {
+      height: auto;
+      min-height: 35.5rem;
+      gap: 40px;
+    }
+  }
+
+  // --- Top Content ---
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 1rem + 4vw, 4.5rem);
+    width: 100%;
+  }
+
+  &__title {
+    color: var(--color-text-white);
+    font-family: var(--font-accent);
+    font-size: clamp(1.5rem, 0.5rem + 4.5vw, 4rem);
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+
+  // --- Grid Wrapper ---
+  &__grid {
+    display: flex;
+    // Блок обнимает контент
+    width: fit-content;
+
+    // Адаптивный gap:
+    // 13.5rem = 216px (на больших экранах)
+    // Уменьшается при сужении экрана до ~3rem перед переломом
+    gap: clamp(3rem, -5rem + 15vw, 13.5rem);
+
+    @media (max-width: 48rem) {
+      width: 100%; // На мобильном растягиваем обратно
+      flex-direction: column;
+      // Вертикальный отступ 72px
+      gap: 4.5rem;
+    }
+  }
+
+  // --- Columns ---
+  &__col {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.875rem, 1.5rem + 1vw, 3.125rem);
+
+    &--contacts {
+      flex: 0 0 auto;
+    }
+
+    &--links {
+      // Ссылки занимают оставшееся место, но зависят от контента
+      flex: 0 1 auto;
+    }
+  }
+
+  &__subtitle {
+    color: var(--color-text-white);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  // --- Contact Info ---
+  &__contact-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+
+    address {
+      margin-bottom: 12px;
+    }
+  }
+
+  &__company-name,
+  &__address {
+    color: rgba(255, 255, 255, 0.6);
+    font-family: var(--font-main);
+    font-size: 1rem;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 1.4;
+  }
+
+  &__contact-link {
+    color: var(--color-text-white);
+    font-family: var(--font-main);
+    font-size: clamp(1rem, 0.9rem + 0.3vw, 1.25rem);
+    font-weight: 500;
+    line-height: 1.6;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  // --- Social Icons ---
+  &__socials {
+    display: flex;
+    align-items: center;
+    // Отступ увеличен до 40px
+    gap: 2.5rem;
+  }
+
+  &__social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+
+    img {
+      height: 100%;
+      width: auto;
+      display: block;
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+      opacity: 0.8;
+    }
+  }
+
+  // --- Links Navigation ---
+  &__nav-grid {
+    display: flex;
+    gap: clamp(1.5rem, 1rem + 3vw, 4rem);
+
+    // Логика перестроения (примерно на планшете/узком десктопе),
+    // когда 3 колонки становятся тесными
+    @media (max-width: 64rem) {
+      display: grid;
+      // Две равнозначные колонки, растянутые на ширину родителя
+      grid-template-columns: 1fr 1fr;
+      // Вертикальные и горизонтальные отступы
+      gap: 3rem 2rem;
+    }
+
+    @media (max-width: 30rem) {
+      // На совсем мелких телефонах в 1 колонку
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  &__nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    // Убираем min-width, чтобы Grid управлял шириной
+  }
+
+  &__nav-link {
+    color: rgba(255, 255, 255, 0.9);
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.636rem + 0.57vw, 1rem);
+    font-weight: 500;
+    text-decoration: none;
+    text-transform: uppercase;
+    position: relative;
+    white-space: nowrap;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 1px;
+      bottom: -4px;
+      left: 0;
+      background-color: #fff;
+      transition: width 0.3s ease;
+    }
+
+    &:hover {
+      color: #fff;
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+
+  // --- Bottom Footer Area ---
+  &__bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100%;
+
+    @media (max-width: 48rem) {
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      text-align: center;
+    }
+  }
+
+  &__dev-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+
+    @media (max-width: 48rem) {
+      align-items: center;
+    }
+  }
+
+  &__dev-logo {
+    display: block;
+    width: auto;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+
+    img {
+      height: 32px;
+      width: auto;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__copyright {
+    @media (max-width: 48rem) {
+      max-width: 80%;
+    }
+  }
+
+  &__copyright-text {
+    color: rgba(255, 255, 255, 0.3);
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.6rem + 0.5vw, 1rem);
+    font-weight: 700;
+  }
+}
+
+/* =========================================
+   PAGES: CONTACTS
+   ========================================= */
+
+// --- Хлебные крошки ---
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap; // 1. Разрешаем перенос элементов на новую строку
+  gap: 16px; // Отступ будет работать и между элементами, и между строками
+  margin-top: clamp(1rem, 0.5vw, 2rem);
+  margin-bottom: clamp(2rem, 1.5rem + 2vw, 3rem);
+
+  &__link {
+    color: rgba(72, 72, 72, 0.8);
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.7rem + 0.2vw, 1rem);
+    font-weight: 500;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    // Опционально: предотвращаем разрыв слов внутри ссылки, если нужно переносить только целиком
+    white-space: nowrap;
+
+    &:hover {
+      color: var(--color-text-dark);
+    }
+  }
+
+  &__separator {
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0; // 2. Запрещаем сплющивание кружочка при нехватке места
+    border-radius: 50%;
+    background-color: rgba(72, 72, 72, 0.8);
+  }
+
+  &__current {
+    color: rgba(72, 72, 72, 0.8);
+    font-family: var(--font-main);
+    font-size: clamp(0.75rem, 0.7rem + 0.2vw, 1rem);
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+}
+
+// --- Основной блок контактов ---
+.page-contacts {
+  background-color: var(--color-bg-main);
+  padding-bottom: clamp(3.125rem, 5vw, 6.25rem);
+  position: relative;
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 1rem + 3vw, 8rem);
+    align-items: stretch;
+
+    @media (max-width: 64rem) {
+      // < 1024px
+      grid-template-columns: 1fr;
+      gap: clamp(3rem, 5vw, 4rem);
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.5rem, 2rem + 2vw, 6.25rem);
+  }
+
+  &__title {
+    font-family: var(--font-accent);
+    font-size: clamp(2rem, 1rem + 2.5vw, 4rem);
+    color: var(--color-text-dark);
+    line-height: 1;
+    margin: 0;
+  }
+
+  &__grid {
+    display: flex;
+    flex-direction: row;
+    gap: clamp(2rem, 1rem + 5vw, 12.5rem);
+
+    @media (max-width: 36rem) {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 0.8vw, 3.125rem);
+  }
+
+  &__subtitle {
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-text-dark);
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__text {
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: 1rem;
+    color: rgba(72, 72, 72, 0.8);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  &__link {
+    text-decoration: none;
+    transition: color 0.3s;
+    &:hover {
+      color: var(--color-text-dark);
+    }
+  }
+
+  // --- Соц-сети (Обновлено по ТЗ) ---
+  &__socials-block {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.5rem, 2vw, 3.125rem);
+  }
+
+  &__socials-list {
+    display: flex;
+    align-items: center;
+    // Gap между иконками ровно 40px
+    gap: 40px;
+  }
+
+  // Внутри .page-contacts { ... }
+
+  &__social-link {
+    display: block;
+    width: auto;
+    height: 30px;
+    transition: transform 0.3s, opacity 0.3s;
+
+    img {
+      height: 100%;
+      width: auto;
+
+      // 1. invert(1) - превращает белый SVG в черный
+      // 2. brightness(0.3) - делает черный цвет серым (подгоняем под #484848)
+      filter: invert(1) brightness(0.3);
+
+      // 3. Ставим прозрачность 70% по ТЗ
+      opacity: 0.7;
+
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+      // При наведении делаем полностью непрозрачным
+      img {
+        opacity: 1;
+      }
+    }
+  }
+
+  // --- Кнопка (Обновлено по ТЗ) ---
+  &__action {
+    margin-top: auto;
+    @media (max-width: 64rem) {
+      width: 100%;
+    }
+  }
+
+  &__button {
+    // Flex и выравнивание
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    // Стили
+    width: 100%;
+    align-self: stretch;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    box-shadow: -4px -4px 12px 0 rgba(72, 72, 72, 0.08) inset,
+      8px 8px 18px 0 rgba(72, 72, 72, 0.08) inset;
+
+    // Типографика
+    color: var(--color-text-dark);
+    font-family: var(--font-main);
+    font-weight: 500;
+    text-transform: uppercase;
+
+    // Clamp для Font-size: 14px (Mobile) -> 20px (Desktop)
+    font-size: clamp(0.875rem, 0.78rem + 0.38vw, 1.25rem);
+
+    // Clamp для Padding (сверху/снизу): 26px (Mobile) -> 53px (Desktop)
+    // 20px - боковые отступы (фиксированные по ТЗ)
+    padding: clamp(1.625rem, 1.23rem + 1.73vw, 3.3125rem) 20px;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: -2px -2px 6px 0 rgba(72, 72, 72, 0.1) inset,
+        4px 4px 10px 0 rgba(72, 72, 72, 0.1) inset;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 36rem) {
+      width: 100%;
+    }
+  }
+
+  // --- Карта ---
+  &__map-wrapper {
+    width: 100%;
+    height: clamp(15.625rem, 10rem + 30vw, 41.68rem);
+    border-radius: clamp(1.25rem, 2vw, 2.5rem);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  &__map {
+    width: 100%;
+    height: 100%;
+    background-color: #e5e5e5;
+  }
+}
+
+/* =========================================
+   PRODUCT PAGE STYLES (FULL)
+   ========================================= */
+
+.product-view {
+  background-color: var(--color-bg-main);
+  padding-bottom: 0;
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+
+  // --- Logic to Hide Spheres (via JS) ---
+  &.hide-spheres {
+    .product-view__sphere {
+      display: none !important;
+    }
+  }
+
+  // --- Layout Structure ---
+  &__layout {
+    display: flex;
+    align-items: flex-start;
+    // Desktop: Картинки слева, контент справа с отступом
+    gap: clamp(2rem, 1rem + 2vw, 4rem);
+    width: 100%;
+    position: relative;
+    z-index: 2; // Контент выше сфер
+
+    @media (max-width: 64rem) {
+      flex-direction: column;
+      gap: clamp(2rem, 4vw, 3rem);
+      // Возвращаем отступ снизу на мобильных
+      padding-bottom: clamp(3rem, 5vw, 6rem);
+    }
+  }
+
+  // --- Background Spheres ---
+  &__sphere {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1; // Под контентом
+
+    // Скрываем на планшетах и ниже (1024px)
+    @media (max-width: 64rem) {
+      display: none;
+    }
+
+    &--large {
+      // 580px -> уменьшается при сжатии
+      width: clamp(300px, 30vw, 580px);
+      height: clamp(300px, 30vw, 580px);
+      border-radius: 50%;
+      right: -6px;
+      bottom: 328px;
+      background: linear-gradient(180deg, #fff 0%, #dfdfdf 100%);
+      box-shadow: 7px -7px 12px 0 rgba(255, 255, 255, 0.25) inset,
+        -5px 4px 24px 0 rgba(72, 72, 72, 0.1) inset;
+    }
+
+    &--small {
+      // 390px -> уменьшается
+      width: clamp(200px, 20vw, 390px);
+      height: clamp(200px, 20vw, 390px);
+      border-radius: 50%;
+      right: clamp(200px, 28vw, 544px);
+      bottom: 38px;
+      background: linear-gradient(180deg, #fff 0%, #dfdfdf 100%);
+      box-shadow: 7px -7px 12px 0 rgba(255, 255, 255, 0.25) inset,
+        -5px 4px 24px 0 rgba(72, 72, 72, 0.1) inset;
+    }
+  }
+
+  // --- Visual Part (Images/Slider) ---
+  &__visual {
+    width: 50%;
+    max-width: 946px;
+    flex-shrink: 0;
+    position: relative;
+
+    @media (max-width: 64rem) {
+      width: 100%;
+      max-width: none;
+      overflow: hidden; // Для слайдера
+    }
+  }
+
+  &__gallery-wrapper {
+    // DESKTOP: GRID
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px; // Отступ 8px
+    width: 100%;
+
+    // TABLET & MOBILE: SLIDER FLEX
+    @media (max-width: 64rem) {
+      display: flex;
+      gap: 0;
+      transition: transform 0.4s ease-in-out;
+    }
+  }
+
+  &__item {
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 8px;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    // --- DESKTOP LOGIC ---
+    @media (min-width: 64.01rem) {
+      min-height: 400px;
+
+      &.is-edge-left {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      &.is-horizontal {
+        grid-column: 1 / -1;
+        // Убрали aspect ratio и min-height для горизонтальных
+        min-height: auto;
+        img {
+          aspect-ratio: unset;
+          height: auto;
+        }
+      }
+
+      &.is-vertical {
+        grid-column: span 1;
+        img {
+          aspect-ratio: 3/4;
+        }
+      }
+    }
+
+    // --- TABLET & MOBILE LOGIC (Slider) ---
+    @media (max-width: 64rem) {
+      flex: 0 0 100%;
+      border-radius: 0;
+
+      // Mobile (383px) -> Tablet (728px)
+      height: clamp(383px, 219px + 51.34vw, 728px);
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  // --- Mobile Controls ---
+  &__mobile-controls {
+    display: none;
+    @media (max-width: 64rem) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      padding: 0 20px;
+      z-index: 10;
+      pointer-events: none;
+    }
+  }
+
+  &__back-btn {
+    pointer-events: auto;
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(2px);
+    svg {
+      width: 8px;
+      height: 15px;
+      flex-shrink: 0;
+      fill: #484848;
+    }
+  }
+
+  &__counter {
+    pointer-events: auto;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(2px);
+    padding: 6px 14px;
+    border-radius: 5px;
+    font-family: var(--font-main);
+    font-weight: 700;
+    color: #484848;
+    font-size: 12px;
+    letter-spacing: 4.8px;
+
+    &-total {
+      font-weight: 500;
+      color: rgba(72, 72, 72, 0.6);
+      letter-spacing: 0.58px;
+    }
+  }
+
+  // --- Tablet Arrows ---
+  &__arrow {
+    display: none;
+    @media (max-width: 64rem) and (min-width: 48rem) {
+      display: flex;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      &--prev {
+        left: 20px;
+      }
+      &--next {
+        right: 20px;
+      }
+    }
+  }
+
+  // --- Right Info Column ---
+  &__content-wrapper {
+    flex: 1;
+    padding-right: 8px;
+    @media (max-width: 64rem) {
+      padding: 0 16px;
+      width: 100%;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
+
+    @media (min-width: 64.01rem) {
+      position: sticky;
+      top: 100px;
+      max-width: 700px;
+    }
+  }
+
+  // --- Typography ---
+  &__title {
+    font-family: var(--font-accent);
+    font-weight: 400; // Regular
+    font-size: clamp(2rem, 1.3rem + 2.5vw, 4rem);
+    color: var(--color-text-dark);
+    line-height: 1.1;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  &__price-block {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: clamp(1.5rem, 1rem + 1vw, 2.25rem);
+    border-radius: 100px;
+    background: #fff;
+    box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+      4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
+    width: 100%;
+    max-width: 500px;
+  }
+
+  &__price-label {
+    font-family: var(--font-main);
+    font-weight: 400; // Regular
+    color: rgba(72, 72, 72, 0.5);
+    font-size: clamp(1.5rem, 1rem + 1vw, 2.25rem);
+  }
+
+  &__price-value {
+    font-family: var(--font-main);
+    font-weight: 500; // Medium
+    color: var(--color-text-dark);
+    font-size: clamp(1.5rem, 1rem + 1vw, 2.25rem);
+  }
+
+  &__characteristics {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__subtitle {
+    font-family: var(--font-main);
+    font-weight: 400; // Regular
+    font-size: clamp(1.125rem, 1rem + 0.4vw, 1.5rem);
+    color: var(--color-text-dark);
+    margin: 0;
+  }
+
+  &__chars {
+    display: grid;
+    grid-template-columns: 1fr;
+    @media (min-width: 64rem) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    gap: 12px 24px;
+  }
+
+  &__char-row {
+    font-family: var(--font-main);
+    font-weight: 500; // Medium
+    font-size: clamp(0.875rem, 0.8rem + 0.3vw, 1.25rem);
+    display: flex;
+    gap: 8px;
+    color: var(--color-text-dark);
+  }
+  &__char-key {
+    color: rgba(72, 72, 72, 0.5);
+  }
+  &__char-val {
+    color: var(--color-text-dark);
+  }
+
+  // --- Benefits ---
+  &__benefits {
+    display: flex;
+    flex-direction: column; // Mobile first column
+    gap: 16px;
+    @media (min-width: 48rem) {
+      flex-direction: row;
+    }
+  }
+
+  &__benefit-item {
+    display: flex;
+    flex-direction: column; // Column inside item
+    align-items: flex-start;
+    gap: 12px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 24px;
+    flex: 1;
+  }
+
+  &__benefit-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__benefit-text {
+    font-family: var(--font-main);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    strong {
+      color: var(--color-text-dark);
+      font-weight: 500;
+      line-height: 1.2;
+      font-size: clamp(0.875rem, 0.6rem + 1.2vw, 1.5rem); // 14px -> 24px
+    }
+    p {
+      color: var(--color-text-dark);
+      font-weight: 400;
+      line-height: 1.4;
+      margin: 0;
+      font-size: clamp(0.75rem, 0.65rem + 0.5vw, 1rem); // 12px -> 16px
+    }
+  }
+
+  // --- Buttons ---
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  &__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+
+    // Типографика
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: clamp(0.75rem, 0.7rem + 0.3vw, 1.25rem);
+    text-transform: uppercase;
+
+    // Плавность как в контактах
+    transition: all 0.3s ease;
+
+    // PADDING LOGIC:
+    padding: clamp(30px, 1.3rem + 2.4vw, 46px) 20px;
+    @media (min-width: 64.01rem) {
+      padding: 53px 20px;
+    }
+
+    // --- СВЕТЛАЯ КНОПКА (Стиль из Контактов) ---
+    &--light {
+      color: var(--color-text-dark);
+      border-radius: 100px;
+      border: 0.5px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.05);
+
+      // Исходная тень (как в контактах)
+      box-shadow: -4px -4px 12px 0 rgba(72, 72, 72, 0.08) inset,
+        8px 8px 18px 0 rgba(72, 72, 72, 0.08) inset;
+
+      &:hover {
+        // Анимация наведения: тень становится четче, кнопка чуть "всплывает" (-1px)
+        box-shadow: -2px -2px 6px 0 rgba(72, 72, 72, 0.1) inset,
+          4px 4px 10px 0 rgba(72, 72, 72, 0.1) inset;
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
+        // Легкое вдавливание при клике
+        box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    // --- ТЕМНАЯ КНОПКА (Оставляем эффектную анимацию с главной) ---
+    &--dark {
+      color: #fff;
+      border-radius: 100px;
+      border: 0.5px solid rgba(255, 255, 255, 0.4);
+      background: rgba(72, 72, 72, 0.8);
+      box-shadow: -2px -2px 12px 0 rgba(255, 255, 255, 0.25) inset,
+        4px 4px 18px 0 rgba(255, 255, 255, 0.28) inset;
+
+      &:hover {
+        background: rgba(72, 72, 72, 1);
+        transform: translateY(-2px);
+        box-shadow: -2px -2px 12px 0 rgba(255, 255, 255, 0.35) inset,
+          4px 4px 18px 0 rgba(255, 255, 255, 0.38) inset;
+      }
+
+      &:active {
+        transform: translateY(0);
+        box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+}
+
+/* =========================================
+   PORTFOLIO PAGE SPECIFICS (FINAL FIX)
+   ========================================= */
+
+.product-view--portfolio {
+  padding-bottom: clamp(3rem, 5vw, 6rem);
+
+  // Обертка для всей структуры портфолио
+  .portfolio-layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+  }
+
+  // --- 1. VISUAL BLOCK (SLIDER + INFO) ---
+  .product-view__layout {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    gap: clamp(2rem, 4vw, 5rem);
+
+    // Отступ до Grid
+    margin-bottom: 48px;
+
+    @media (max-width: 64rem) {
+      flex-direction: column;
+      gap: 16px;
+      padding: 0 8px;
+    }
+  }
+
+  // Окно просмотра слайдера
+  .product-view__visual {
+    overflow: hidden;
+    position: relative;
+    border-radius: 0 8px 8px 0;
+
+    // --- DESKTOP (ПК) ---
+    // Строгая пропорция 918x729
+    flex: 0 0 clamp(20rem, 47.8vw, 57.375rem);
+    width: clamp(20rem, 47.8vw, 57.375rem);
+    aspect-ratio: 918 / 729;
+    height: auto;
+    min-height: 500px;
+
+    // --- TABLET & MOBILE (до 1024px) ---
+    @media (max-width: 64rem) {
+      width: 100%;
+      border-radius: 8px;
+      aspect-ratio: unset !important; // Сбрасываем пропорции ПК
+      flex: none;
+
+      // ВЫСОТА (Точно как на странице Product)
+      // Используем !important, чтобы перебить любые другие стили
+      height: clamp(383px, 219px + 51.34vw, 728px) !important;
+
+      min-height: auto !important;
+    }
+  }
+
+  // Лента слайдов (Flex вместо Grid)
+  .product-view__gallery-wrapper {
+    display: flex !important; // Принудительно Flex
+    width: 100%;
+    height: 100% !important; // Растягиваем на высоту родителя
+    gap: 0 !important;
+    transition: transform 0.4s ease-in-out;
+
+    // Сбрасываем наследие от Grid
+    grid-template-columns: none !important;
+  }
+
+  // Сами слайды
+  .product-view__item {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100% !important; // Растягиваем на высоту родителя
+    margin: 0;
+
+    // Сбрасываем наследие
+    grid-column: auto !important;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      aspect-ratio: unset !important;
+    }
+  }
+
+  // Стрелки (Включаем на ПК)
+  .product-view__arrow {
+    display: flex !important;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(4px);
+    border: none;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+    color: #fff;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.8);
+      color: #484848;
+    }
+
+    &--prev {
+      left: 30px;
+    }
+    &--next {
+      right: 30px;
+    }
+
+    @media (max-width: 48rem) {
+      width: 40px;
+      height: 40px;
+      &--prev {
+        left: 10px;
+      }
+      &--next {
+        right: 10px;
+      }
+    }
+  }
+
+  // Инфо-блок справа
+  .product-view__info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 600px;
+    width: 100%;
+    padding-right: clamp(1rem, 5vw, 2rem);
+    position: static;
+
+    @media (max-width: 64rem) {
+      padding-right: 0;
+      max-width: 100%;
+    }
+  }
+
+  .product-view__text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .product-view__title {
+    margin: 0;
+  }
+  .product-view__address {
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-text-dark);
+    opacity: 0.6;
+  }
+  .product-view__description {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  // --- 2. GRID (Task & Specs) ---
+  .portfolio-grid {
+    display: flex;
+    align-items: stretch; // Колонки одинаковой высоты
+    gap: clamp(2rem, 3vw, 4rem);
+
+    // Отступ до отзывов
+    margin-bottom: 72px;
+
+    @media (max-width: 64rem) {
+      flex-direction: column;
+      margin-bottom: 32px;
+    }
+  }
+
+  // Левая колонка (50%)
+  .portfolio-grid__left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+
+  // Правая колонка (50%)
+  .portfolio-grid__right {
+    flex: 1;
+    display: flex;
+    width: 100%;
+  }
+
+  // Карточка "Задача"
+  .portfolio-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 24px;
+
+    // Растягиваем на всю высоту
+    flex: 1;
+    height: auto;
+
+    &__title {
+      font-family: var(--font-main);
+      font-weight: 500;
+      color: var(--color-text-dark);
+      font-size: 20px;
+      margin: 0;
+    }
+    &__text {
+      font-family: var(--font-main);
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--color-text-dark);
+      margin: 0;
+      font-size: 16px;
+    }
+  }
+
+  // Характеристики (Specs)
+  .portfolio-specs {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 48px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    border-radius: 28px;
+    background: #fff;
+    box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+      4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
+    justify-content: space-between;
+
+    @media (max-width: 48rem) {
+      padding: 24px;
+      gap: 26px;
+      align-self: stretch;
+    }
+
+    .product-view__chars {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .product-view__char-row {
+      display: flex;
+      gap: 10px;
+      font-family: var(--font-main);
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .portfolio-specs__price-row {
+      margin-top: auto;
+      display: flex;
+      gap: 12px;
+      align-items: baseline;
+    }
+  }
+
+  // --- 3. REVIEWS & SPHERES ---
+  .portfolio-review-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    isolation: isolate;
+  }
+
+  .portfolio-review-card {
+    position: relative;
+    z-index: 2;
+    background: var(--color-bg-main);
+    border: 1px solid var(--color-text-dark);
+    border-radius: 28px;
+    padding: clamp(1.5rem, 3vw, 3rem);
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .product-view__sphere {
+    display: block;
+    position: absolute;
+    pointer-events: none;
+    z-index: -1;
+
+    @media (max-width: 64rem) {
+      display: none !important;
+    }
+  }
+
+  .product-view__sphere--large {
+    right: -120px;
+    top: -24px;
+    width: clamp(200px, 30vw, 450px);
+    height: clamp(200px, 30vw, 450px);
+  }
+
+  .product-view__sphere--small {
+    right: 353.86px;
+    bottom: -34.07px;
+    left: auto;
+    width: clamp(120px, 15vw, 250px);
+    height: clamp(120px, 15vw, 250px);
+  }
+}
+
+/* =========================================
+   CATALOG PAGE STYLES
+   ========================================= */
+
+.catalog {
+  background-color: var(--color-bg-main);
+  padding-bottom: clamp(3rem, 5vw, 6rem);
+  width: 100%;
+
+  // Используем .container внутри catalog как флекс-контейнер для вертикального ритма
+  // Предполагается, что в HTML структура: .catalog > .container > (.breadcrumbs, .header-group, .body-group)
+  & > .container {
+    display: flex;
+    flex-direction: column;
+    // Отступ между основными блоками (Крошки -> Шапка -> Тело)
+    gap: 36px;
+
+    @media (min-width: 48rem) {
+      gap: 48px;
+    }
+  }
+
+  .breadcrumbs {
+    margin-bottom: 0;
+    width: 100%;
+  }
+
+  &__header-group {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    // margin-bottom: 36px; — УДАЛЕНО
+  }
+
+  &__title {
+    margin: 0;
+    line-height: 1;
+  }
+
+  // --- Categories ---
+  &__categories {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 1070px;
+
+    @media (max-width: 48rem) {
+      overflow-x: auto;
+      margin-inline: -8px;
+      padding-inline: 8px;
+      width: calc(100% + 16px);
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+
+  &__body-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    // Отступ между элементами тела (Фильтры -> Сетка -> Пагинация)
+    gap: 36px;
+
+    // Если нужно сохранить большой отступ (72px) перед пагинацией,
+    // можно использовать gap: 72px, но это увеличит отступ и после фильтров.
+    // Оптимально оставить равномерный gap: 36px или 48px для чистоты кода.
+    @media (min-width: 48rem) {
+      gap: 48px;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    // margin-bottom: 72px; — УДАЛЕНО
+
+    @media (max-width: 64rem) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 48rem) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px 10px;
+    }
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    // margin-top больше не нужен, отступ создает gap родителя
+  }
+}
+
+.category-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 18px;
+  overflow: hidden;
+  height: 200px;
+  flex: 1;
+  text-decoration: none;
+  isolation: isolate;
+
+  @media (max-width: 48rem) {
+    flex: 0 0 240px;
+    max-width: 240px;
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    transition: transform 0.5s ease;
+    transform-origin: center;
+  }
+
+  &__gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(72, 72, 72, 0.5) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  &__text {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: normal;
+    transition: font-size 0.5s ease;
+  }
+
+  @mixin active-state {
+    .category-card__image {
+      transform: scale(1.1);
+    }
+    .category-card__text {
+      font-size: 20px;
+    }
+  }
+
+  &:hover {
+    @include active-state;
+  }
+
+  &--active {
+    @include active-state;
+  }
+}
+
+/* =========================================
+   COMPONENTS: PRODUCT CARD (UPDATED)
+   ========================================= */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  gap: 10px;
+  height: 100%;
+
+  &__image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-radius: 16px;
+
+    background: linear-gradient(
+      180deg,
+      rgba(72, 72, 72, 0) 37.08%,
+      #484848 100%
+    );
+
+    @media (max-width: 48rem) {
+      display: none;
+    }
+  }
+
+  &__content-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    transform: translateY(60px);
+    transition: transform 0.4s ease-in-out;
+
+    @media (max-width: 64rem) and (min-width: 48.01rem) {
+      transform: translateY(0);
+    }
+  }
+
+  &__title {
+    color: #fff;
+    font-family: var(--font-main);
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.1;
+    font-size: 28px;
+
+    @media (max-width: 64rem) {
+      font-size: 25px;
+    }
+
+    @media (max-width: 48rem) {
+      font-size: 16px;
+      color: #484848;
+      min-height: 36px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  &__button {
+    text-decoration: none;
+    display: flex;
+    padding: 24px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 100px;
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: -4px -4px 12px 0 rgba(255, 255, 255, 0.1) inset,
+      8px 8px 18px 0 rgba(255, 255, 255, 0.18) inset;
+    backdrop-filter: blur(9px);
+    opacity: 0;
+    transition: all 0.3s ease, opacity 0.4s ease-in-out;
+
+    span {
+      color: #fff;
+      font-family: var(--font-main);
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: inset 4px 4px 25px rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 64rem) and (min-width: 48.01rem) {
+      padding: 16px 20px;
+      opacity: 1;
+    }
+  }
+
+  @media (min-width: 64.01rem) {
+    &:hover {
+      .product-card__content-group {
+        transform: translateY(0);
+      }
+      .product-card__button {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__mobile-content {
+    display: none;
+    @media (max-width: 48rem) {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+  }
+
+  &__button--mobile {
+    padding: 20px 0;
+    justify-content: center;
+    background: rgba(72, 72, 72, 0.05);
+    border: 0.452px solid rgba(255, 255, 255, 0.4);
+    box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+      4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
+    backdrop-filter: none;
+    opacity: 1;
+    margin-top: auto;
+
+    span {
+      color: #484848;
+    }
+    &:hover {
+      background: rgba(72, 72, 72, 0.1);
+      transform: none;
+    }
+  }
+}
+
+.filter-btn {
+  display: flex;
+  padding: 18px 25px; // Ваш отступ 18px для мобилки
+
+  // --- Новое: Растягиваем на всю ширину на мобильных ---
+  @media (max-width: 48rem) {
+    width: 50%;
+  }
+
+  @media (min-width: 48rem) {
+    padding: 24px 50px;
+    width: auto; // На планшетах и ПК ширина по контенту
+  }
+
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+    4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
+  color: #484848;
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+
+  &__extra {
+    @media (max-width: 48rem) {
+      display: none;
+    }
+  }
+
+  &:hover {
+    box-shadow: -4px -4px 15px 0 rgba(72, 72, 72, 0.1) inset,
+      6px 6px 20px 0 rgba(72, 72, 72, 0.12) inset;
+    transform: translateY(-1px);
+  }
+}
+
+.pagination-container {
+  display: flex;
+  padding: 24px 50px;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  border-radius: 100px;
+  background: #fff;
+  box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+    4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
+}
+
+.pagination-link {
+  text-decoration: none;
+  color: rgba(72, 72, 72, 0.4);
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 700;
+  transition: color 0.3s;
+  &--active,
+  &:hover {
+    color: rgba(72, 72, 72, 0.8);
+  }
+}
+
+.pagination-arrow {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+/* =========================================
+   PORTFOLIO PAGE STYLES (ADDITION)
+   ========================================= */
+
+.catalog {
+  // Подзаголовок (специально для Портфолио)
+  &__subtitle {
+    color: var(--color-text-dark); // #484848
+    font-family: var(--font-main); // Montserrat
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 33.6px */
+    max-width: 718px;
+    margin: 0;
+
+    // Адаптив для мобильных устройств
+    @media (max-width: 48rem) {
+      font-size: clamp(0.875rem, 0.591rem + 1.42vw, 1.25rem);
+    }
+  }
+
+  // Сетка из 3 колонок (модификатор)
+  &__grid--three-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+
+    // Планшет (остается 3 колонки, как в макете каталога на планшете)
+    @media (max-width: 64rem) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    // Мобильный (перестроение в 2 колонки)
+    @media (max-width: 48rem) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px 10px;
+    }
+  }
+}
+
+// Модификатор для самого контейнера каталога, если нужны специфичные отступы
+.catalog--portfolio {
+  // На всякий случай, если нужно будет убрать лишние отступы,
+  // которые раньше компенсировали фильтры
+  .catalog__header-group {
+    gap: 16px;
+    // Можно немного уменьшить отступ до сетки, так как фильтров нет
+    margin-bottom: clamp(2rem, 1rem + 3vw, 3rem);
+  }
+}
+
+/* =========================================
+   FILTERS MODAL
+   ========================================= */
+.filters-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  visibility: hidden;
+  transition: visibility 0.4s;
+
+  &--open {
+    visibility: visible;
+
+    .filters-modal__overlay {
+      opacity: 1;
+    }
+
+    .filters-sidebar {
+      transform: translateX(0);
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25); // Затемнение 25%
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+  }
+}
+
+/* --- Sidebar --- */
+.filters-sidebar {
+  position: relative;
+  z-index: 10;
+  background: #fff;
+  height: 100dvh;
+  width: 400px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  @media (max-width: 48rem) {
+    width: 100%;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px 16px 32px 24px;
+    flex-shrink: 0;
+  }
+
+  // --- ОБНОВЛЕННЫЙ КРЕСТИК ---
+  &__close {
+    background: #fff;
+    border: none;
+    cursor: pointer;
+
+    // Стили из ТЗ
+    display: flex;
+    width: 39px;
+    height: 39px;
+    padding: 0; // Padding 16px сжимает контент до 7px, ставим 0 и центрируем flex-ом
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+      4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
+
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  &__content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 0 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(72, 72, 72, 0.2);
+      border-radius: 4px;
+    }
+  }
+
+  // --- ОБНОВЛЕННЫЙ ФУТЕР (без тени) ---
+  &__footer {
+    padding: 20px 16px 32px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #fff;
+    // Тень убрана
+    box-shadow: none;
+  }
+
+  // --- АДАПТИВНЫЕ КНОПКИ ---
+  &__btn {
+    width: 100%;
+    // Desktop padding
+    padding: 24px;
+
+    border-radius: 100px;
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    font-family: var(--font-main);
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    // Уменьшение на мобильном (как просили)
+    @media (max-width: 48rem) {
+      padding: 25px 20px;
+      font-size: 12px;
+    }
+
+    &--apply {
+      background: rgba(255, 255, 255, 0.05);
+      color: #484848;
+      box-shadow: -4px -4px 12px 0 rgba(72, 72, 72, 0.08) inset,
+        8px 8px 18px 0 rgba(72, 72, 72, 0.08) inset;
+
+      &:hover {
+        background: rgba(72, 72, 72, 0.05);
+      }
+    }
+
+    &--reset {
+      background: rgba(72, 72, 72, 0.8);
+      color: #fff;
+      box-shadow: -2px -2px 12px 0 rgba(255, 255, 255, 0.25) inset,
+        4px 4px 18px 0 rgba(255, 255, 255, 0.28) inset;
+
+      &:hover {
+        background: rgba(72, 72, 72, 1);
+      }
+    }
+  }
+}
+
+/* --- Filter Groups (Accordions) --- */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  &__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    // По умолчанию стрелка смотрит вправо (0deg), при открытии вниз (90deg)
+    transform: rotate(0deg);
+  }
+
+  &__title {
+    color: var(--color-text-dark, #484848);
+    font-family: var(--font-main);
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  &__body {
+    display: none; // Скрыто по умолчанию
+    flex-direction: column;
+    padding-left: 8px; // Небольшой отступ для чекбоксов
+    padding-bottom: 16px;
+    gap: 12px;
+  }
+
+  // Active State
+  &--open {
+    .filter-group__arrow {
+      transform: rotate(90deg);
+    }
+    .filter-group__body {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Custom Checkbox --- */
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  input {
+    display: none; // Прячем стандартный инпут
+  }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+    position: relative;
+
+    .icon-checked {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .icon-unchecked {
+      display: block;
+    }
+  }
+
+  // Логика переключения SVG
+  input:checked + .custom-checkbox__icon {
+    .icon-checked {
+      display: block;
+    }
+    .icon-unchecked {
+      display: none;
+    }
+  }
+
+  &__text {
+    color: var(--color-text-dark, #484848);
+    font-family: var(--font-main);
+    font-size: 16px;
+    font-weight: 400;
+  }
+}
+
+/* =========================================
+   SORT DROPDOWN
+   ========================================= */
+
+// Обертка нужна, чтобы список появлялся относительно кнопки
+.sort-wrapper {
+  position: relative;
+
+  // На мобильном обертка должна вести себя так же, как кнопка (растягиваться)
+  @media (max-width: 48rem) {
+    width: 100%;
+  }
+}
+
+.sort-dropdown {
+  // --- Стили из ТЗ ---
+  display: flex;
+  width: 333px;
+  padding: 24px 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px; // Отступ между пунктами
+  border-radius: 34px;
+  background: #fff;
+  // Внутренняя тень
+  box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+    4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
+
+  // --- Позиционирование ---
+  position: absolute;
+  top: calc(100% + 16px); // Появляется снизу от кнопки с отступом 16px
+  left: 50%;
+  transform: translateX(-50%); // Центрируем относительно кнопки
+  z-index: 20;
+
+  // --- Анимация появления (Сверху вниз) ---
+  opacity: 0;
+  visibility: hidden;
+  margin-top: -10px; // Начальная позиция для анимации
+  transition: all 0.3s ease;
+
+  // --- Состояние открыто ---
+  &--open {
+    opacity: 1;
+    visibility: visible;
+    margin-top: 0; // Конечная позиция
+  }
+
+  // Адаптив: если экран меньше ширины списка, делаем его чуть уже
+  @media (max-width: 25rem) {
+    // < 400px
+    width: 280px;
+  }
+}
+
+// --- Пункты меню ---
+.sort-option {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.3s;
+
+  // Стили текста из ТЗ
+  color: #484848;
+  font-family: var(--font-main); // Montserrat
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  // Эффекты наведения
+  &:hover {
+    opacity: 0.7;
+  }
+
+  // Активный пункт (опционально, можно выделить жирным)
+  &--active {
+    font-weight: 700;
+  }
+}
+
+/* =========================================
+   CALCULATION MODAL (PRODUCT PAGE)
+   ========================================= */
+.modal-calc {
+  position: fixed;
+  inset: 0;
+  z-index: 100; // Поверх всего
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  &--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8); // Затемнение
+    backdrop-filter: blur(5px);
+  }
+
+  &__container {
+    position: relative;
+    width: 100%;
+    max-width: 74.375rem; // Ширина как у формы на главной
+    z-index: 10;
+    max-height: 95vh;
+    overflow-y: auto; // На случай низких экранов
+
+    // Скрываем скроллбар
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  // Переопределение стилей обертки формы
+  &__wrapper.calculation__wrapper {
+    // 1. Изменяем отступы по ТЗ (50px)
+    padding-top: 50px;
+    padding-bottom: 50px;
+
+    // Сбрасываем лишние margin/width, если они наследуются
+    margin: 0;
+    width: 100%;
+  }
+
+  // Кнопка закрытия (стиль заимствован у .modal__close)
+  &__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 0.5px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 20;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+  }
+
+  &__close-line {
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+
+    &--first {
+      transform: rotate(45deg);
+    }
+    &--second {
+      transform: rotate(-45deg);
+    }
+  }
+}
