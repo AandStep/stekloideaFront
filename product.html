@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
@@ -374,84 +374,84 @@
           </div>
         </div>
       </footer>
-      <div class="modal-calc" id="calcModal" aria-hidden="true">
-        <div class="modal-calc__overlay" data-close-calc></div>
+    </div>
+    <div class="modal-calc" id="calcModal" aria-hidden="true">
+      <div class="modal-calc__overlay" data-close-calc></div>
 
-        <div class="modal-calc__container">
-          <div class="calculation__wrapper modal-calc__wrapper">
-            <button
-              class="modal-calc__close"
-              type="button"
-              data-close-calc
-              aria-label="Закрыть"
-            >
-              <span
-                class="modal-calc__close-line modal-calc__close-line--first"
-              ></span>
-              <span
-                class="modal-calc__close-line modal-calc__close-line--second"
-              ></span>
-            </button>
+      <div class="modal-calc__container">
+        <div class="calculation__wrapper modal-calc__wrapper">
+          <button
+            class="modal-calc__close"
+            type="button"
+            data-close-calc
+            aria-label="Закрыть"
+          >
+            <span
+              class="modal-calc__close-line modal-calc__close-line--first"
+            ></span>
+            <span
+              class="modal-calc__close-line modal-calc__close-line--second"
+            ></span>
+          </button>
 
-            <div class="calculation__header">
-              <h2 class="calculation__title title">ОСТАВИТЬ ЗАЯВКУ</h2>
-            </div>
+          <div class="calculation__header">
+            <h2 class="calculation__title title">ОСТАВИТЬ ЗАЯВКУ</h2>
+          </div>
 
-            <form class="calculation__form" id="productCalcForm" novalidate>
-              <div class="calculation__fields">
+          <form class="calculation__form" id="productCalcForm" novalidate>
+            <div class="calculation__fields">
+              <div class="calculation__field-group">
+                <input
+                  type="text"
+                  name="name"
+                  class="calculation__input"
+                  placeholder="Имя*"
+                  required
+                />
+              </div>
+
+              <div class="calculation__row">
                 <div class="calculation__field-group">
                   <input
-                    type="text"
-                    name="name"
+                    type="tel"
+                    name="phone"
                     class="calculation__input"
-                    placeholder="Имя*"
+                    placeholder="Телефон*"
                     required
                   />
                 </div>
-
-                <div class="calculation__row">
-                  <div class="calculation__field-group">
-                    <input
-                      type="tel"
-                      name="phone"
-                      class="calculation__input"
-                      placeholder="Телефон*"
-                      required
-                    />
-                  </div>
-                  <div class="calculation__field-group">
-                    <input
-                      type="email"
-                      name="email"
-                      class="calculation__input"
-                      placeholder="Email"
-                    />
-                  </div>
-                </div>
-
                 <div class="calculation__field-group">
-                  <textarea
-                    name="comment"
-                    class="calculation__input calculation__input--textarea"
-                    placeholder="Комментарий"
-                  ></textarea>
+                  <input
+                    type="email"
+                    name="email"
+                    class="calculation__input"
+                    placeholder="Email"
+                  />
                 </div>
               </div>
 
-              <div class="calculation__footer">
-                <button class="calculation__button" type="submit">
-                  Рассчитать стоимость
-                </button>
-                <p class="calculation__agreement">
-                  Нажимая на кнопку вы подтверждаете, что ознакомлен (-ны) с
-                  <a href="#" class="calculation__link"
-                    >политикой конфиденциальности</a
-                  >
-                  и даёте согласие на обработку персональных данных
-                </p>
+              <div class="calculation__field-group">
+                <textarea
+                  name="comment"
+                  class="calculation__input calculation__input--textarea"
+                  placeholder="Комментарий"
+                ></textarea>
               </div>
-            </form>
-          </div>
+            </div>
+
+            <div class="calculation__footer">
+              <button class="calculation__button" type="submit">
+                Рассчитать стоимость
+              </button>
+              <p class="calculation__agreement">
+                Нажимая на кнопку вы подтверждаете, что ознакомлен (-ны) с
+                <a href="#" class="calculation__link"
+                  >политикой конфиденциальности</a
+                >
+                и даёте согласие на обработку персональных данных
+              </p>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -463,10 +463,10 @@
 
       if (burgerOpen && burgerMenu) {
         burgerOpen.addEventListener("click", () =>
-          burgerMenu.classList.add("hero__burger-menu--open")
+          burgerMenu.classList.add("hero__burger-menu--open"),
         );
         burgerClose.addEventListener("click", () =>
-          burgerMenu.classList.remove("hero__burger-menu--open")
+          burgerMenu.classList.remove("hero__burger-menu--open"),
         );
       }
 
@@ -479,13 +479,13 @@
         const nextBtn = document.getElementById("nextBtn");
         const currentSlideEl = document.getElementById("currentSlide");
         const totalSlidesEl = document.querySelector(
-          ".product-view__counter-total"
+          ".product-view__counter-total",
         );
 
         // --- GRID LOGIC (DESKTOP) ---
         const initGrid = () => {
           let items = Array.from(
-            galleryWrapper.querySelectorAll(".product-view__item")
+            galleryWrapper.querySelectorAll(".product-view__item"),
           );
 
           // Update slider count
@@ -506,7 +506,7 @@
             item.classList.remove(
               "is-vertical",
               "is-horizontal",
-              "is-edge-left"
+              "is-edge-left",
             );
             if (img.naturalHeight > img.naturalWidth) {
               verticals.push(item);
@@ -600,7 +600,7 @@
         visualContainer.addEventListener(
           "touchstart",
           (e) => (touchStartX = e.changedTouches[0].screenX),
-          { passive: true }
+          { passive: true },
         );
         visualContainer.addEventListener(
           "touchend",
@@ -611,7 +611,7 @@
               if (diff < -50) handlePrev();
             }
           },
-          { passive: true }
+          { passive: true },
         );
 
         // Resize Handler
@@ -636,7 +636,7 @@
           init() {
             if (document.querySelector(".notification-container")) {
               this.container = document.querySelector(
-                ".notification-container"
+                ".notification-container",
               );
               return;
             }
@@ -751,7 +751,7 @@
             return String(email)
               .toLowerCase()
               .match(
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
               );
           };
 
@@ -778,7 +778,7 @@
               phoneInput.classList.add("error");
               notificationSystem.show(
                 "Введите корректный номер телефона",
-                "error"
+                "error",
               );
               isValid = false;
             }
@@ -809,7 +809,7 @@
               setTimeout(() => {
                 notificationSystem.show(
                   "Заявка успешно отправлена! Скоро свяжемся.",
-                  "success"
+                  "success",
                 );
 
                 // Закрываем модалку и чистим форму
@@ -871,7 +871,7 @@
 
         // Обновляем скролл при изменении размера окна (важно для этой библиотеки)
         new ResizeObserver(() => scroll.update()).observe(
-          document.querySelector("[data-scroll-container]")
+          document.querySelector("[data-scroll-container]"),
         );
 
         // Обновляем после загрузки всех картинок

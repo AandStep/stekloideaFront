@@ -31,7 +31,8 @@
   background: rgba(255, 255, 255, 0.05); // Прозрачность
   backdrop-filter: blur(9px);
   -webkit-backdrop-filter: blur(9px);
-  box-shadow: -4px -4px 12px 0 rgba(255, 255, 255, 0.1) inset,
+  box-shadow:
+    -4px -4px 12px 0 rgba(255, 255, 255, 0.1) inset,
     8px 8px 18px 0 rgba(255, 255, 255, 0.18) inset;
 
   &:hover {
@@ -415,7 +416,8 @@ html.has-scroll-smooth [data-scroll-container] {
     position: relative;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
+    background:
+      linear-gradient(
         270deg,
         rgba(65, 65, 65, 0) 0%,
         var(--color-bg-secondary) 100%
@@ -670,7 +672,8 @@ html.has-scroll-smooth [data-scroll-container] {
     }
 
     &__background-image {
-      background: linear-gradient(
+      background:
+        linear-gradient(
           180deg,
           var(--color-bg-secondary) -5%,
           rgba(65, 65, 65, 0) 99.05%
@@ -713,7 +716,8 @@ html.has-scroll-smooth [data-scroll-container] {
   .hero__nav-list {
     background: #fff;
     border-color: rgba(72, 72, 72, 0.2);
-    box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+    box-shadow:
+      -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
       4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
   }
 
@@ -847,7 +851,8 @@ html.has-scroll-smooth [data-scroll-container] {
     position: absolute;
     border-radius: 50%;
     background: linear-gradient(180deg, #fff 0%, #dfdfdf 100%);
-    box-shadow: 7px -7px 12px 0 rgba(255, 255, 255, 0.8) inset,
+    box-shadow:
+      7px -7px 12px 0 rgba(255, 255, 255, 0.8) inset,
       -5px 4px 24px 0 rgba(72, 72, 72, 0.1) inset;
     z-index: 1;
     pointer-events: none;
@@ -989,7 +994,8 @@ html.has-scroll-smooth [data-scroll-container] {
   &__sphere {
     border-radius: 468px;
     background: linear-gradient(180deg, #fff 0%, #dfdfdf 100%);
-    box-shadow: 7px -7px 12px 0 rgba(255, 255, 255, 0.25) inset,
+    box-shadow:
+      7px -7px 12px 0 rgba(255, 255, 255, 0.25) inset,
       -5px 4px 24px 0 rgba(72, 72, 72, 0.1) inset;
   }
 
@@ -1149,7 +1155,8 @@ html.has-scroll-smooth [data-scroll-container] {
   }
 
   &__card--mirrors {
-    background: linear-gradient(
+    background:
+      linear-gradient(
         180deg,
         rgba(72, 72, 72, 0.5) 59.33%,
         rgba(0, 0, 0, 0) 100%
@@ -1230,7 +1237,8 @@ html.has-scroll-smooth [data-scroll-container] {
   }
 
   &__card--showers {
-    background: linear-gradient(
+    background:
+      linear-gradient(
         180deg,
         rgba(72, 72, 72, 0.5) 59.33%,
         rgba(0, 0, 0, 0) 100%
@@ -1239,7 +1247,8 @@ html.has-scroll-smooth [data-scroll-container] {
   }
 
   &__card--loft-furniture {
-    background: linear-gradient(
+    background:
+      linear-gradient(
         180deg,
         rgba(72, 72, 72, 0.5) 59.33%,
         rgba(0, 0, 0, 0) 100%
@@ -1626,7 +1635,8 @@ html.has-scroll-smooth [data-scroll-container] {
     border-radius: 6.25rem; // Убрал !important, теперь сработает и так
     border: 0.5px solid rgba(255, 255, 255, 0.4);
     background: rgba(72, 72, 72, 0.8);
-    box-shadow: 0 0 18px 0 rgba(0, 0, 0, 0.65),
+    box-shadow:
+      0 0 18px 0 rgba(0, 0, 0, 0.65),
       8px 8px 18px 0 rgba(255, 255, 255, 0.25) inset;
 
     display: flex;
@@ -1712,7 +1722,8 @@ html.has-scroll-smooth [data-scroll-container] {
     border-radius: clamp(2.5rem, 5vw, 5rem);
 
     // Фон: градиент + картинка
-    background: linear-gradient(
+    background:
+      linear-gradient(
         180deg,
         rgba(72, 72, 72, 0.9) 0%,
         rgba(72, 72, 72, 0.4) 100%
@@ -1810,7 +1821,8 @@ html.has-scroll-smooth [data-scroll-container] {
     &:focus {
       background: rgba(255, 255, 255, 0.15);
       border-color: var(--color-text-white);
-      box-shadow: inset 4px 4px 18px rgba(255, 255, 255, 0.2),
+      box-shadow:
+        inset 4px 4px 18px rgba(255, 255, 255, 0.2),
         0 0 15px rgba(255, 255, 255, 0.2);
     }
 
@@ -1938,7 +1950,9 @@ html.has-scroll-smooth [data-scroll-container] {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    transition:
+      opacity 0.5s ease-in-out,
+      visibility 0.5s ease-in-out;
 
     display: grid;
     // Стандартная сетка Desktop: Текст | Картинка
@@ -2216,7 +2230,9 @@ html.has-scroll-smooth [data-scroll-container] {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 
   &--open {
     opacity: 1;
@@ -2473,7 +2489,9 @@ html.has-scroll-smooth [data-scroll-container] {
     justify-content: center;
     height: 30px;
     width: auto;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
 
     img {
       height: 100%;
@@ -2752,7 +2770,9 @@ html.has-scroll-smooth [data-scroll-container] {
     display: block;
     width: auto;
     height: 30px;
-    transition: transform 0.3s, opacity 0.3s;
+    transition:
+      transform 0.3s,
+      opacity 0.3s;
 
     img {
       height: 100%;
@@ -2798,7 +2818,8 @@ html.has-scroll-smooth [data-scroll-container] {
     border-radius: 100px;
     background: rgba(255, 255, 255, 0.05);
     border: 0.5px solid rgba(255, 255, 255, 0.4);
-    box-shadow: -4px -4px 12px 0 rgba(72, 72, 72, 0.08) inset,
+    box-shadow:
+      -4px -4px 12px 0 rgba(72, 72, 72, 0.08) inset,
       8px 8px 18px 0 rgba(72, 72, 72, 0.08) inset;
 
     // Типографика
@@ -2818,7 +2839,8 @@ html.has-scroll-smooth [data-scroll-container] {
     transition: all 0.3s ease;
 
     &:hover {
-      box-shadow: -2px -2px 6px 0 rgba(72, 72, 72, 0.1) inset,
+      box-shadow:
+        -2px -2px 6px 0 rgba(72, 72, 72, 0.1) inset,
         4px 4px 10px 0 rgba(72, 72, 72, 0.1) inset;
       transform: translateY(-1px);
     }
@@ -2900,7 +2922,8 @@ html.has-scroll-smooth [data-scroll-container] {
       right: -6px;
       bottom: 328px;
       background: linear-gradient(180deg, #fff 0%, #dfdfdf 100%);
-      box-shadow: 7px -7px 12px 0 rgba(255, 255, 255, 0.25) inset,
+      box-shadow:
+        7px -7px 12px 0 rgba(255, 255, 255, 0.25) inset,
         -5px 4px 24px 0 rgba(72, 72, 72, 0.1) inset;
     }
 
@@ -2912,7 +2935,8 @@ html.has-scroll-smooth [data-scroll-container] {
       right: clamp(200px, 28vw, 544px);
       bottom: 38px;
       background: linear-gradient(180deg, #fff 0%, #dfdfdf 100%);
-      box-shadow: 7px -7px 12px 0 rgba(255, 255, 255, 0.25) inset,
+      box-shadow:
+        7px -7px 12px 0 rgba(255, 255, 255, 0.25) inset,
         -5px 4px 24px 0 rgba(72, 72, 72, 0.1) inset;
     }
   }
@@ -3125,7 +3149,8 @@ html.has-scroll-smooth [data-scroll-container] {
     padding: clamp(1.5rem, 1rem + 1vw, 2.25rem);
     border-radius: 100px;
     background: #fff;
-    box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+    box-shadow:
+      -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
       4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
     width: 100%;
     max-width: 500px;
@@ -3274,12 +3299,14 @@ html.has-scroll-smooth [data-scroll-container] {
       background: rgba(255, 255, 255, 0.05);
 
       // Исходная тень (как в контактах)
-      box-shadow: -4px -4px 12px 0 rgba(72, 72, 72, 0.08) inset,
+      box-shadow:
+        -4px -4px 12px 0 rgba(72, 72, 72, 0.08) inset,
         8px 8px 18px 0 rgba(72, 72, 72, 0.08) inset;
 
       &:hover {
         // Анимация наведения: тень становится четче, кнопка чуть "всплывает" (-1px)
-        box-shadow: -2px -2px 6px 0 rgba(72, 72, 72, 0.1) inset,
+        box-shadow:
+          -2px -2px 6px 0 rgba(72, 72, 72, 0.1) inset,
           4px 4px 10px 0 rgba(72, 72, 72, 0.1) inset;
         transform: translateY(-1px);
       }
@@ -3297,13 +3324,15 @@ html.has-scroll-smooth [data-scroll-container] {
       border-radius: 100px;
       border: 0.5px solid rgba(255, 255, 255, 0.4);
       background: rgba(72, 72, 72, 0.8);
-      box-shadow: -2px -2px 12px 0 rgba(255, 255, 255, 0.25) inset,
+      box-shadow:
+        -2px -2px 12px 0 rgba(255, 255, 255, 0.25) inset,
         4px 4px 18px 0 rgba(255, 255, 255, 0.28) inset;
 
       &:hover {
         background: rgba(72, 72, 72, 1);
         transform: translateY(-2px);
-        box-shadow: -2px -2px 12px 0 rgba(255, 255, 255, 0.35) inset,
+        box-shadow:
+          -2px -2px 12px 0 rgba(255, 255, 255, 0.35) inset,
           4px 4px 18px 0 rgba(255, 255, 255, 0.38) inset;
       }
 
@@ -3562,7 +3591,8 @@ html.has-scroll-smooth [data-scroll-container] {
     gap: 32px;
     border-radius: 28px;
     background: #fff;
-    box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+    box-shadow:
+      -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
       4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
     justify-content: space-between;
 
@@ -3909,11 +3939,14 @@ html.has-scroll-smooth [data-scroll-container] {
     border-radius: 100px;
     border: 0.5px solid rgba(255, 255, 255, 0.4);
     background: rgba(255, 255, 255, 0.05);
-    box-shadow: -4px -4px 12px 0 rgba(255, 255, 255, 0.1) inset,
+    box-shadow:
+      -4px -4px 12px 0 rgba(255, 255, 255, 0.1) inset,
       8px 8px 18px 0 rgba(255, 255, 255, 0.18) inset;
     backdrop-filter: blur(9px);
     opacity: 0;
-    transition: all 0.3s ease, opacity 0.4s ease-in-out;
+    transition:
+      all 0.3s ease,
+      opacity 0.4s ease-in-out;
 
     span {
       color: #fff;
@@ -3967,7 +4000,8 @@ html.has-scroll-smooth [data-scroll-container] {
     justify-content: center;
     background: rgba(72, 72, 72, 0.05);
     border: 0.452px solid rgba(255, 255, 255, 0.4);
-    box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+    box-shadow:
+      -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
       4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
     backdrop-filter: none;
     opacity: 1;
@@ -4003,7 +4037,8 @@ html.has-scroll-smooth [data-scroll-container] {
   background: #fff;
   border: none;
   cursor: pointer;
-  box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+  box-shadow:
+    -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
     4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
   color: #484848;
   font-family: var(--font-main);
@@ -4019,7 +4054,8 @@ html.has-scroll-smooth [data-scroll-container] {
   }
 
   &:hover {
-    box-shadow: -4px -4px 15px 0 rgba(72, 72, 72, 0.1) inset,
+    box-shadow:
+      -4px -4px 15px 0 rgba(72, 72, 72, 0.1) inset,
       6px 6px 20px 0 rgba(72, 72, 72, 0.12) inset;
     transform: translateY(-1px);
   }
@@ -4033,7 +4069,8 @@ html.has-scroll-smooth [data-scroll-container] {
   gap: 40px;
   border-radius: 100px;
   background: #fff;
-  box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+  box-shadow:
+    -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
     4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
 }
 
@@ -4115,7 +4152,7 @@ html.has-scroll-smooth [data-scroll-container] {
    FILTERS MODAL
    ========================================= */
 .filters-modal {
-  position: fixed;
+  position: sticky;
   inset: 0;
   z-index: 9999;
   display: flex;
@@ -4182,7 +4219,8 @@ html.has-scroll-smooth [data-scroll-container] {
     justify-content: center;
     align-items: center;
     border-radius: 100px;
-    box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+    box-shadow:
+      -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
       4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
 
     transition: transform 0.2s;
@@ -4248,7 +4286,8 @@ html.has-scroll-smooth [data-scroll-container] {
     &--apply {
       background: rgba(255, 255, 255, 0.05);
       color: #484848;
-      box-shadow: -4px -4px 12px 0 rgba(72, 72, 72, 0.08) inset,
+      box-shadow:
+        -4px -4px 12px 0 rgba(72, 72, 72, 0.08) inset,
         8px 8px 18px 0 rgba(72, 72, 72, 0.08) inset;
 
       &:hover {
@@ -4259,7 +4298,8 @@ html.has-scroll-smooth [data-scroll-container] {
     &--reset {
       background: rgba(72, 72, 72, 0.8);
       color: #fff;
-      box-shadow: -2px -2px 12px 0 rgba(255, 255, 255, 0.25) inset,
+      box-shadow:
+        -2px -2px 12px 0 rgba(255, 255, 255, 0.25) inset,
         4px 4px 18px 0 rgba(255, 255, 255, 0.28) inset;
 
       &:hover {
@@ -4405,7 +4445,8 @@ html.has-scroll-smooth [data-scroll-container] {
   border-radius: 34px;
   background: #fff;
   // Внутренняя тень
-  box-shadow: -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
+  box-shadow:
+    -2px -2px 12px 0 rgba(72, 72, 72, 0.05) inset,
     4px 4px 18px 0 rgba(72, 72, 72, 0.08) inset;
 
   // --- Позиционирование ---
@@ -4477,7 +4518,9 @@ html.has-scroll-smooth [data-scroll-container] {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 
   &--open {
     opacity: 1;
